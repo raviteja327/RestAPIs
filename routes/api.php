@@ -18,6 +18,8 @@ use App\Http\Controllers\API\kalaiStatesController;
 use App\Http\Controllers\API\statesDistrictsController;
 use App\Http\Controllers\API\productCategoriesController;
 use App\Http\Controllers\API\productsController;
+use App\Http\Controllers\API\customersController;
+use App\Http\Controllers\API\couponsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -183,3 +185,23 @@ Route::post('/company/products/update/{id}', [productsController::class, 'update
 Route::post('/company/products/delete/{id}', [productsController::class, 'delete']);
 
 // Products Routes
+
+// Customers Routes
+
+Route::post('/company/customers/create', [customersController::class, 'create']);
+Route::get('/company/customers/views', [customersController::class, 'views']);
+Route::get('/company/customers/view/{id}', [customersController::class, 'view']);
+Route::post('/company/customers/update/{id}', [customersController::class, 'update']);
+Route::post('/company/customers/delete/{id}', [customersController::class, 'delete']);
+
+// Customers Routes
+
+// Coupons Routes
+
+Route::post('/company/coupons/create', [couponsController::class, 'create']);
+Route::get('/company/coupons/views', [couponsController::class, 'views']);
+Route::get('/company/coupons/view/{id}', [couponsController::class, 'view']);
+Route::post('/company/coupons/update/{id}', [couponsController::class, 'update']);
+Route::post('/company/coupons/delete/{id}', [couponsController::class, 'delete']);
+
+// Coupons Routes

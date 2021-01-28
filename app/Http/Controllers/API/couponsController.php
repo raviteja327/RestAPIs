@@ -7,16 +7,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use DB;
 
-class productsController extends Controller
+class couponsController extends Controller
 {
     //
 
     public function create(Request $request){
 
         $valid = Validator::make($request->all() , [
-            'product_categories_image' => 'required | unique:App\Models\API\products,product_categories_image',
-            'product_categories_type_hash' => 'required',
+            'coupon_name' => 'required | unique:App\Models\API\coupons,coupon_name',
+            'product_hash' => 'required',
             'company_hash' => 'required',
+            'coupon_code' => 'required',
+            'coupon_amount' => 'required',
             'c_token' => 'required',
             'c_hash' => 'required',
             'c_sec_key' => 'required',
@@ -31,32 +33,32 @@ class productsController extends Controller
         }
         else{
 
-            $product_hash = md5($request->product_categories_image);
-            $product_categories_image = $request->product_categories_image;
-            $product_categories_type_hash = $request->product_categories_type_hash;
+            $coupon_hash = md5($request->coupon_name);
+            $coupon_name = $request->coupon_name;
+            $product_hash = $request->product_hash;
             $company_hash = $request->company_hash;
-            $tags = $request->tags;
-            $attributes = $request->get('attributes');
-            $unit_price = $request->unit_price;
+            $coupon_code = $request->coupon_code;
+            $coupon_amount = $request->coupon_amount;
+            $coupon_description = $request->coupon_description;
             $total_stock = $request->total_stock;
-            $units_in_stock = $request->units_in_stock;
-            $units_in_order = $request->units_in_order;
+            $active_date = $request->active_date;
+            $expiry_date = $request->expiry_date;
             $c_token = $request->c_token;
             $c_hash = $request->c_hash;
             $c_sec_key = $request->c_sec_key;
             $company_db_user_hash = $request->company_db_user_hash;
 
             $data = array(
+                'coupon_hash' => $coupon_hash,
+                'coupon_name' => $coupon_name,
                 'product_hash' => $product_hash,
-                'product_categories_image' => $product_categories_image,
-                'product_categories_type_hash' => $product_categories_type_hash,
                 'company_hash' => $company_hash,
-                'tags' => $tags,
-                'attributes' => $attributes,
-                'unit_price' => $unit_price,
+                'coupon_code' => $coupon_code,
+                'coupon_amount' => $coupon_amount,
+                'coupon_description' => $coupon_description,
                 'total_stock' => $total_stock,
-                'units_in_stock' => $units_in_stock,
-                'units_in_order' => $units_in_order,
+                'active_date' => $active_date,
+                'expiry_date' => $expiry_date,
                 'c_token' => $c_token,
                 'c_hash' => $c_hash,
                 'c_sec_key' => $c_sec_key,
@@ -67,8 +69,7 @@ class productsController extends Controller
                 'updated_at' => date('Y-m-d H:i:s'),
             );
 
-
-            DB::table('products')->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->where('product_categories_type_hash', $product_categories_type_hash)->where('company_hash', $company_hash)->where('company_db_user_hash', $company_db_user_hash)->insert($data);
+            DB::table('coupons')->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->where('product_hash', $product_hash)->where('company_hash', $company_hash)->where('company_db_user_hash', $company_db_user_hash)->insert($data);
 
             return response()->json(array(
                 'status' => 1,
@@ -81,23 +82,24 @@ class productsController extends Controller
 
     public function views(){
 
-        $products = DB::table('products')->where('status', 1)->get();
-        return response()->json($products);
+        $coupons = DB::table('coupons')->where('status', 1)->get();
+        return response()->json($coupons);
 
     }
 
     public function view($id){
-        $products = DB::table('products')->where('product_hash', $id)->where('status', 1)->get();
-        return response()->json($products);
+        $coupons = DB::table('coupons')->where('coupon_hash', $id)->where('status', 1)->get();
+        return response()->json($coupons);
     }
 
     public function update(Request $request){
 
         $valid = Validator::make($request->all() , [
-            'product_categories_image' => 'required | unique:App\Models\API\products,product_categories_image',
-            'product_categories_type_hash' => 'required',
+            'coupon_name' => 'required | unique:App\Models\API\coupons,coupon_name',
+            'product_hash' => 'required',
             'company_hash' => 'required',
-            'product_categories_image' => 'required',
+            'coupon_code' => 'required',
+            'coupon_amount' => 'required',
             'c_token' => 'required',
             'c_hash' => 'required',
             'c_sec_key' => 'required',
@@ -112,31 +114,31 @@ class productsController extends Controller
         }
         else{
 
-            $product_hash = $request->id;
-            $product_categories_image = $request->product_categories_image;
-            $product_categories_type_hash = $request->product_categories_type_hash;
+            $coupon_hash = $request->id;
+            $coupon_name = $request->coupon_name;
+            $product_hash = $request->product_hash;
             $company_hash = $request->company_hash;
-            $tags = $request->tags;
-            $attributes = $request->get('attributes');
-            $unit_price = $request->unit_price;
+            $coupon_code = $request->coupon_code;
+            $coupon_amount = $request->coupon_amount;
+            $coupon_description = $request->coupon_description;
             $total_stock = $request->total_stock;
-            $units_in_stock = $request->units_in_stock;
-            $units_in_order = $request->units_in_order;
+            $active_date = $request->active_date;
+            $expiry_date = $request->expiry_date;
             $c_token = $request->c_token;
             $c_hash = $request->c_hash;
             $c_sec_key = $request->c_sec_key;
             $company_db_user_hash = $request->company_db_user_hash;
 
             $data = array(
-                'product_categories_image' => $product_categories_image,
-                'product_categories_type_hash' => $product_categories_type_hash,
+                'coupon_name' => $coupon_name,
+                'product_hash' => $product_hash,
                 'company_hash' => $company_hash,
-                'tags' => $tags,
-                'attributes' => $attributes,
-                'unit_price' => $unit_price,
+                'coupon_code' => $coupon_code,
+                'coupon_amount' => $coupon_amount,
+                'coupon_description' => $coupon_description,
                 'total_stock' => $total_stock,
-                'units_in_stock' => $units_in_stock,
-                'units_in_order' => $units_in_order,
+                'active_date' => $active_date,
+                'expiry_date' => $expiry_date,
                 'c_token' => $c_token,
                 'c_hash' => $c_hash,
                 'c_sec_key' => $c_sec_key,
@@ -147,8 +149,7 @@ class productsController extends Controller
                 'updated_at' => date('Y-m-d H:i:s'),
             );
 
-
-            DB::table('products')->where('product_hash', $product_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->where('product_categories_type_hash', $product_categories_type_hash)->where('company_hash', $company_hash)->where('company_db_user_hash', $company_db_user_hash)->update($data);
+            DB::table('coupons')->where('coupon_hash', $coupon_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->where('product_hash', $product_hash)->where('company_hash', $company_hash)->where('company_db_user_hash', $company_db_user_hash)->update($data);
 
             return response()->json(array(
                 'status' => 1,
@@ -161,16 +162,16 @@ class productsController extends Controller
 
     public function delete(Request $request){
 
-        $product_hash = $request->id;
+        $coupon_hash = $request->id;
 
         $data = array(
             'status' => 0,
             'updated_at' => date('Y-m-d H:i:s'),
         );
 
-        $products = DB::table('products')->where('product_hash', $product_hash)->update($data);
+        $coupons = DB::table('coupons')->where('coupon_hash', $coupon_hash)->update($data);
 
-        if($products){
+        if($coupons){
 
             return response()->json(array(
                 'status' => 1,
@@ -189,5 +190,3 @@ class productsController extends Controller
     }
 
 }
-
-
