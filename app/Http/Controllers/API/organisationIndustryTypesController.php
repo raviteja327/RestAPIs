@@ -121,12 +121,24 @@ class organisationIndustryTypesController extends Controller
             'updated_at' => date('Y-m-d H:i:s'),
         );
 
-        DB::table('organisation_industry_types')->where('org_indus_type_hash', $org_indus_type_hash)->update($data);
+        $orgindtype = DB::table('organisation_industry_types')->where('org_indus_type_hash', $org_indus_type_hash)->update($data);
 
-        return response()->json(array(
-            'status' => 1,
-            'message' => 'Deleted Successfully'
-        ));
+        if($orgindtype){
+
+            return response()->json(array(
+                'status' => 1,
+                'message' => 'Deleted Successfully'
+            ));
+
+        }else{
+
+            return response()->json(array(
+                'status' => 0,
+                'message' => 'Not Deleted'
+            ));
+
+        }
+
     }
 
 }

@@ -151,12 +151,23 @@ class cContactUsersController extends Controller
             'updated_at' => date('Y-m-d H:i:s'),
         );
 
-        DB::table('c_contact_users')->where('contact_hash', $contact_hash)->update($data);
+        $ccusers = DB::table('c_contact_users')->where('contact_hash', $contact_hash)->update($data);
 
-        return response()->json(array(
-            'status' => 1,
-            'message' => 'Deleted Successfully'
-        ));
+        if($ccusers){
+
+            return response()->json(array(
+                'status' => 1,
+                'message' => 'Deleted Successfully'
+            ));
+
+        }else{
+
+            return response()->json(array(
+                'status' => 0,
+                'message' => 'Not Deleted'
+            ));
+
+        }
 
     }
 

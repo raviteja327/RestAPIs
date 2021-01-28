@@ -140,12 +140,24 @@ class companyDbUsersController extends Controller
             'updated_at' => date('Y-m-d H:i:s'),
         );
 
-        DB::table('company_db_users')->where('company_db_user_hash', $company_db_user_hash)->update($data);
+        $cdbusers = DB::table('company_db_users')->where('company_db_user_hash', $company_db_user_hash)->update($data);
 
-        return response()->json(array(
-            'status' => 1,
-            'message' => 'Deleted Successfully'
-        ));
+        if($cdbusers){
+
+            return response()->json(array(
+                'status' => 1,
+                'message' => 'Deleted Successfully'
+            ));
+
+        }else{
+
+            return response()->json(array(
+                'status' => 0,
+                'message' => 'Not Deleted'
+            ));
+
+        }
+
     }
 
 }

@@ -131,12 +131,23 @@ class statesDistrictsController extends Controller
             'updated_at' => date('Y-m-d H:i:s'),
         );
 
-        DB::table('states_districts')->where('dist_hash', $dist_hash)->update($data);
+        $statesdistricts = DB::table('states_districts')->where('dist_hash', $dist_hash)->update($data);
 
-        return response()->json(array(
-            'status' => 1,
-            'message' => 'Deleted Successfully'
-        ));
+        if($statesdistricts){
+
+            return response()->json(array(
+                'status' => 1,
+                'message' => 'Deleted Successfully'
+            ));
+
+        }else{
+
+            return response()->json(array(
+                'status' => 0,
+                'message' => 'Not Deleted'
+            ));
+
+        }
 
     }
 

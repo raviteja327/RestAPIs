@@ -111,12 +111,23 @@ class kalaiStatesController extends Controller
             'updated_at' => date('Y-m-d H:i:s'),
         );
 
-        DB::table('kalai_states')->where('state_hash', $state_hash)->update($data);
+        $kalaistates = DB::table('kalai_states')->where('state_hash', $state_hash)->update($data);
 
-        return response()->json(array(
-            'status' => 1,
-            'message' => 'Deleted Successfully'
-        ));
+        if($kalaistates){
+
+            return response()->json(array(
+                'status' => 1,
+                'message' => 'Deleted Successfully'
+            ));
+
+        }else{
+
+            return response()->json(array(
+                'status' => 0,
+                'message' => 'Not Deleted'
+            ));
+
+        }
 
     }
 

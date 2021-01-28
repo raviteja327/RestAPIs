@@ -115,12 +115,24 @@ class organisationTypesController extends Controller
             'updated_at' => date('Y-m-d H:i:s'),
         );
 
-        DB::table('organisation_types')->where('org_type_hash', $org_type_hash)->update($data);
+        $orgtype = DB::table('organisation_types')->where('org_type_hash', $org_type_hash)->update($data);
 
-        return response()->json(array(
-            'status' => 1,
-            'message' => 'Deleted Successfully'
-        ));
+        if($orgtype){
+
+            return response()->json(array(
+                'status' => 1,
+                'message' => 'Deleted Successfully'
+            ));
+
+        }else{
+
+            return response()->json(array(
+                'status' => 0,
+                'message' => 'Not Deleted'
+            ));
+
+        }
+
     }
 
 }

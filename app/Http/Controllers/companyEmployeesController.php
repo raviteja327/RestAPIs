@@ -17,7 +17,6 @@ class companyEmployeesController extends Controller
 
 
     public function employee_insert(Request $request){
-// dd($request);
         $this->validate($request,[
             'email' =>'required|unique:App\Models\companyEmployeesModel,email',
             'password'=>'required'
@@ -151,7 +150,7 @@ class companyEmployeesController extends Controller
 
         $db=DB::table('kalai_company_employees')->where('employee_hash',$employee_hash)->where('email',$e_email)->update($udata);
 
-    
+
         return redirect('/company/employee_view')->with('success', 'updated successfully');
 
     }
@@ -162,16 +161,16 @@ class companyEmployeesController extends Controller
 
 
         // dd($request);
-    
+
         $e_mail=$request->get('e_mail');
-        
+
         $dele=array('status'=>0);
 
         $del=DB::table('kalai_company_employees')->where('email',$e_mail)->update($dele);
         return back()->with('success','successfully deleted..!');
 
     }
-    
+
 
 
 

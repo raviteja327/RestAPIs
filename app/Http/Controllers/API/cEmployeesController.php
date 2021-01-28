@@ -190,12 +190,23 @@ class cEmployeesController extends Controller
             'updated_at' => date('Y-m-d H:i:s'),
         );
 
-        DB::table('c_employees')->where('employee_hash', $employee_hash)->update($data);
+        $cemployees = DB::table('c_employees')->where('employee_hash', $employee_hash)->update($data);
 
-        return response()->json(array(
-            'status' => 1,
-            'message' => 'Deleted Successfully'
-        ));
+        if($cemployees){
+
+            return response()->json(array(
+                'status' => 1,
+                'message' => 'Deleted Successfully'
+            ));
+
+        }else{
+
+            return response()->json(array(
+                'status' => 0,
+                'message' => 'Not Deleted'
+            ));
+
+        }
 
     }
 

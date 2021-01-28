@@ -115,12 +115,24 @@ class cUserRolesController extends Controller
             'updated_at' => date('Y-m-d H:i:s'),
         );
 
-        DB::table('c_user_roles')->where('c_role_hash', $c_role_hash)->update($data);
+        $cuser = DB::table('c_user_roles')->where('c_role_hash', $c_role_hash)->update($data);
 
-        return response()->json(array(
-            'status' => 1,
-            'message' => 'Deleted Successfully'
-        ));
+        if($cuser){
+
+            return response()->json(array(
+                'status' => 1,
+                'message' => 'Deleted Successfully'
+            ));
+
+        }else{
+
+            return response()->json(array(
+                'status' => 0,
+                'message' => 'Not Deleted'
+            ));
+
+        }
+
     }
 
 }

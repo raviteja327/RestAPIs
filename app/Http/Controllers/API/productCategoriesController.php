@@ -152,8 +152,6 @@ class productCategoriesController extends Controller
 
         }
 
-
-
     }
 
 }

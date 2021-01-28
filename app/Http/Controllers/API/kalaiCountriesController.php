@@ -101,12 +101,23 @@ class kalaiCountriesController extends Controller
             'updated_at' => date('Y-m-d H:i:s'),
         );
 
-        DB::table('kalai_countries')->where('country_hash', $country_hash)->update($data);
+        $kalaicountries = DB::table('kalai_countries')->where('country_hash', $country_hash)->update($data);
 
-        return response()->json(array(
-            'status' => 1,
-            'message' => 'Deleted Successfully'
-        ));
+        if($kalaicountries){
+
+            return response()->json(array(
+                'status' => 1,
+                'message' => 'Deleted Successfully'
+            ));
+
+        }else{
+
+            return response()->json(array(
+                'status' => 0,
+                'message' => 'Not Deleted'
+            ));
+
+        }
 
     }
 
