@@ -17,6 +17,7 @@ use App\Http\Controllers\API\cEmployeesController;
 use App\Http\Controllers\API\kalaiStatesController;
 use App\Http\Controllers\API\statesDistrictsController;
 use App\Http\Controllers\API\productCategoriesController;
+use App\Http\Controllers\API\productsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -172,3 +173,13 @@ Route::post('/company/procat/update/{id}', [productCategoriesController::class, 
 Route::post('/company/procat/delete/{id}', [productCategoriesController::class, 'delete']);
 
 // Product Categories Routes
+
+// Products Routes
+
+Route::post('/company/products/create', [productsController::class, 'create']);
+Route::get('/company/products/views', [productsController::class, 'views']);
+Route::get('/company/products/view/{id}', [productsController::class, 'view']);
+Route::post('/company/products/update/{id}', [productsController::class, 'update']);
+Route::post('/company/products/delete/{id}', [productsController::class, 'delete']);
+
+// Products Routes
