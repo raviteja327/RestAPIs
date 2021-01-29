@@ -36,6 +36,15 @@
        
               <h2 class="pt-5">Customer Login</h2>
                   <hr/>
+                  @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
               <form method="post" action="/company/dashboard">
                 @csrf
                        <label for="">Email</label>

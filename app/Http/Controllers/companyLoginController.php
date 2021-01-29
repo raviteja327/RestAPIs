@@ -5,6 +5,7 @@ use DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\companyAddressModel;
+use Illuminate\Support\Facades\Validator;
 
 class companyLoginController extends Controller
 {
@@ -19,10 +20,14 @@ class companyLoginController extends Controller
         'password'=>'required'
 
       ]);
-          $email=$request->get('email');
-           $password=md5($request->get('password'));
-           $query=  DB::select( DB::raw("SELECT * FROM `frontend_company` WHERE `company_email` = '$email' AND `password` = '$password'"));
-        
+          $email=$request->email;
+           $password=md5($request->password);
+           
+           //dd($request->all());
+           $query=  DB::select( DB::raw("SELECT * FROM `companies` WHERE `company_email` = '$email' AND `password_cnf` = '$password'"));
+       // dd(session()->all());
+       
+       //dd($query);
         if($query == true)
         {
             foreach($query as $que)
@@ -30,10 +35,12 @@ class companyLoginController extends Controller
                 $com_name = $que->company_name;
             }
             $request->session()->put('company_name',$com_name);
+            
             return view('dashboard.main_dashboard')->with('query',$query);
         }
         else{
-            return back()->with('Wrong Login Details');
+            return back()->withErrors(['Invalid user details']);
+            
         }
     }
     public function banking_create(){
@@ -42,7 +49,7 @@ class companyLoginController extends Controller
     public function addbank(Request $request){
         $this->validate($request , [
             'account_name' => 'required',
-            'account_number' => 'required|unique:App\Models\companyBankModel,account_number',
+            'account_number' => 'required',
             'bank_name' => 'required',
             'branch_name' => 'required',
             'sort_code' => 'required',
@@ -52,7 +59,7 @@ class companyLoginController extends Controller
             'routing_code' => 'required',
         ]);
         $ac_hash = md5($request->get('account_number'));
-        $details = DB::table('frontend_company')->where('company_name' , $request->get('company_name'))->where('status', 1)->first();
+        $details = DB::table('companies')->where('company_name' , $request->get('company_name'))->where('status', 1)->first();
         $data = array(
             'account_holder_name' => $request->get('account_name'),
             'account_number' => $request->get('account_number'),
@@ -71,7 +78,7 @@ class companyLoginController extends Controller
             'updated_by' => 'null',
             'updated_at' => date('Y-m-d H:i:s'),
         );
-        DB::table('kalai_bank_details')->insert($data);
+        DB::table('bank_details')->insert($data);
         return back()->with('success' , 'succesfully inserted');
     }
     public function viewbank(){

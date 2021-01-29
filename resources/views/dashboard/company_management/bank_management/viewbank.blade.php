@@ -12,7 +12,7 @@ $session = session()->get('_token');
 <div class="container-fluid">
 @php
     $i=1;
-    $details=DB::table('kalai_bank_details')->where('status',1)->get();
+    $details=DB::table('bank_details')->where('status',1)->get();
 @endphp
 
     <a href="/company/banking" class="btn btn-primary mb-2">Add Bank details</a>
@@ -33,7 +33,7 @@ $session = session()->get('_token');
                 @foreach ($details as $item)
                     
                 @php
-                $data = DB::table('frontend_company')->where('company_name',$sess_com_name)->where('c_hash',$item->c_hash)->where('status' , 1)->get();
+                $data = DB::table('companies')->where('company_name',$sess_com_name)->where('c_hash',$item->c_hash)->where('status' , 1)->get();
                     // dd(sizeof($data));
                     
                 @endphp

@@ -15,7 +15,7 @@ $session = session()->get('_token');
     @php
     // dd($id);
         // $data = DB::table('frontend_company')->where('company_name' , $sess_com_name)->first();
-        $bankdata = DB::table('kalai_bank_details')->where('account_number', $id)->first();
+        $bankdata = DB::table('bank_details')->where('account_number', $id)->first();
     @endphp
     
     <form action="/company/updatebank" method="POST">
