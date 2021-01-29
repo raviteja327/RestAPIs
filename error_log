@@ -1,0 +1,2 @@
+[29-Jan-2021 10:23:27 America/Boise] PHP Fatal error:  Out of memory (allocated 799014912) (tried to allocate 1052672 bytes) in phar:///opt/cpanel/composer/bin/composer/src/Composer/DependencyResolver/Pool.php on line 208
+[29-Jan-2021 10:23:59 America/Boise] PHP Fatal error:  Out of memory (allocated 799014912) (tried to allocate 1052672 bytes) in phar:///opt/cpanel/composer/bin/composer/src/Composer/DependencyResolver/Pool.php on line 208
