@@ -29,7 +29,7 @@
 
       <div class="row">
           <div class="col-8 d-none d-sm-none d-md-none d-lg-block">
-              <img src="{{asset('images_kalai/LMS.png')}}" class="w-100 p-5">
+              <img src="{{asset('public/images_kalai/LMS.png')}}" class="w-100 p-5">
           </div>
           <div class="col-lg-4 col-sm-12 pt-5">
             <img src="{{asset('images_kalai/logo_1.png')}}" alt="" class="d-none d-block d-xs-block d-sm-block d-md-none"><br/>
