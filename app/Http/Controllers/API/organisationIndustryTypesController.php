@@ -45,7 +45,7 @@ class organisationIndustryTypesController extends Controller
                 'updated_at' => date('Y-m-d H:i:s'),
             );
 
-            DB::table('organisation_industry_types')->insert($data);
+            DB::table('organisation_industry_types')->where('org_type_hash', $org_type_hash)->insert($data);
 
             return response()->json(array(
                 'status' => 1,

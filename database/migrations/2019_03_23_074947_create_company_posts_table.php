@@ -24,7 +24,7 @@ class CreateCompanyPostsTable extends Migration
             $table->string('post_status');
             $table->string('comment_status');
             $table->string('post_comment');
-            $table->string('post_password', 20);
+            $table->string('post_password');
             $table->string('post_name', 50);
             $table->datetime('post_modified');
             $table->datetime('post_modified_gmt');

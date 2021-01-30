@@ -20,6 +20,11 @@ use App\Http\Controllers\API\productCategoriesController;
 use App\Http\Controllers\API\productsController;
 use App\Http\Controllers\API\customersController;
 use App\Http\Controllers\API\couponsController;
+use App\Http\Controllers\API\ordersController;
+use App\Http\Controllers\API\companyPostsController;
+use App\Http\Controllers\API\companyPagesController;
+use App\Http\Controllers\API\companyAddressAutomationsController;
+use App\Http\Controllers\API\companyAddressManualsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -205,3 +210,54 @@ Route::post('/company/coupons/update/{id}', [couponsController::class, 'update']
 Route::post('/company/coupons/delete/{id}', [couponsController::class, 'delete']);
 
 // Coupons Routes
+
+// Orders Routes
+
+Route::post('/company/orders/create', [ordersController::class, 'create']);
+Route::get('/company/orders/views', [ordersController::class, 'views']);
+Route::get('/company/orders/view/{id}', [ordersController::class, 'view']);
+Route::post('/company/orders/update/{id}', [ordersController::class, 'update']);
+Route::post('/company/orders/delete/{id}', [ordersController::class, 'delete']);
+
+// Orders Routes
+
+
+// Company Posts Routes
+
+Route::post('/company/cposts/create', [companyPostsController::class, 'create']);
+Route::get('/company/cposts/views', [companyPostsController::class, 'views']);
+Route::get('/company/cposts/view/{id}', [companyPostsController::class, 'view']);
+Route::post('/company/cposts/update/{id}', [companyPostsController::class, 'update']);
+Route::post('/company/cposts/delete/{id}', [companyPostsController::class, 'delete']);
+
+// Company Posts Routes
+
+// Company Pages Routes
+
+Route::post('/company/cpages/create', [companyPagesController::class, 'create']);
+Route::get('/company/cpages/views', [companyPagesController::class, 'views']);
+Route::get('/company/cpages/view/{id}', [companyPagesController::class, 'view']);
+Route::post('/company/cpages/update/{id}', [companyPagesController::class, 'update']);
+Route::post('/company/cpages/delete/{id}', [companyPagesController::class, 'delete']);
+
+// Company Pages Routes
+
+// Company Address Automations Routes
+
+Route::post('/company/caa/create', [companyAddressAutomationsController::class, 'create']);
+Route::get('/company/caa/views', [companyAddressAutomationsController::class, 'views']);
+Route::get('/company/caa/view/{id}', [companyAddressAutomationsController::class, 'view']);
+Route::post('/company/caa/update/{id}', [companyAddressAutomationsController::class, 'update']);
+Route::post('/company/caa/delete/{id}', [companyAddressAutomationsController::class, 'delete']);
+
+// Company Address Automations Routes
+
+// Company Address Manuals Routes
+
+Route::post('/company/cam/create', [companyAddressManualsController::class, 'create']);
+Route::get('/company/cam/views', [companyAddressManualsController::class, 'views']);
+Route::get('/company/cam/view/{id}', [companyAddressManualsController::class, 'view']);
+Route::post('/company/cam/update/{id}', [companyAddressManualsController::class, 'update']);
+Route::post('/company/cam/delete/{id}', [companyAddressManualsController::class, 'delete']);
+
+// Company Address Manuals Routes
