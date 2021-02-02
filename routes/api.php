@@ -25,7 +25,7 @@ use App\Http\Controllers\API\companyPostsController;
 use App\Http\Controllers\API\companyPagesController;
 use App\Http\Controllers\API\companyAddressAutomationsController;
 use App\Http\Controllers\API\companyAddressManualsController;
-
+use DB as DBS;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -36,6 +36,36 @@ use App\Http\Controllers\API\companyAddressManualsController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+
+Route::get('/login',function(Request $request){
+    
+    $valid = Validator::make($request->all() , [
+           'email' => 'required',
+           'password_cnf' => 'required'
+       
+       ]);
+
+       if($valid->fails() == TRUE){
+           return response()->json(array(
+               'status' => 0,
+               'message' => $valid->errors()
+           ));
+       }
+       else{
+               $result = DBS::table('companies')->where(['company_email'=>$request->email,'password_cnf'=>md5($request->password_cnf)])->select(['c_token','c_hash','c_sec_key','application_type'])->get()->toArray();
+               if($result)
+               {
+                  return response()->json(array('status'=>1,'message'=>$result));  
+               }
+               else
+               {
+                   return response()->json(array('status'=>0,'message'=>"Invalid Access details")); 
+               }
+       }
+  
+});
+
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

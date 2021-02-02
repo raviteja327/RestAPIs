@@ -27,6 +27,8 @@ class CreateCompaniesTable extends Migration
             $table->string('a_hash');
             $table->string('org_type_hash');
             $table->string('org_indus_type_hash');
+            $table->string('application_type');
+            $table->string('password_cnf');
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });
@@ -46,6 +48,9 @@ class CreateCompaniesTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('companies');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+       
     }
 }
