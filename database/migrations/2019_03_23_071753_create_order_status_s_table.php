@@ -17,12 +17,12 @@ class CreateOrderStatusSTable extends Migration
             $table->string('status_hash');
             $table->primary('status_hash');
             $table->string('payment_details_hash');
-            $table->string('status_name', 50);
+            $table->string('status_name', 50)->unique();
             $table->string('c_token');
             $table->string('c_hash');
             $table->string('c_sec_key');
-            $table->string('created_by', 50);
-            $table->string('updated_by', 50);
+            $table->string('created_by', 50)->nullable();
+            $table->string('updated_by', 50)->nullable();
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });

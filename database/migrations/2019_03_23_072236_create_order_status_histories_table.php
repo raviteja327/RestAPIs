@@ -19,12 +19,12 @@ class CreateOrderStatusHistoriesTable extends Migration
             $table->string('invoice_hash');
             $table->string('status_hash');
             $table->string('shipping_status_hash');
-            $table->timestamp('date_time');
+            $table->timestamp('date_time')->nullable();
             $table->string('c_token');
             $table->string('c_hash');
             $table->string('c_sec_key');
-            $table->string('created_by', 50);
-            $table->string('updated_by', 50);
+            $table->string('created_by', 50)->nullable();
+            $table->string('updated_by', 50)->nullable();
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });

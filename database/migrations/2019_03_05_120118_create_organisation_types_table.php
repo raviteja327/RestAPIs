@@ -16,10 +16,10 @@ class CreateOrganisationTypesTable extends Migration
         Schema::create('organisation_types', function (Blueprint $table) {
             $table->string('org_type_hash');
             $table->primary('org_type_hash');
-            $table->string('org_type_name', 50);
+            $table->string('org_type_name', 50)->unique();
             $table->string('org_type_desc')->nullable();
-            $table->string('created_by', 50);
-            $table->string('updated_by', 50);
+            $table->string('created_by', 50)->nullable();
+            $table->string('updated_by', 50)->nullable();
             $table->string('a_hash');
             $table->tinyInteger('status')->default('1');
             $table->timestamps();

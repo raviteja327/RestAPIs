@@ -16,12 +16,12 @@ class CreatePaymentGatewaysTable extends Migration
         Schema::create('payment_gateways', function (Blueprint $table) {
             $table->string('payment_gateway_hash');
             $table->primary('payment_gateway_hash');
-            $table->string('payment_gateway_name');
+            $table->string('payment_gateway_name')->unique();
             $table->string('c_token');
             $table->string('c_hash');
             $table->string('c_sec_key');
-            $table->string('created_by', 50);
-            $table->string('updated_by', 50);
+            $table->string('created_by', 50)->nullable();
+            $table->string('updated_by', 50)->nullable();
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });

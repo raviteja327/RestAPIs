@@ -18,7 +18,7 @@ class CreateCompanyDbUsersTable extends Migration
             $table->string('company_db_user_hash');
             $table->primary('company_db_user_hash');
             $table->string('company_db_user_name', 100);
-            $table->string('company_db_user_email', 100);
+            $table->string('company_db_user_email', 100)->unique();
             $table->string('company_db_user_password');
             $table->bigInteger('mobile');
             $table->tinyInteger('email_verification_details')->default('1');
@@ -26,8 +26,8 @@ class CreateCompanyDbUsersTable extends Migration
             $table->string('c_token');
             $table->string('c_hash');
             $table->string('c_sec_key');
-            $table->string('created_by', 50);
-            $table->string('updated_by', 50);
+            $table->string('created_by', 50)->nullable();
+            $table->string('updated_by', 50)->nullable();
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });

@@ -16,16 +16,16 @@ class CreateCFilesTable extends Migration
         Schema::create('c_files', function (Blueprint $table) {
             $table->string('c_files_hash');
             $table->primary('c_files_hash');
-            $table->string('c_description');
-            $table->integer('c_reports');
-            $table->string('c_presentation');
-            $table->integer('c_images');
-            $table->decimal('c_documents');
+            $table->string('c_description')->nullable();
+            $table->integer('c_reports')->nullable();
+            $table->string('c_presentation')->nullable();
+            $table->integer('c_images')->nullable();
+            $table->decimal('c_documents')->nullable();
             $table->string('c_token');
             $table->string('c_hash');
             $table->string('c_sec_key');
-            $table->string('created_by', 50);
-            $table->string('updated_by', 50);
+            $table->string('created_by', 50)->nullable();
+            $table->string('updated_by', 50)->nullable();
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });

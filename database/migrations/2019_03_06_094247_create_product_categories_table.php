@@ -17,13 +17,13 @@ class CreateProductCategoriesTable extends Migration
             $table->engine = 'InnoDB';
             $table->string('product_categories_type_hash');
             $table->primary('product_categories_type_hash');
-            $table->string('product_categories_name', 100);
-            $table->string('product_categories_image', 100);
+            $table->string('product_categories_name', 100)->unique();
+            $table->string('product_categories_image', 100)->nullable();
             $table->string('c_token');
             $table->string('c_hash');
             $table->string('c_sec_key');
-            $table->string('created_by', 50);
-            $table->string('updated_by', 50);
+            $table->string('created_by', 50)->nullable();
+            $table->string('updated_by', 50)->nullable();
             $table->string('company_db_user_hash');
             $table->tinyInteger('status')->default('1');
             $table->timestamps();

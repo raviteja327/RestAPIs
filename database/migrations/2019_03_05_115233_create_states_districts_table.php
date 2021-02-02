@@ -16,11 +16,11 @@ class CreateStatesDistrictsTable extends Migration
         Schema::create('states_districts', function (Blueprint $table) {
             $table->string('dist_hash');
             $table->primary('dist_hash');
-            $table->string('dist_name', 50);
+            $table->string('dist_name', 50)->unique();
             $table->string('dist_desc')->nullable();
             $table->integer('dist_code')->nullable();
-            $table->string('created_by', 50);
-            $table->string('updated_by', 50);
+            $table->string('created_by', 50)->nullable();
+            $table->string('updated_by', 50)->nullable();
             $table->string('country_hash');
             $table->string('a_hash');
             $table->string('state_hash');

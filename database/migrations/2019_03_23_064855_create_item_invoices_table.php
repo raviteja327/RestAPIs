@@ -19,13 +19,13 @@ class CreateItemInvoicesTable extends Migration
             $table->string('order_hash');
             $table->string('product_hash');
             $table->string('coupon_hash');
-            $table->integer('quantity');
-            $table->integer('price');
+            $table->integer('quantity')->nullable();
+            $table->integer('price')->nullable();
             $table->string('c_token');
             $table->string('c_hash');
             $table->string('c_sec_key');
-            $table->string('created_by', 50);
-            $table->string('updated_by', 50);
+            $table->string('created_by', 50)->nullable();
+            $table->string('updated_by', 50)->nullable();
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });

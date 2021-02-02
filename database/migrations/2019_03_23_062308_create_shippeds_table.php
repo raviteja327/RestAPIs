@@ -16,15 +16,15 @@ class CreateShippedsTable extends Migration
         Schema::create('shippeds', function (Blueprint $table) {
             $table->string('shipper_hash');
             $table->primary('shipper_hash');
-            $table->string('shipper_company_name', 50);
-            $table->string('company_address', 100);
-            $table->string('company_zone', 50);
+            $table->string('shipper_company_name', 50)->unique();
+            $table->string('company_address', 100)->nullable();
+            $table->string('company_zone', 50)->nullable();
             $table->bigInteger('phone');
             $table->string('c_token');
             $table->string('c_hash');
             $table->string('c_sec_key');
-            $table->string('created_by', 50);
-            $table->string('updated_by', 50);
+            $table->string('created_by', 50)->nullable();
+            $table->string('updated_by', 50)->nullable();
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });

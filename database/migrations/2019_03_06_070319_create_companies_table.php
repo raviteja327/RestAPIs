@@ -17,13 +17,13 @@ class CreateCompaniesTable extends Migration
             $table->string('company_hash');
             $table->primary('company_hash');
             $table->string('company_name', 50);
-            $table->string('company_email', 100);
+            $table->string('company_email', 100)->unique();
             $table->string('c_token')->unique();
             $table->string('c_hash')->unique();
             $table->string('c_sec_key')->unique();
             $table->tinyInteger('email_verification_details')->default('1');
-            $table->string('created_by', 50);
-            $table->string('updated_by', 50);
+            $table->string('created_by', 50)->nullable();
+            $table->string('updated_by', 50)->nullable();
             $table->string('a_hash');
             $table->string('org_type_hash');
             $table->string('org_indus_type_hash');
