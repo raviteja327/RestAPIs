@@ -19,11 +19,11 @@ class CreateBankDetailsTable extends Migration
             $table->string('account_holder_name', 50);
             $table->string('account_number', 50)->unique();
             $table->string('bank_name', 50);
-            $table->string('branch_name', 50)->nullable();
+            $table->string('branch_name', 50);
             $table->string('sort_code', 20)->nullable();
             $table->string('routing_number', 20)->nullable();
             $table->string('swift_bic_code', 20)->nullable();
-            $table->string('ifsc_code', 20)->nullable();
+            $table->string('ifsc_code', 20);
             $table->string('routing_code', 20)->nullable();
             $table->string('c_token');
             $table->string('c_hash');
