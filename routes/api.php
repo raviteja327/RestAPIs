@@ -25,6 +25,7 @@ use App\Http\Controllers\API\companyPostsController;
 use App\Http\Controllers\API\companyPagesController;
 use App\Http\Controllers\API\companyAddressAutomationsController;
 use App\Http\Controllers\API\companyAddressManualsController;
+use App\Http\Controllers\API\animationController;
 use DB as DBS;
 /*
 |--------------------------------------------------------------------------
@@ -291,3 +292,13 @@ Route::post('/company/cam/update/{id}', [companyAddressManualsController::class,
 Route::post('/company/cam/delete/{id}', [companyAddressManualsController::class, 'delete']);
 
 // Company Address Manuals Routes
+
+// Animation Routes
+
+Route::post('/company/animation/create', [animationController::class, 'create']);
+Route::get('/company/animation/views', [animationController::class, 'views']);
+Route::get('/company/animation/view/{id}', [animationController::class, 'view']);
+Route::post('/company/animation/update/{id}', [animationController::class, 'update']);
+Route::post('/company/animation/delete/{id}', [animationController::class, 'delete']);
+
+// Animation Routes
