@@ -30,6 +30,7 @@ use App\Http\Controllers\API\plansController;
 use App\Http\Controllers\API\frontendCompanyController;
 use App\Http\Controllers\API\postController;
 use App\Http\Controllers\API\homeSliderController;
+use App\Http\Controllers\API\miniSliderController;
 use DB as DBS;
 /*
 |--------------------------------------------------------------------------
@@ -346,3 +347,13 @@ Route::post('/company/homeslider/update/{id}', [homeSliderController::class, 'up
 Route::post('/company/homeslider/delete/{id}', [homeSliderController::class, 'delete']);
 
 // Home Slider Routes
+
+// Mini Slider Routes
+
+Route::post('/company/minislider/create', [miniSliderController::class, 'create']);
+Route::get('/company/minislider/views', [miniSliderController::class, 'views']);
+Route::get('/company/minislider/view/{id}', [miniSliderController::class, 'view']);
+Route::post('/company/minislider/update/{id}', [miniSliderController::class, 'update']);
+Route::post('/company/minislider/delete/{id}', [miniSliderController::class, 'delete']);
+
+// Mini Slider Routes
