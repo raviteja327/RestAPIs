@@ -26,6 +26,8 @@ use App\Http\Controllers\API\companyPagesController;
 use App\Http\Controllers\API\companyAddressAutomationsController;
 use App\Http\Controllers\API\companyAddressManualsController;
 use App\Http\Controllers\API\animationController;
+use App\Http\Controllers\API\plansController;
+use App\Http\Controllers\API\frontentCompanyController;
 use DB as DBS;
 /*
 |--------------------------------------------------------------------------
@@ -302,3 +304,23 @@ Route::post('/company/animation/update/{id}', [animationController::class, 'upda
 Route::post('/company/animation/delete/{id}', [animationController::class, 'delete']);
 
 // Animation Routes
+
+// Plans Routes
+
+Route::post('/company/plans/create', [plansController::class, 'create']);
+Route::get('/company/plans/views', [plansController::class, 'views']);
+Route::get('/company/plans/view/{id}', [plansController::class, 'view']);
+Route::post('/company/plans/update/{id}', [plansController::class, 'update']);
+Route::post('/company/plans/delete/{id}', [plansController::class, 'delete']);
+
+// Plans Routes
+
+// Frontend Company Routes
+
+Route::post('/company/frontendcompany/create', [frontentCompanyController::class, 'create']);
+Route::get('/company/frontendcompany/views', [frontentCompanyController::class, 'views']);
+Route::get('/company/frontendcompany/view/{id}', [frontentCompanyController::class, 'view']);
+Route::post('/company/frontendcompany/update/{id}', [frontentCompanyController::class, 'update']);
+Route::post('/company/frontendcompany/delete/{id}', [frontentCompanyController::class, 'delete']);
+
+// Frontend Company Routes

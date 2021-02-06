@@ -5,16 +5,16 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\API\animation;
+use App\Models\API\plans;
 
-class animationController extends Controller
+class plansController extends Controller
 {
-    // 
+    //
 
     public function create(Request $request){
-        
+
         $valid = Validator::make($request->all() , [
-            'animation_name' => 'required | unique:App\Models\API\animation,animation_name',
+            'plan_name' => 'required | unique:App\Models\API\plans,plan_name',
         ]);
  
         if($valid->fails() == TRUE){
@@ -25,19 +25,22 @@ class animationController extends Controller
         }
         else{
 
-            $animation = new animation;
+            $plans = new plans;
 
-            $animation->animation_hash = md5($request->animation_name);
-            $animation->animation_name = $request->animation_name;
-            $animation->created_by = "NULL";
-            $animation->updated_by = "NULL";
-            $animation->created_at = date('Y-m-d H:i:s');
-            $animation->updated_at = date('Y-m-d H:i:s');
-            $animation->save();
+            $plans->plan_hash = md5($request->plan_name);
+            $plans->plan_name = $request->plan_name;
+            $plans->sequence = $request->sequence;
+            $plans->plan_description = $request->plan_description;
+            $plans->plan_sec_key = sha1($request->plan_name);
+            $plans->created_by = "NULL";
+            $plans->updated_by = "NULL";
+            $plans->created_at = date('Y-m-d H:i:s');
+            $plans->updated_at = date('Y-m-d H:i:s');
+            $plans->save();
 
             return response()->json(array(
                 'status' => 1,
-                'message' => $animation
+                'message' => $plans
             ));
 
         }
@@ -46,24 +49,24 @@ class animationController extends Controller
 
     public function views(){
 
-        $animation = animation::where('status', 1)->get();
+        $plans = plans::where('status', 1)->get();
 
-        return response()->json($animation);
+        return response()->json($plans);
 
     }
 
     public function view($id){
 
-        $animation = animation::where('animation_hash', $id)->get();
+        $plans = plans::where('plan_hash', $id)->get();
 
-        return response()->json($animation);
+        return response()->json($plans);
         
     }
 
     public function update(Request $request, $id){
 
         $valid = Validator::make($request->all() , [
-            'animation_name' => 'required | unique:App\Models\API\animation,animation_name',
+            'plan_name' => 'required | unique:App\Models\API\plans,plan_name',
         ]);
  
         if($valid->fails() == TRUE){
@@ -74,9 +77,10 @@ class animationController extends Controller
         }
         else{
 
-            animation::where('animation_hash', $id)
+            plans::where('plan_hash', $id)
             ->update([
-                'animation_name' => $request->animation_name,
+                'plan_name' =>$request->plan_name,
+                'plan_description' =>$request->plan_description,
                 'updated_by' => "NULL",
                 'updated_at' => date('Y-m-d H:i:s'),
             ]);
@@ -85,19 +89,19 @@ class animationController extends Controller
                 'status' => 1,
                 'message' => 'Updated Successfully'
             ));
-            
-        }   
+
+        }
 
     }
 
     public function delete($id){
 
-        $animation = animation::where('animation_hash', $id)
+        $plans = plans::where('plan_hash', $id)
         ->update([
             'status' => 0,
         ]);
 
-        if($animation){
+        if($plans){
 
             return response()->json(array(
                 'status' => 1,
@@ -114,6 +118,5 @@ class animationController extends Controller
         }
 
     }
-
-
+    
 }
