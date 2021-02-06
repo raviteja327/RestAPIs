@@ -27,7 +27,9 @@ use App\Http\Controllers\API\companyAddressAutomationsController;
 use App\Http\Controllers\API\companyAddressManualsController;
 use App\Http\Controllers\API\animationController;
 use App\Http\Controllers\API\plansController;
-use App\Http\Controllers\API\frontentCompanyController;
+use App\Http\Controllers\API\frontendCompanyController;
+use App\Http\Controllers\API\postController;
+use App\Http\Controllers\API\homeSliderController;
 use DB as DBS;
 /*
 |--------------------------------------------------------------------------
@@ -317,10 +319,30 @@ Route::post('/company/plans/delete/{id}', [plansController::class, 'delete']);
 
 // Frontend Company Routes
 
-Route::post('/company/frontendcompany/create', [frontentCompanyController::class, 'create']);
-Route::get('/company/frontendcompany/views', [frontentCompanyController::class, 'views']);
-Route::get('/company/frontendcompany/view/{id}', [frontentCompanyController::class, 'view']);
-Route::post('/company/frontendcompany/update/{id}', [frontentCompanyController::class, 'update']);
-Route::post('/company/frontendcompany/delete/{id}', [frontentCompanyController::class, 'delete']);
+Route::post('/company/frontendcompany/create', [frontendCompanyController::class, 'create']);
+Route::get('/company/frontendcompany/views', [frontendCompanyController::class, 'views']);
+Route::get('/company/frontendcompany/view/{id}', [frontendCompanyController::class, 'view']);
+Route::post('/company/frontendcompany/update/{id}', [frontendCompanyController::class, 'update']);
+Route::post('/company/frontendcompany/delete/{id}', [frontendCompanyController::class, 'delete']);
 
 // Frontend Company Routes
+
+// Post Routes
+
+Route::post('/company/post/create', [postController::class, 'create']);
+Route::get('/company/post/views', [postController::class, 'views']);
+Route::get('/company/post/view/{id}', [postController::class, 'view']);
+Route::post('/company/post/update/{id}', [postController::class, 'update']);
+Route::post('/company/post/delete/{id}', [postController::class, 'delete']);
+
+// Post Routes
+
+// Home Slider Routes
+
+Route::post('/company/homeslider/create', [homeSliderController::class, 'create']);
+Route::get('/company/homeslider/views', [homeSliderController::class, 'views']);
+Route::get('/company/homeslider/view/{id}', [homeSliderController::class, 'view']);
+Route::post('/company/homeslider/update/{id}', [homeSliderController::class, 'update']);
+Route::post('/company/homeslider/delete/{id}', [homeSliderController::class, 'delete']);
+
+// Home Slider Routes

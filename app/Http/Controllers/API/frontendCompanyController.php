@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\API\frontendCompany;
 
-class frontentCompanyController extends Controller
+class frontendCompanyController extends Controller
 {
     //
 
@@ -36,7 +36,6 @@ class frontentCompanyController extends Controller
             $fc->c_sec_key = sha1($request->company_name);
             $fc->mobile = $request->mobile;
             $fc->password = md5($request->password);
-            // dd($fc->password);
             $fc->android_service = $request->android_service;
             $fc->website_service = $request->website_service;
             $fc->ios_service = $request->ios_service;
@@ -101,14 +100,14 @@ class frontentCompanyController extends Controller
                 'company_name' => $request->company_name,
                 'company_email' => $request->company_email,
                 'mobile' => $request->mobile,
-                'password' => $request->password,
+                'password' => md5($request->password),
                 'android_service' => $request->android_service,
                 'website_service' => $request->website_service,
                 'ios_service' => $request->ios_service,
                 'application_service' => $request->application_service,
                 'email_verification_details' => $request->email_verification_details,
                 'template_name' => $request->template_name,
-                'template_hash' => $request->template_hash,
+                'template_hash' => md5($request->template_name),
                 'logo_file' => $request->logo_file,
                 'certificate_file' => $request->certificate_file,
                 'source' => $request->source,
