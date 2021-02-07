@@ -34,6 +34,9 @@ use App\Http\Controllers\API\miniSliderController;
 use App\Http\Controllers\API\pageController;
 use App\Http\Controllers\API\crmSalesCompanyController;
 use App\Http\Controllers\API\crmSalesCompanyContactController;
+use App\Http\Controllers\API\crmSalesCompanyVisitingController;
+use App\Http\Controllers\API\crmSalesCompanyBillingController;
+use App\Http\Controllers\API\crmTasksController;
 use DB as DBS;
 /*
 |--------------------------------------------------------------------------
@@ -390,3 +393,34 @@ Route::post('/company/crmsalescompanycontact/update/{id}', [crmSalesCompanyConta
 Route::post('/company/crmsalescompanycontact/delete/{id}', [crmSalesCompanyContactController::class, 'delete']);
 
 // CRM Sales Company Contact Routes
+
+
+// CRM Sales Company Visiting Routes
+
+Route::post('/company/crmsalescompanyvisiting/create', [crmSalesCompanyVisitingController::class, 'create']);
+Route::get('/company/crmsalescompanyvisiting/views', [crmSalesCompanyVisitingController::class, 'views']);
+Route::get('/company/crmsalescompanyvisiting/view/{id}', [crmSalesCompanyVisitingController::class, 'view']);
+Route::post('/company/crmsalescompanyvisiting/update/{id}', [crmSalesCompanyVisitingController::class, 'update']);
+Route::post('/company/crmsalescompanyvisiting/delete/{id}', [crmSalesCompanyVisitingController::class, 'delete']);
+
+// CRM Sales Company Visiting Routes
+
+// CRM Sales Company Billing Routes
+
+Route::post('/company/crmsalescompanybilling/create', [crmSalesCompanyBillingController::class, 'create']);
+Route::get('/company/crmsalescompanybilling/views', [crmSalesCompanyBillingController::class, 'views']);
+Route::get('/company/crmsalescompanybilling/view/{id}', [crmSalesCompanyBillingController::class, 'view']);
+Route::post('/company/crmsalescompanybilling/update/{id}', [crmSalesCompanyBillingController::class, 'update']);
+Route::post('/company/crmsalescompanybilling/delete/{id}', [crmSalesCompanyBillingController::class, 'delete']);
+
+// CRM Sales Company Billing Routes
+
+// CRM Tasks Routes
+
+Route::post('/company/crmtasks/create', [crmTasksController::class, 'create']);
+Route::get('/company/crmtasks/views', [crmTasksController::class, 'views']);
+Route::get('/company/crmtasks/view/{id}', [crmTasksController::class, 'view']);
+Route::post('/company/crmtasks/update/{id}', [crmTasksController::class, 'update']);
+Route::post('/company/crmtasks/delete/{id}', [crmTasksController::class, 'delete']);
+
+// CRM Tasks Routes
