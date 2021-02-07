@@ -88,7 +88,7 @@ class homeSliderController extends Controller
         }
         else{
 
-            homeSlider::where('slider_hash', $id)
+            homeSlider::where('slider_hash', $id)->where('c_hash', $request->c_hash)->where('c_token', $request->c_token)->where('c_sec_key', $request->c_sec_key)->where('animation_hash', $request->animation_hash)
             ->update([
                 'slider_name' => $request->slider_name,
                 'animation_hash' => $request->animation_hash,

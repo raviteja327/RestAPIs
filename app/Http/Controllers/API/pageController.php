@@ -5,19 +5,21 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\API\post;
+use App\Models\API\page;
 
-class postController extends Controller
+class pageController extends Controller
 {
     //
 
     public function create(Request $request){
-        
+
         $valid = Validator::make($request->all() , [
-            'post_title' => 'required | unique:App\Models\API\post,post_title',
+            'page_title' => 'required | unique:App\Models\API\page,page_title',
             'c_hash' => 'required',
             'c_token' => 'required',
             'c_sec_key' => 'required',
+            'home_slider_hash' => 'required',
+            'mini_slider_hash' => 'required',
         ]);
  
         if($valid->fails() == TRUE){
@@ -26,32 +28,34 @@ class postController extends Controller
                 'message' => $valid->errors()
             ));
         }
-        else{
+        else {
+            
+            $page = new page;
 
-            $post = new post;
+            $page->c_hash = $request->c_hash;
+            $page->c_token = $request->c_token;
+            $page->c_sec_key = $request->c_sec_key;
+            $page->page_title = $request->page_title;
+            $page->page_hash = md5($request->page_title);
+            $page->page_description = $request->page_description;
+            $page->meta_keys = $request->meta_keys;
+            $page->social_media_links = $request->social_media_links;
+            $page->publish_now = $request->publish_now;
+            $page->publish_later = $request->publish_later;
+            $page->image = $request->image;
+            $page->parent_group = $request->parent_group;
+            $page->home_slider_hash = $request->home_slider_hash;
+            $page->mini_slider_hash = $request->mini_slider_hash;
+            $page->created_by = "NULL";
+            $page->updated_by = "NULL";
+            $page->created_at = date('Y-m-d H:i:s');
+            $page->updated_at = date('Y-m-d H:i:s');
 
-            $post->c_hash = $request->c_hash;
-            $post->c_token = $request->c_token;
-            $post->c_sec_key = $request->c_sec_key;
-            $post->post_title = $request->post_title;
-            $post->post_hash = md5($request->post_title);
-            $post->post_description = $request->post_description;
-            $post->meta_keys = $request->meta_keys;
-            $post->social_media_links = $request->social_media_links;
-            $post->publish_now = $request->publish_now;
-            $post->publish_later = $request->publish_later;
-            $post->image = $request->image;
-            $post->parent_group = $request->parent_group;
-            $post->created_by = "NULL";
-            $post->updated_by = "NULL";
-            $post->created_at = date('Y-m-d H:i:s');
-            $post->updated_at = date('Y-m-d H:i:s');
-
-            $post->save();
+            $page->save();
 
             return response()->json(array(
                 'status' => 1,
-                'message' => $post
+                'message' => $page
             ));
 
         }
@@ -60,27 +64,29 @@ class postController extends Controller
 
     public function views(){
 
-        $post = post::where('status', 1)->get();
+        $page = page::where('status', 1)->get();
 
-        return response()->json($post);
+        return response()->json($page);
 
     }
 
     public function view($id){
 
-        $post = post::where('post_hash', $id)->get();
+        $page = page::where('page_hash', $id)->get();
 
-        return response()->json($post);
+        return response()->json($page);
         
     }
 
     public function update(Request $request, $id){
 
         $valid = Validator::make($request->all() , [
-            'post_title' => 'required | unique:App\Models\API\post,post_title',
+            'page_title' => 'required | unique:App\Models\API\page,page_title',
             'c_hash' => 'required',
             'c_token' => 'required',
             'c_sec_key' => 'required',
+            'home_slider_hash' => 'required',
+            'mini_slider_hash' => 'required',
         ]);
  
         if($valid->fails() == TRUE){
@@ -89,12 +95,12 @@ class postController extends Controller
                 'message' => $valid->errors()
             ));
         }
-        else{
-
-            post::where('post_hash', $id)->where('c_hash', $request->c_hash)->where('c_token', $request->c_token)->where('c_sec_key', $request->c_sec_key)
+        else {
+            
+            page::where('page_hash', $id)->where('c_hash', $request->c_hash)->where('c_token', $request->c_token)->where('c_sec_key', $request->c_sec_key)->where('home_slider_hash', $request->home_slider_hash)->where('mini_slider_hash', $request->mini_slider_hash)
             ->update([
-                'post_title' => $request->post_title,
-                'post_description' => $request->post_description,
+                'page_title' => $request->page_title,
+                'page_description' => $request->page_description,
                 'meta_keys' => $request->meta_keys,
                 'social_media_links' => $request->social_media_links,
                 'publish_now' => $request->publish_now,
@@ -104,6 +110,8 @@ class postController extends Controller
                 'c_hash' => $request->c_hash,
                 'c_token' => $request->c_token,
                 'c_sec_key' => $request->c_sec_key,
+                'home_slider_hash' => $request->home_slider_hash,
+                'mini_slider_hash' => $request->mini_slider_hash,
                 'updated_by' => "NULL",
                 'updated_at' => date('Y-m-d H:i:s'),
             ]);
@@ -119,12 +127,12 @@ class postController extends Controller
 
     public function delete($id){
 
-        $post = post::where('post_hash', $id)
+        $page = page::where('page_hash', $id)
         ->update([
             'status' => 0,
         ]);
 
-        if($post){
+        if($page){
 
             return response()->json(array(
                 'status' => 1,

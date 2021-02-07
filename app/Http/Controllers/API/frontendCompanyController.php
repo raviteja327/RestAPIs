@@ -95,7 +95,7 @@ class frontendCompanyController extends Controller
         }
         else{
 
-            frontendCompany::where('c_hash', $id)
+            frontendCompany::where('c_hash', $id)->where('plan_hash', $request->plan_hash)
             ->update([
                 'company_name' => $request->company_name,
                 'company_email' => $request->company_email,
@@ -104,6 +104,7 @@ class frontendCompanyController extends Controller
                 'android_service' => $request->android_service,
                 'website_service' => $request->website_service,
                 'ios_service' => $request->ios_service,
+                'plan_hash' => $request->plan_hash,
                 'application_service' => $request->application_service,
                 'email_verification_details' => $request->email_verification_details,
                 'template_name' => $request->template_name,

@@ -31,6 +31,9 @@ use App\Http\Controllers\API\frontendCompanyController;
 use App\Http\Controllers\API\postController;
 use App\Http\Controllers\API\homeSliderController;
 use App\Http\Controllers\API\miniSliderController;
+use App\Http\Controllers\API\pageController;
+use App\Http\Controllers\API\crmSalesCompanyController;
+use App\Http\Controllers\API\crmSalesCompanyContactController;
 use DB as DBS;
 /*
 |--------------------------------------------------------------------------
@@ -357,3 +360,33 @@ Route::post('/company/minislider/update/{id}', [miniSliderController::class, 'up
 Route::post('/company/minislider/delete/{id}', [miniSliderController::class, 'delete']);
 
 // Mini Slider Routes
+
+// Page Routes
+
+Route::post('/company/page/create', [pageController::class, 'create']);
+Route::get('/company/page/views', [pageController::class, 'views']);
+Route::get('/company/page/view/{id}', [pageController::class, 'view']);
+Route::post('/company/page/update/{id}', [pageController::class, 'update']);
+Route::post('/company/page/delete/{id}', [pageController::class, 'delete']);
+
+// Page Routes
+
+// CRM Sales Company Routes
+
+Route::post('/company/crmsalescompany/create', [crmSalesCompanyController::class, 'create']);
+Route::get('/company/crmsalescompany/views', [crmSalesCompanyController::class, 'views']);
+Route::get('/company/crmsalescompany/view/{id}', [crmSalesCompanyController::class, 'view']);
+Route::post('/company/crmsalescompany/update/{id}', [crmSalesCompanyController::class, 'update']);
+Route::post('/company/crmsalescompany/delete/{id}', [crmSalesCompanyController::class, 'delete']);
+
+// CRM Sales Company Routes
+
+// CRM Sales Company Contact Routes
+
+Route::post('/company/crmsalescompanycontact/create', [crmSalesCompanyContactController::class, 'create']);
+Route::get('/company/crmsalescompanycontact/views', [crmSalesCompanyContactController::class, 'views']);
+Route::get('/company/crmsalescompanycontact/view/{id}', [crmSalesCompanyContactController::class, 'view']);
+Route::post('/company/crmsalescompanycontact/update/{id}', [crmSalesCompanyContactController::class, 'update']);
+Route::post('/company/crmsalescompanycontact/delete/{id}', [crmSalesCompanyContactController::class, 'delete']);
+
+// CRM Sales Company Contact Routes
