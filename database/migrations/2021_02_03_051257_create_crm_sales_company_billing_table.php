@@ -20,7 +20,7 @@ class CreateCrmSalesCompanyBillingTable extends Migration
             $table->integer('zip_code')->nullable();
             $table->string('town',100);
             $table->string('country_hash');
-            $table->foreign('country_hash')->references('country_hash')->on('kalai_countries');
+            $table->foreign('country_hash')->references('country_hash')->on('countries');
             $table->string('created_by',50)->nullable();
             $table->string('updated_by',50)->nullable();
             $table->tinyinteger('status')->default(1);

@@ -29,7 +29,7 @@ class CreateCrmSalesCompanyTable extends Migration
             $table->integer('zip_code');
             $table->string('town',100)->nullable();
             $table->string('country_hash');
-            $table->foreign('country_hash')->references('country_hash')->on('kalai_countries');
+            $table->foreign('country_hash')->references('country_hash')->on('countries');
             $table->string('vat_number',50);
             $table->string('coc_no',50)->nullable();
             $table->string('rsn',50)->nullable();
