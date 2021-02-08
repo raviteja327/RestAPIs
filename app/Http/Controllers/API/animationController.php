@@ -27,12 +27,12 @@ class animationController extends Controller
 
             $animation = new animation;
 
-            $animation->animation_hash = md5($request->animation_name);
+            $animation->animation_hash = md5($request->animation_name.now());
             $animation->animation_name = $request->animation_name;
             $animation->created_by = "NULL";
             $animation->updated_by = "NULL";
-            $animation->created_at = date('Y-m-d H:i:s');
-            $animation->updated_at = date('Y-m-d H:i:s');
+            $animation->created_at = now();
+            $animation->updated_at = now();
             $animation->save();
 
             return response()->json(array(
@@ -74,11 +74,11 @@ class animationController extends Controller
         }
         else{
 
-            animation::where('animation_hash', $id)
+            $animation = animation::where('animation_hash', $id)
             ->update([
                 'animation_name' => $request->animation_name,
                 'updated_by' => "NULL",
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             ]);
 
             return response()->json(array(
@@ -95,6 +95,8 @@ class animationController extends Controller
         $animation = animation::where('animation_hash', $id)
         ->update([
             'status' => 0,
+            'updated_by' => "NULL",
+            'updated_at' => now(),
         ]);
 
         if($animation){

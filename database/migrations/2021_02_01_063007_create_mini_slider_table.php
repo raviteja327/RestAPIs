@@ -20,11 +20,11 @@ class CreateMiniSliderTable extends Migration
             $table->string('animation_hash');
             $table->string('slider_image');
             $table->string('c_hash');
-            $table->foreign('c_hash')->references('c_hash')->on('frontend_company');
+            $table->foreign('c_hash')->references('c_hash')->on('companies');
             $table->string('c_token');
-            $table->foreign('c_token')->references('c_token')->on('frontend_company');
+            $table->foreign('c_token')->references('c_token')->on('companies');
             $table->string('c_sec_key');
-            $table->foreign('c_sec_key')->references('c_sec_key')->on('frontend_company');
+            $table->foreign('c_sec_key')->references('c_sec_key')->on('companies');
             $table->string('created_by',30)->nullable();
             $table->string('updated_by',30)->nullable();
             $table->tinyinteger('status')->default(1);

@@ -26,7 +26,7 @@ class countriesController extends Controller
         }
         else{
 
-            $country_hash = md5($request->country_name);
+            $country_hash = md5($request->country_name.now());
             $country_name = $request->country_name;
             $country_desc = $request->country_desc;
             $country_code = $request->country_code;
@@ -40,15 +40,15 @@ class countriesController extends Controller
                 'a_hash' => $a_hash,
                 'created_by' => "NULL",
                 'updated_by' => "NULL",
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => now(),
+                'updated_at' => now(),
             );
 
-            DB::table('countries')->insert($data);
+            DB::table('countries')->WHere('a_hash', $a_hash)->insert($data);
 
             return response()->json(array(
                 'status' => 1,
-                'message' => 'Added Successfully'
+                'message' => $data
             ));
 
         }
@@ -94,7 +94,7 @@ class countriesController extends Controller
                 'country_code' => $country_code,
                 'a_hash' => $a_hash,
                 'updated_by' => "NULL",
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             );
 
             DB::table('countries')->where('country_hash', $country_hash)->where('a_hash', $a_hash)->update($data);
@@ -110,13 +110,15 @@ class countriesController extends Controller
     public function delete(Request $request){
 
         $country_hash = $request->id;
+        $a_hash = $request->a_hash;
 
         $data = array(
             'status' => 0,
-            'updated_at' => date('Y-m-d H:i:s'),
+            'updated_by' => "NULL",
+            'updated_at' => now(),
         );
 
-        $countries = DB::table('countries')->where('country_hash', $country_hash)->update($data);
+        $countries = DB::table('countries')->where('country_hash', $country_hash)->where('a_hash', $a_hash)->update($data);
 
         if($countries){
 

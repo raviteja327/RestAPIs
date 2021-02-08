@@ -15,11 +15,11 @@ class CreatePostTable extends Migration
     {
         Schema::create('post', function (Blueprint $table) {
             $table->string('c_hash');
-            $table->foreign('c_hash')->references('c_hash')->on('frontend_company');
+            $table->foreign('c_hash')->references('c_hash')->on('companies');
             $table->string('c_token');
-            $table->foreign('c_token')->references('c_token')->on('frontend_company');
+            $table->foreign('c_token')->references('c_token')->on('companies');
             $table->string('c_sec_key');
-            $table->foreign('c_sec_key')->references('c_sec_key')->on('frontend_company');
+            $table->foreign('c_sec_key')->references('c_sec_key')->on('companies');
             $table->string('post_title',50)->unique();
             $table->string('post_hash');
             $table->primary('post_hash');

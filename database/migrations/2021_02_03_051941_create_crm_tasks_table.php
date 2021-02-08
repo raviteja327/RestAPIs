@@ -15,11 +15,11 @@ class CreateCrmTasksTable extends Migration
     {
         Schema::create('crm_tasks', function (Blueprint $table) {
             $table->string('c_hash');
-            $table->foreign('c_hash')->references('c_hash')->on('frontend_company');
+            $table->foreign('c_hash')->references('c_hash')->on('companies');
             $table->string('c_token');
-            $table->foreign('c_token')->references('c_token')->on('frontend_company');
+            $table->foreign('c_token')->references('c_token')->on('companies');
             $table->string('c_sec_key');
-            $table->foreign('c_sec_key')->references('c_sec_key')->on('frontend_company');
+            $table->foreign('c_sec_key')->references('c_sec_key')->on('companies');
             $table->string('sales_company_hash');
             $table->foreign('sales_company_hash')->references('sales_company_hash')->on('crm_sales_company');
             $table->string('task_name',100)->unique();
