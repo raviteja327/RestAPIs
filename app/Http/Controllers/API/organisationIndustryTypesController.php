@@ -27,7 +27,7 @@ class organisationIndustryTypesController extends Controller
         }
         else{
 
-            $org_indus_type_hash = md5($request->org_indus_type_name);
+            $org_indus_type_hash = md5($request->org_indus_type_name.now());
             $org_indus_type_name = $request->org_indus_type_name;
             $org_indus_type_desc = $request->org_indus_type_desc;
             $a_hash = $request->a_hash;
@@ -41,17 +41,24 @@ class organisationIndustryTypesController extends Controller
                 'a_hash' => $a_hash,
                 'created_by' => "NULL",
                 'updated_by' => "NULL",
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => now(),
+                'updated_at' => now(),
             );
 
-            DB::table('organisation_industry_types')->where('org_type_hash', $org_type_hash)->insert($data);
+            $orgindtype = DB::table('organisation_industry_types')->where('org_type_hash', $org_type_hash)->where('a_hash', $a_hash)->insert($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Added Successfully'
-            ));
-
+            if ($orgindtype) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $data
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
 
     }
@@ -98,15 +105,23 @@ class organisationIndustryTypesController extends Controller
                 'a_hash' => $a_hash,
                 'org_type_hash' => $org_type_hash,
                 'updated_by' => "NULL",
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             );
 
-            DB::table('organisation_industry_types')->where('org_indus_type_hash', $org_indus_type_hash)->where('org_type_hash', $org_type_hash)->where('a_hash', $a_hash)->update($data);
+            $orgindtype = DB::table('organisation_industry_types')->where('org_indus_type_hash', $org_indus_type_hash)->update($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
+            if($orgindtype == TRUE){
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            }
+            else{
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
 
         }
 
@@ -118,7 +133,8 @@ class organisationIndustryTypesController extends Controller
 
         $data = array(
             'status' => 0,
-            'updated_at' => date('Y-m-d H:i:s'),
+            'updated_by' => "NULL",
+            'updated_at' => now(),
         );
 
         $orgindtype = DB::table('organisation_industry_types')->where('org_indus_type_hash', $org_indus_type_hash)->update($data);

@@ -33,13 +33,20 @@ class animationController extends Controller
             $animation->updated_by = "NULL";
             $animation->created_at = now();
             $animation->updated_at = now();
-            $animation->save();
+            $anim = $animation->save();
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => $animation
-            ));
-
+            if ($anim) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $animation
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
 
     }
@@ -81,10 +88,17 @@ class animationController extends Controller
                 'updated_at' => now(),
             ]);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
+            if ($animation) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
             
         }   
 
@@ -116,6 +130,5 @@ class animationController extends Controller
         }
 
     }
-
 
 }

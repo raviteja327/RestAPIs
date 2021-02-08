@@ -43,13 +43,20 @@ class adminUsersController extends Controller
                 'updated_at' => now(),
             );
 
-            DB::table('admin_users')->insert($data);
+            $admin = DB::table('admin_users')->insert($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => $data
-            ));
-
+            if ($admin) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $data
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
 
     }
@@ -100,14 +107,22 @@ class adminUsersController extends Controller
                 'updated_at' => now(),
             );
 
-            DB::table('admin_users')->where('a_hash', $a_hash)->update($data);
+            $admin = DB::table('admin_users')->where('a_hash', $a_hash)->update($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
+            if ($admin) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
 
         }
+        
     }
 
     public function delete(Request $request){

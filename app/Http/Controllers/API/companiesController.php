@@ -16,9 +16,6 @@ class companiesController extends Controller
         $valid = Validator::make($request->all() , [
             'company_email' => 'required | unique:App\Models\API\companies,company_email',
             'company_name' => 'required',
-            'a_hash' => 'required',
-            'org_type_hash' => 'required',
-            'org_indus_type_hash' => 'required',
         ]);
 
         if($valid->fails() == TRUE){
@@ -28,15 +25,17 @@ class companiesController extends Controller
             ));
         }
         else{
-            $company_hash = md5($request->company_email);
+            $company_hash = md5($request->company_email.now());
             $company_name = $request->company_name;
             $company_email = $request->company_email;
-            $c_token = md5(sha1($request->company_email));
-            $c_hash = md5($request->company_email);
-            $c_sec_key = sha1($request->company_email);
+            $c_token = md5(sha1($request->company_email.now()));
+            $c_hash = md5($request->company_email.now());
+            $c_sec_key = sha1($request->company_email.now());
             $a_hash = $request->a_hash;
             $org_type_hash = $request->org_type_hash;
             $org_indus_type_hash = $request->org_indus_type_hash;
+            $application_type = $request->application_type;
+            $password_cnf = md5($request->password_cnf);
 
             $data = array(
                 'company_hash' => $company_hash,
@@ -48,19 +47,28 @@ class companiesController extends Controller
                 'a_hash' => $a_hash,
                 'org_type_hash' => $org_type_hash,
                 'org_indus_type_hash' => $org_indus_type_hash,
+                'application_type' => $application_type,
+                'password_cnf' => $password_cnf,
                 'created_by' => $company_name,
                 'updated_by' => $company_name,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => now(),
+                'updated_at' => now(),
             );
 
-            DB::table('companies')->where('a_hash', $a_hash)->where('org_type_hash', $org_type_hash)->where('org_indus_type_hash', $org_indus_type_hash)->insert($data);
+            $companies = DB::table('companies')->insert($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Added Successfully'
-            ));
-
+            if ($companies) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $data
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
     }
 
@@ -83,9 +91,6 @@ class companiesController extends Controller
         $valid = Validator::make($request->all() , [
             'company_email' => 'required | unique:App\Models\API\companies,company_email',
             'company_name' => 'required',
-            'a_hash' => 'required',
-            'org_type_hash' => 'required',
-            'org_indus_type_hash' => 'required',
         ]);
 
         if($valid->fails() == TRUE){
@@ -99,47 +104,59 @@ class companiesController extends Controller
             $company_hash = $request->id;
             $company_name = $request->company_name;
             $company_email = $request->company_email;
-            // $c_token = $request->c_token;
-            // $c_hash = $request->c_hash;
-            // $c_sec_key = $request->c_sec_key;
             $a_hash = $request->a_hash;
             $org_type_hash = $request->org_type_hash;
             $org_indus_type_hash = $request->org_indus_type_hash;
+            $c_token = $request->c_token;
+            $c_hash = $request->c_hash;
+            $c_sec_key = $request->c_sec_key;
+            $application_type = $request->application_type;
+            $password_cnf = md5($request->password_cnf);
 
             $data = array(
-                'company_hash' => $company_hash,
                 'company_name' => $company_name,
                 'company_email' => $company_email,
-                // 'c_token' => $c_token,
-                // 'c_hash' => $c_hash,
-                // 'c_sec_key' => $c_sec_key,
                 'a_hash' => $a_hash,
                 'org_type_hash' => $org_type_hash,
                 'org_indus_type_hash' => $org_indus_type_hash,
+                'application_type' => $application_type,
+                'password_cnf' => $password_cnf,
                 'updated_by' => $company_name,
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             );
 
-            DB::table('companies')->where('company_hash', $company_hash)->where('a_hash', $a_hash)->where('org_type_hash', $org_type_hash)->where('org_indus_type_hash', $org_indus_type_hash)->update($data);
+            $companies = DB::table('companies')->where('company_hash', $company_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
-
+            if ($companies) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
+            
         }
     }
 
     public function delete(Request $request){
 
         $company_hash = $request->id;
+        $c_token = $request->c_token;
+        $c_hash = $request->c_hash;
+        $c_sec_key = $request->c_sec_key;
+        $company_name = $request->company_name;
 
         $data = array(
             'status' => 0,
-            'updated_at' => date('Y-m-d H:i:s'),
+            'updated_by' => $company_name,
+            'updated_at' => now(),
         );
 
-        $companies = DB::table('companies')->where('company_hash', $company_hash)->update($data);
+        $companies = DB::table('companies')->where('company_hash', $company_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
 
         if($companies){
 

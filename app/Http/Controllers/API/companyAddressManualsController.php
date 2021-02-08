@@ -17,12 +17,6 @@ class companyAddressManualsController extends Controller
             'pincode' => 'required | unique:App\Models\API\companyAddressManuals,pincode',
             'mobile_number' => 'required',
             'contact_person_name' => 'required',
-            'c_token' => 'required',
-            'c_hash' => 'required',
-            'c_sec_key' => 'required',
-            'dist_hash' => 'required',
-            'state_hash' => 'required',
-            'country_hash' => 'required',
         ]);
 
         if($valid->fails() == TRUE){
@@ -32,7 +26,7 @@ class companyAddressManualsController extends Controller
             ));
         }
         else{
-            $company_address_manuals_hash = md5($request->pincode);
+            $company_address_manuals_hash = md5($request->pincode.now());
             $address1 = $request->address1;
             $address2 = $request->address2;
             $street = $request->street;
@@ -64,17 +58,24 @@ class companyAddressManualsController extends Controller
                 'country_hash' => $country_hash,
                 'created_by' => $contact_person_name,
                 'updated_by' => $contact_person_name,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => now(),
+                'updated_at' => now(),
             );
 
-            DB::table('company_address_manuals')->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->where('dist_hash', $dist_hash)->where('state_hash', $state_hash)->where('country_hash', $country_hash)->insert($data);
+            $cam = DB::table('company_address_manuals')->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->insert($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Added Successfully'
-            ));
-
+            if ($cam) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $data
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
 
     }
@@ -99,12 +100,6 @@ class companyAddressManualsController extends Controller
             'pincode' => 'required | unique:App\Models\API\companyAddressManuals,pincode',
             'mobile_number' => 'required',
             'contact_person_name' => 'required',
-            'c_token' => 'required',
-            'c_hash' => 'required',
-            'c_sec_key' => 'required',
-            'dist_hash' => 'required',
-            'state_hash' => 'required',
-            'country_hash' => 'required',
         ]);
 
         if($valid->fails() == TRUE){
@@ -137,24 +132,27 @@ class companyAddressManualsController extends Controller
                 'pincode' => $pincode,
                 'contact_person_name' => $contact_person_name,
                 'mobile_number' => $mobile_number,
-                'c_token' => $c_token,
-                'c_hash' => $c_hash,
-                'c_sec_key' => $c_sec_key,
                 'dist_hash' => $dist_hash,
                 'state_hash' => $state_hash,
                 'country_hash' => $country_hash,
-                'created_by' => $contact_person_name,
                 'updated_by' => $contact_person_name,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             );
 
-            DB::table('company_address_manuals')->where('company_address_manuals_hash', $company_address_manuals_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->where('dist_hash', $dist_hash)->where('state_hash', $state_hash)->where('country_hash', $country_hash)->update($data);
+            $cam = DB::table('company_address_manuals')->where('company_address_manuals_hash', $company_address_manuals_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
+            if ($cam) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
+            
 
         }
 
@@ -163,13 +161,18 @@ class companyAddressManualsController extends Controller
     public function delete(Request $request){
 
         $company_address_manuals_hash = $request->id;
+        $contact_person_name = $request->contact_person_name;
+        $c_token = $request->c_token;
+        $c_hash = $request->c_hash;
+        $c_sec_key = $request->c_sec_key;
 
         $data = array(
             'status' => 0,
-            'updated_at' => date('Y-m-d H:i:s'),
+            'updated_by' => $contact_person_name,
+            'updated_at' => now(),
         );
 
-        $cam = DB::table('company_address_manuals')->where('company_address_manuals_hash', $company_address_manuals_hash)->update($data);
+        $cam = DB::table('company_address_manuals')->where('company_address_manuals_hash', $company_address_manuals_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
 
         if($cam){
 

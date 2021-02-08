@@ -26,7 +26,7 @@ class organisationTypesController extends Controller
         }
         else{
 
-            $org_type_hash = md5($request->org_type_name);
+            $org_type_hash = md5($request->org_type_name.now());
             $org_type_name = $request->org_type_name;
             $org_type_desc = $request->org_type_desc;
             $a_hash = $request->a_hash;
@@ -38,17 +38,24 @@ class organisationTypesController extends Controller
                 'a_hash' => $a_hash,
                 'created_by' => "NULL",
                 'updated_by' => "NULL",
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => now(),
+                'updated_at' => now(),
             );
 
-            DB::table('organisation_types')->insert($data);
+            $orgtype = DB::table('organisation_types')->insert($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Added Successfully'
-            ));
-
+            if ($orgtype) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $data
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
 
     }
@@ -92,16 +99,23 @@ class organisationTypesController extends Controller
                 'org_type_desc' => $org_type_desc,
                 'a_hash' => $a_hash,
                 'updated_by' => "NULL",
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             );
 
-            DB::table('organisation_types')->where('org_type_hash', $org_type_hash)->where('a_hash', $a_hash)->update($data);
+            $orgtype = DB::table('organisation_types')->where('org_type_hash', $org_type_hash)->update($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
-
+            if ($orgtype) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
+            
         }
 
     }
@@ -109,13 +123,15 @@ class organisationTypesController extends Controller
     public function delete(Request $request){
 
         $org_type_hash = $request->id;
+        $a_hash = $request->a_hash;
 
         $data = array(
             'status' => 0,
-            'updated_at' => date('Y-m-d H:i:s'),
+            'updated_by' => "NULL",
+            'updated_at' => now(),
         );
 
-        $orgtype = DB::table('organisation_types')->where('org_type_hash', $org_type_hash)->update($data);
+        $orgtype = DB::table('organisation_types')->where('org_type_hash', $org_type_hash)->where('a_hash', $a_hash)->update($data);
 
         if($orgtype){
 
