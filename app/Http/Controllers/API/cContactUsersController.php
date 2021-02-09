@@ -18,9 +18,6 @@ class cContactUsersController extends Controller
             'name' => 'required',
             'organization' => 'required',
             'phone_number' => 'required',
-            'c_token' => 'required',
-            'c_hash' => 'required',
-            'c_sec_key' => 'required',
         ]);
 
         if($valid->fails() == TRUE){
@@ -31,7 +28,7 @@ class cContactUsersController extends Controller
         }
         else{
 
-            $contact_hash = md5($request->email);
+            $contact_hash = md5($request->email.now());
             $name = $request->name;
             $email = $request->email;
             $organization = $request->organization;
@@ -55,17 +52,24 @@ class cContactUsersController extends Controller
                 'c_sec_key' => $c_sec_key,
                 'created_by' => $name,
                 'updated_by' => $name,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => now(),
+                'updated_at' => now(),
             );
 
-            DB::table('c_contact_users')->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->insert($data);
+            $ccusers = DB::table('c_contact_users')->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->insert($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Added Successfully'
-            ));
-
+            if ($ccusers) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $data
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
 
     }
@@ -91,9 +95,6 @@ class cContactUsersController extends Controller
             'name' => 'required',
             'organization' => 'required',
             'phone_number' => 'required',
-            'c_token' => 'required',
-            'c_hash' => 'required',
-            'c_sec_key' => 'required',
         ]);
 
         if($valid->fails() == TRUE){
@@ -122,22 +123,24 @@ class cContactUsersController extends Controller
                 'phone_number' => $phone_number,
                 'select_region' => $select_region,
                 'social_websites' => $social_websites,
-                'c_token' => $c_token,
-                'c_hash' => $c_hash,
-                'c_sec_key' => $c_sec_key,
-                'created_by' => $name,
                 'updated_by' => $name,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             );
 
-            DB::table('c_contact_users')->where('contact_hash', $contact_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
+            $ccusers = DB::table('c_contact_users')->where('contact_hash', $contact_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
-
+            if ($ccusers) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
+            
         }
 
     }
@@ -145,13 +148,18 @@ class cContactUsersController extends Controller
     public function delete(Request $request){
 
         $contact_hash = $request->id;
+        $name = $request->name;
+        $c_token = $request->c_token;
+        $c_hash = $request->c_hash;
+        $c_sec_key = $request->c_sec_key;
 
         $data = array(
             'status' => 0,
-            'updated_at' => date('Y-m-d H:i:s'),
+            'updated_by' => $name,
+            'updated_at' => now(),
         );
 
-        $ccusers = DB::table('c_contact_users')->where('contact_hash', $contact_hash)->update($data);
+        $ccusers = DB::table('c_contact_users')->where('contact_hash', $contact_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
 
         if($ccusers){
 

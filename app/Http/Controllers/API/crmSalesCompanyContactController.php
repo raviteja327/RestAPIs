@@ -34,7 +34,7 @@ class crmSalesCompanyContactController extends Controller
             $crmsalescomcontact->sur_name = $request->sur_name;
             $crmsalescomcontact->mobile = $request->mobile;
             $crmsalescomcontact->email = $request->email;
-            $crmsalescomcontact->contact_hash = md5($request->email);
+            $crmsalescomcontact->contact_hash = md5($request->email.now());
             $crmsalescomcontact->image = $request->image;
             $crmsalescomcontact->job_title = $request->job_title;
             $crmsalescomcontact->gender = $request->gender;
@@ -43,16 +43,23 @@ class crmSalesCompanyContactController extends Controller
             $crmsalescomcontact->description = $request->description;
             $crmsalescomcontact->created_by = "NULL";
             $crmsalescomcontact->updated_by = "NULL";
-            $crmsalescomcontact->created_at = date('Y-m-d H:i:s');
-            $crmsalescomcontact->updated_at = date('Y-m-d H:i:s');
+            $crmsalescomcontact->created_at = now();
+            $crmsalescomcontact->updated_at = now();
 
-            $crmsalescomcontact->save();
+            $contact = $crmsalescomcontact->save();
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => $crmsalescomcontact
-            ));
-
+            if ($contact) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $crmsalescomcontact
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
 
     }
@@ -89,7 +96,7 @@ class crmSalesCompanyContactController extends Controller
         }
         else {
             
-            crmSalesCompanyContact::where('contact_hash', $id)->where('sales_company_hash', $request->sales_company_hash)
+            $contact = crmSalesCompanyContact::where('contact_hash', $id)
             ->update([
                 'sales_company_hash' => $request->sales_company_hash,
                 'first_name' => $request->first_name,
@@ -103,23 +110,32 @@ class crmSalesCompanyContactController extends Controller
                 'time_zone' => $request->time_zone,
                 'description' => $request->description,
                 'updated_by' => "NULL",
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             ]);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
-
+            if ($contact) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
+            
         }
 
     }
 
-    public function delete($id){
+    public function delete(Request $request, $id){
 
-        $crmsalescomcontact = crmSalesCompanyContact::where('contact_hash', $id)
+        $crmsalescomcontact = crmSalesCompanyContact::where('contact_hash', $id)->where('sales_company_hash', $request->sales_company_hash)
         ->update([
             'status' => 0,
+            'updated_by' => "NULL",
+            'updated_at' => now(),
         ]);
 
         if($crmsalescomcontact){

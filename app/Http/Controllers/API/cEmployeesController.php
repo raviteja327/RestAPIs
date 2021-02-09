@@ -20,9 +20,6 @@ class cEmployeesController extends Controller
             'last_name' => 'required',
             'birth_date' => 'required',
             'home_phone' => 'required',
-            'c_token' => 'required',
-            'c_hash' => 'required',
-            'c_sec_key' => 'required',
             'company_hash' => 'required',
             'c_role_hash' => 'required',
         ]);
@@ -35,7 +32,7 @@ class cEmployeesController extends Controller
         }
         else{
 
-            $employee_hash = md5($request->email);
+            $employee_hash = md5($request->email.now());
             $company_hash = $request->company_hash;
             $c_role_hash = $request->c_role_hash;
             $first_name = $request->first_name;
@@ -75,17 +72,24 @@ class cEmployeesController extends Controller
                 'c_sec_key' => $c_sec_key,
                 'created_by' => $first_name,
                 'updated_by' => $first_name,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => now(),
+                'updated_at' => now(),
             );
 
-            DB::table('c_employees')->where('company_hash', $company_hash)->where('c_role_hash', $c_role_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->insert($data);
+            $cemployees = DB::table('c_employees')->where('company_hash', $company_hash)->where('c_role_hash', $c_role_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->insert($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Added Successfully'
-            ));
-
+            if ($cemployees) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $data
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
 
     }
@@ -113,9 +117,6 @@ class cEmployeesController extends Controller
             'last_name' => 'required',
             'birth_date' => 'required',
             'home_phone' => 'required',
-            'c_token' => 'required',
-            'c_hash' => 'required',
-            'c_sec_key' => 'required',
             'company_hash' => 'required',
             'c_role_hash' => 'required',
         ]);
@@ -161,22 +162,24 @@ class cEmployeesController extends Controller
                 'country' => $country,
                 'home_phone' => $home_phone,
                 'salary' => $salary,
-                'c_token' => $c_token,
-                'c_hash' => $c_hash,
-                'c_sec_key' => $c_sec_key,
-                'created_by' => $first_name,
                 'updated_by' => $first_name,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             );
 
-            DB::table('c_employees')->where('employee_hash', $employee_hash)->where('company_hash', $company_hash)->where('c_role_hash', $c_role_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
+            $cemployees = DB::table('c_employees')->where('employee_hash', $employee_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
-
+            if ($cemployees) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
+            
         }
 
     }
@@ -184,13 +187,20 @@ class cEmployeesController extends Controller
     public function delete(Request $request){
 
         $employee_hash = $request->id;
+        $c_token = $request->c_token;
+        $c_hash = $request->c_hash;
+        $c_sec_key = $request->c_sec_key;
+        $company_hash = $request->company_hash;
+        $c_role_hash = $request->c_role_hash;
+        $first_name = $request->first_name;
 
         $data = array(
             'status' => 0,
-            'updated_at' => date('Y-m-d H:i:s'),
+            'updated_by' => $first_name,
+            'updated_at' => now(),
         );
 
-        $cemployees = DB::table('c_employees')->where('employee_hash', $employee_hash)->update($data);
+        $cemployees = DB::table('c_employees')->where('employee_hash', $employee_hash)->where('company_hash', $company_hash)->where('c_role_hash', $c_role_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
 
         if($cemployees){
 
@@ -209,6 +219,5 @@ class cEmployeesController extends Controller
         }
 
     }
-
 
 }

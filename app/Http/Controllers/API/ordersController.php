@@ -20,9 +20,6 @@ class ordersController extends Controller
             'company_hash' => 'required',
             'customer_hash' => 'required',
             'coupon_amount' => 'required',
-            'c_token' => 'required',
-            'c_hash' => 'required',
-            'c_sec_key' => 'required',
             'company_db_user_hash' => 'required',
         ]);
 
@@ -34,7 +31,7 @@ class ordersController extends Controller
         }
         else{
 
-            $order_hash = md5($request->coupon_name);
+            $order_hash = md5($request->coupon_name.now());
             $product_hash = $request->product_hash;
             $company_hash = $request->company_hash;
             $customer_hash = $request->customer_hash;
@@ -66,17 +63,24 @@ class ordersController extends Controller
                 'company_db_user_hash' => $company_db_user_hash,
                 'created_by' => "NULL",
                 'updated_by' => "NULL",
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => now(),
+                'updated_at' => now(),
             );
 
-            DB::table('orders')->where('product_hash', $product_hash)->where('company_hash', $company_hash)->where('customer_hash', $customer_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->where('company_db_user_hash', $company_db_user_hash)->insert($data);
+            $orders = DB::table('orders')->where('product_hash', $product_hash)->where('company_hash', $company_hash)->where('customer_hash', $customer_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->where('company_db_user_hash', $company_db_user_hash)->insert($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Added Successfully'
-            ));
-
+            if ($orders) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $data
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
 
     }
@@ -103,9 +107,6 @@ class ordersController extends Controller
             'company_hash' => 'required',
             'customer_hash' => 'required',
             'coupon_amount' => 'required',
-            'c_token' => 'required',
-            'c_hash' => 'required',
-            'c_sec_key' => 'required',
             'company_db_user_hash' => 'required',
         ]);
 
@@ -141,23 +142,25 @@ class ordersController extends Controller
                 'total_stock' => $total_stock,
                 'active_date' => $active_date,
                 'expiry_date' => $expiry_date,
-                'c_token' => $c_token,
-                'c_hash' => $c_hash,
-                'c_sec_key' => $c_sec_key,
                 'company_db_user_hash' => $company_db_user_hash,
-                'created_by' => "NULL",
                 'updated_by' => "NULL",
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             );
 
-            DB::table('orders')->where('order_hash', $order_hash)->where('product_hash', $product_hash)->where('company_hash', $company_hash)->where('customer_hash', $customer_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->where('company_db_user_hash', $company_db_user_hash)->update($data);
+            $orders = DB::table('orders')->where('order_hash', $order_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
-
+            if ($orders) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
+            
         }
 
     }
@@ -165,13 +168,21 @@ class ordersController extends Controller
     public function delete(Request $request){
 
         $order_hash = $request->id;
+        $c_token = $request->c_token;
+        $c_hash = $request->c_hash;
+        $c_sec_key = $request->c_sec_key;
+        $company_db_user_hash = $request->company_db_user_hash;
+        $product_hash = $request->product_hash;
+        $company_hash = $request->company_hash;
+        $customer_hash = $request->customer_hash;
 
         $data = array(
             'status' => 0,
-            'updated_at' => date('Y-m-d H:i:s'),
+            'updated_by' => "NULL",
+            'updated_at' => now(),
         );
 
-        $orders = DB::table('orders')->where('order_hash', $order_hash)->update($data);
+        $orders = DB::table('orders')->where('order_hash', $order_hash)->where('product_hash', $product_hash)->where('company_hash', $company_hash)->where('customer_hash', $customer_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->where('company_db_user_hash', $company_db_user_hash)->update($data);
 
         if($orders){
 

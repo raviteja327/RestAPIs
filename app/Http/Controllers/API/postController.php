@@ -15,9 +15,6 @@ class postController extends Controller
         
         $valid = Validator::make($request->all() , [
             'post_title' => 'required | unique:App\Models\API\post,post_title',
-            'c_hash' => 'required',
-            'c_token' => 'required',
-            'c_sec_key' => 'required',
         ]);
  
         if($valid->fails() == TRUE){
@@ -34,7 +31,7 @@ class postController extends Controller
             $post->c_token = $request->c_token;
             $post->c_sec_key = $request->c_sec_key;
             $post->post_title = $request->post_title;
-            $post->post_hash = md5($request->post_title);
+            $post->post_hash = md5($request->post_title.now());
             $post->post_description = $request->post_description;
             $post->meta_keys = $request->meta_keys;
             $post->social_media_links = $request->social_media_links;
@@ -44,16 +41,23 @@ class postController extends Controller
             $post->parent_group = $request->parent_group;
             $post->created_by = "NULL";
             $post->updated_by = "NULL";
-            $post->created_at = date('Y-m-d H:i:s');
-            $post->updated_at = date('Y-m-d H:i:s');
+            $post->created_at = now();
+            $post->updated_at = now();
 
-            $post->save();
+            $pst = $post->save();
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => $post
-            ));
-
+            if ($pst) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $post
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
 
     }
@@ -78,9 +82,6 @@ class postController extends Controller
 
         $valid = Validator::make($request->all() , [
             'post_title' => 'required | unique:App\Models\API\post,post_title',
-            'c_hash' => 'required',
-            'c_token' => 'required',
-            'c_sec_key' => 'required',
         ]);
  
         if($valid->fails() == TRUE){
@@ -91,7 +92,7 @@ class postController extends Controller
         }
         else{
 
-            post::where('post_hash', $id)->where('c_hash', $request->c_hash)->where('c_token', $request->c_token)->where('c_sec_key', $request->c_sec_key)
+            $pst = post::where('post_hash', $id)->where('c_hash', $request->c_hash)->where('c_token', $request->c_token)->where('c_sec_key', $request->c_sec_key)
             ->update([
                 'post_title' => $request->post_title,
                 'post_description' => $request->post_description,
@@ -101,27 +102,33 @@ class postController extends Controller
                 'publish_later' => $request->publish_later,
                 'image' => $request->image,
                 'parent_group' => $request->parent_group,
-                'c_hash' => $request->c_hash,
-                'c_token' => $request->c_token,
-                'c_sec_key' => $request->c_sec_key,
                 'updated_by' => "NULL",
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             ]);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
-
+            if ($pst) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
+            
         }
 
     }
 
-    public function delete($id){
+    public function delete(Request $request, $id){
 
-        $post = post::where('post_hash', $id)
+        $post = post::where('post_hash', $id)->where('c_hash', $request->c_hash)->where('c_token', $request->c_token)->where('c_sec_key', $request->c_sec_key)
         ->update([
             'status' => 0,
+            'updated_by' => "NULL",
+            'updated_at' => now(),
         ]);
 
         if($post){

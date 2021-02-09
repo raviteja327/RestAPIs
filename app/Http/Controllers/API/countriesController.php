@@ -44,13 +44,20 @@ class countriesController extends Controller
                 'updated_at' => now(),
             );
 
-            DB::table('countries')->WHere('a_hash', $a_hash)->insert($data);
+            $countries = DB::table('countries')->insert($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => $data
-            ));
-
+            if ($countries) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $data
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
 
     }
@@ -63,8 +70,10 @@ class countriesController extends Controller
     }
 
     public function view($id){
+
         $countries = DB::table('countries')->where('country_hash', $id)->where('status', 1)->get();
         return response()->json($countries);
+        
     }
 
     public function update(Request $request){
@@ -97,14 +106,22 @@ class countriesController extends Controller
                 'updated_at' => now(),
             );
 
-            DB::table('countries')->where('country_hash', $country_hash)->where('a_hash', $a_hash)->update($data);
+            $countries = DB::table('countries')->where('country_hash', $country_hash)->update($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
-
+            if ($countries) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
+            
         }
+
     }
 
     public function delete(Request $request){

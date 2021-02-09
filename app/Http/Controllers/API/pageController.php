@@ -15,9 +15,6 @@ class pageController extends Controller
 
         $valid = Validator::make($request->all() , [
             'page_title' => 'required | unique:App\Models\API\page,page_title',
-            'c_hash' => 'required',
-            'c_token' => 'required',
-            'c_sec_key' => 'required',
             'home_slider_hash' => 'required',
             'mini_slider_hash' => 'required',
         ]);
@@ -36,7 +33,7 @@ class pageController extends Controller
             $page->c_token = $request->c_token;
             $page->c_sec_key = $request->c_sec_key;
             $page->page_title = $request->page_title;
-            $page->page_hash = md5($request->page_title);
+            $page->page_hash = md5($request->page_title.now());
             $page->page_description = $request->page_description;
             $page->meta_keys = $request->meta_keys;
             $page->social_media_links = $request->social_media_links;
@@ -48,15 +45,23 @@ class pageController extends Controller
             $page->mini_slider_hash = $request->mini_slider_hash;
             $page->created_by = "NULL";
             $page->updated_by = "NULL";
-            $page->created_at = date('Y-m-d H:i:s');
-            $page->updated_at = date('Y-m-d H:i:s');
+            $page->created_at = now();
+            $page->updated_at = now();
 
-            $page->save();
+            $pg = $page->save();
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => $page
-            ));
+            if ($pg) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $page
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
 
         }
 
@@ -82,9 +87,6 @@ class pageController extends Controller
 
         $valid = Validator::make($request->all() , [
             'page_title' => 'required | unique:App\Models\API\page,page_title',
-            'c_hash' => 'required',
-            'c_token' => 'required',
-            'c_sec_key' => 'required',
             'home_slider_hash' => 'required',
             'mini_slider_hash' => 'required',
         ]);
@@ -97,7 +99,7 @@ class pageController extends Controller
         }
         else {
             
-            page::where('page_hash', $id)->where('c_hash', $request->c_hash)->where('c_token', $request->c_token)->where('c_sec_key', $request->c_sec_key)->where('home_slider_hash', $request->home_slider_hash)->where('mini_slider_hash', $request->mini_slider_hash)
+            $pg = page::where('page_hash', $id)->where('c_hash', $request->c_hash)->where('c_token', $request->c_token)->where('c_sec_key', $request->c_sec_key)
             ->update([
                 'page_title' => $request->page_title,
                 'page_description' => $request->page_description,
@@ -107,29 +109,35 @@ class pageController extends Controller
                 'publish_later' => $request->publish_later,
                 'image' => $request->image,
                 'parent_group' => $request->parent_group,
-                'c_hash' => $request->c_hash,
-                'c_token' => $request->c_token,
-                'c_sec_key' => $request->c_sec_key,
                 'home_slider_hash' => $request->home_slider_hash,
                 'mini_slider_hash' => $request->mini_slider_hash,
                 'updated_by' => "NULL",
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             ]);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
-
+            if ($pg) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
+            
         }
 
     }
 
-    public function delete($id){
+    public function delete(Request $request, $id){
 
-        $page = page::where('page_hash', $id)
+        $page = page::where('page_hash', $id)->where('c_hash', $request->c_hash)->where('c_token', $request->c_token)->where('c_sec_key', $request->c_sec_key)->where('home_slider_hash', $request->home_slider_hash)->where('mini_slider_hash', $request->mini_slider_hash)
         ->update([
             'status' => 0,
+            'updated_by' => "NULL",
+            'updated_at' => now(),
         ]);
 
         if($page){

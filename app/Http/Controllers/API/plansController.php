@@ -27,22 +27,30 @@ class plansController extends Controller
 
             $plans = new plans;
 
-            $plans->plan_hash = md5($request->plan_name);
+            $plans->plan_hash = md5($request->plan_name.now());
             $plans->plan_name = $request->plan_name;
             $plans->sequence = $request->sequence;
             $plans->plan_description = $request->plan_description;
             $plans->plan_sec_key = sha1($request->plan_name);
             $plans->created_by = "NULL";
             $plans->updated_by = "NULL";
-            $plans->created_at = date('Y-m-d H:i:s');
-            $plans->updated_at = date('Y-m-d H:i:s');
-            $plans->save();
+            $plans->created_at = now();
+            $plans->updated_at = now();
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => $plans
-            ));
+            $plan = $plans->save();
 
+            if ($plan) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $plans
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
 
     }
@@ -77,19 +85,26 @@ class plansController extends Controller
         }
         else{
 
-            plans::where('plan_hash', $id)
+            $plan = plans::where('plan_hash', $id)
             ->update([
                 'plan_name' =>$request->plan_name,
                 'plan_description' =>$request->plan_description,
                 'updated_by' => "NULL",
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             ]);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
-
+            if ($plan) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
+            
         }
 
     }
@@ -99,6 +114,8 @@ class plansController extends Controller
         $plans = plans::where('plan_hash', $id)
         ->update([
             'status' => 0,
+            'updated_by' => "NULL",
+            'updated_at' => now(),  
         ]);
 
         if($plans){

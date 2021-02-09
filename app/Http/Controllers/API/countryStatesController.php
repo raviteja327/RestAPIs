@@ -27,7 +27,7 @@ class countryStatesController extends Controller
         }
         else{
 
-            $state_hash = md5($request->state_name);
+            $state_hash = md5($request->state_name.now());
             $state_name = $request->state_name;
             $state_desc = $request->state_desc;
             $state_code = $request->state_code;
@@ -43,17 +43,24 @@ class countryStatesController extends Controller
                 'a_hash' => $a_hash,
                 'created_by' => "NULL",
                 'updated_by' => "NULL",
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => now(),
+                'updated_at' => now(),
             );
 
-            DB::table('country_states')->insert($data);
+            $countrystates = DB::table('country_states')->insert($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Added Successfully'
-            ));
-
+            if ($countrystates) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $data
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
 
     }
@@ -102,16 +109,23 @@ class countryStatesController extends Controller
                 'a_hash' => $a_hash,
                 'country_hash' => $country_hash,
                 'updated_by' => "NULL",
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             );
 
-            DB::table('country_states')->where('state_hash', $state_hash)->where('country_hash', $country_hash)->where('a_hash', $a_hash)->update($data);
+            $countrystates = DB::table('country_states')->where('state_hash', $state_hash)->update($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
-
+            if ($countrystates) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
+            
         }
 
     }
@@ -119,13 +133,16 @@ class countryStatesController extends Controller
     public function delete(Request $request){
 
         $state_hash = $request->id;
+        $a_hash = $request->a_hash;
+        $country_hash = $request->country_hash;
 
         $data = array(
             'status' => 0,
-            'updated_at' => date('Y-m-d H:i:s'),
+            'updated_by' => "NULL",
+            'updated_at' => now(),
         );
 
-        $countrystates = DB::table('country_states')->where('state_hash', $state_hash)->update($data);
+        $countrystates = DB::table('country_states')->where('state_hash', $state_hash)->where('country_hash', $country_hash)->where('a_hash', $a_hash)->update($data);
 
         if($countrystates){
 
@@ -144,6 +161,5 @@ class countryStatesController extends Controller
         }
 
     }
-
 
 }

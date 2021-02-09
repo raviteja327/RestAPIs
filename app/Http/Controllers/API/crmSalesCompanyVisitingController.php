@@ -31,21 +31,28 @@ class crmSalesCompanyVisitingController extends Controller
 
             $crmsalescomvisit->sales_company_hash = $request->sales_company_hash;
             $crmsalescomvisit->street_house_number = $request->street_house_number;
-            $crmsalescomvisit->zip_code = $request->zip_code;
+            $crmsalescomvisit->zip_code = md5($request->zip_code.now());
             $crmsalescomvisit->town = $request->town;
             $crmsalescomvisit->country_hash = $request->country_hash;
             $crmsalescomvisit->created_by = "NULL";
             $crmsalescomvisit->updated_by = "NULL";
-            $crmsalescomvisit->created_at = date('Y-m-d H:i:s');
-            $crmsalescomvisit->updated_at = date('Y-m-d H:i:s');
+            $crmsalescomvisit->created_at = now();
+            $crmsalescomvisit->updated_at = now();
 
-            $crmsalescomvisit->save();
+            $visit = $crmsalescomvisit->save();
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => $crmsalescomvisit
-            ));
-
+            if ($visit) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $crmsalescomvisit
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
 
     }
@@ -82,7 +89,7 @@ class crmSalesCompanyVisitingController extends Controller
         }
         else {
             
-            crmSalesCompanyVisiting::where('zip_code', $id)->where('sales_company_hash', $request->sales_company_hash)->where('country_hash', $request->country_hash)
+            $visit = crmSalesCompanyVisiting::where('zip_code', $id)
             ->update([
                 'sales_company_hash' => $request->sales_company_hash,
                 'street_house_number' => $request->street_house_number,
@@ -90,23 +97,32 @@ class crmSalesCompanyVisitingController extends Controller
                 'town' => $request->town,
                 'country_hash' => $request->country_hash,
                 'updated_by' => "NULL",
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             ]);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
-
+            if ($visit) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
+            
         }
 
     }
 
-    public function delete($id){
+    public function delete(Request $request, $id){
 
-        $crmsalescomvisit = crmSalesCompanyVisiting::where('zip_code', $id)
+        $crmsalescomvisit = crmSalesCompanyVisiting::where('zip_code', $id)->where('sales_company_hash', $request->sales_company_hash)->where('country_hash', $request->country_hash)
         ->update([
             'status' => 0,
+            'updated_by' => "NULL",
+            'updated_at' => now(),
         ]);
 
         if($crmsalescomvisit){

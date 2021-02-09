@@ -16,9 +16,6 @@ class companyPostsController extends Controller
         $valid = Validator::make($request->all() , [
             'post_title' => 'required | unique:App\Models\API\companyPosts,post_title',
             'post_name' => 'required',
-            'c_token' => 'required',
-            'c_hash' => 'required',
-            'c_sec_key' => 'required',
         ]);
 
         if($valid->fails() == TRUE){
@@ -28,7 +25,7 @@ class companyPostsController extends Controller
             ));
         }
         else{
-            $post_hash = md5($request->post_title);
+            $post_hash = md5($request->post_title.now());
             $post_author = $request->post_author;
             $post_date = $request->post_date;
             $post_content = $request->post_content;
@@ -76,17 +73,24 @@ class companyPostsController extends Controller
                 'c_sec_key' => $c_sec_key,
                 'created_by' => "NULL",
                 'updated_by' => "NULL",
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => now(),
+                'updated_at' => now(),
             );
 
-            DB::table('company_posts')->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->insert($data);
+            $cposts = DB::table('company_posts')->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->insert($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Added Successfully'
-            ));
-
+            if ($cposts) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $data
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
 
     }
@@ -110,9 +114,6 @@ class companyPostsController extends Controller
         $valid = Validator::make($request->all() , [
             'post_title' => 'required | unique:App\Models\API\companyPosts,post_title',
             'post_name' => 'required',
-            'c_token' => 'required',
-            'c_hash' => 'required',
-            'c_sec_key' => 'required',
         ]);
 
         if($valid->fails() == TRUE){
@@ -164,20 +165,24 @@ class companyPostsController extends Controller
                 'post_type' => $post_type,
                 'post_mine_type' => $post_mine_type,
                 'comment_count' => $comment_count,
-                'c_token' => $c_token,
-                'c_hash' => $c_hash,
-                'c_sec_key' => $c_sec_key,
                 'updated_by' => "NULL",
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             );
 
-            DB::table('company_posts')->where('post_hash', $post_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
+            $cposts = DB::table('company_posts')->where('post_hash', $post_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Update Successfully'
-            ));
-
+            if ($cposts) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Update Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Update'
+                ));
+            }
+            
         }
 
     }
@@ -185,13 +190,17 @@ class companyPostsController extends Controller
     public function delete(Request $request){
 
         $post_hash = $request->id;
+        $c_token = $request->c_token;
+        $c_hash = $request->c_hash;
+        $c_sec_key = $request->c_sec_key;
 
         $data = array(
             'status' => 0,
-            'updated_at' => date('Y-m-d H:i:s'),
+            'updated_by' => "NULL",
+            'updated_at' => now(),
         );
 
-        $cposts = DB::table('company_posts')->where('post_hash', $post_hash)->update($data);
+        $cposts = DB::table('company_posts')->where('post_hash', $post_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
 
         if($cposts){
 

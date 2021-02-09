@@ -53,7 +53,7 @@ class companyAddressAutomationsController extends Controller
 
             $caa = DB::table('company_address_automations')->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->insert($data);
 
-            if ($caa) {
+            if ($caa == TRUE) {
                 return response()->json(array(
                     'status' => 1,
                     'message' => $data

@@ -19,7 +19,6 @@ class customersController extends Controller
             'last_name' => 'required',
             'home_phone' => 'required',
             'contact_number' => 'required',
-            'c_token' => 'required',
         ]);
 
         if($valid->fails() == TRUE){
@@ -30,7 +29,7 @@ class customersController extends Controller
         }
         else{
 
-            $customer_hash = md5($request->email);
+            $customer_hash = md5($request->email.now());
             $first_name = $request->first_name;
             $last_name = $request->last_name;
             $email = $request->email;
@@ -58,17 +57,24 @@ class customersController extends Controller
                 'c_token' => $c_token,
                 'created_by' => "NULL",
                 'updated_by' => "NULL",
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => now(),
+                'updated_at' => now(),
             );
 
-            DB::table('customers')->where('c_token', $c_token)->insert($data);
+            $customers = DB::table('customers')->where('c_token', $c_token)->insert($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Added Successfully'
-            ));
-
+            if ($customers) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $data
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
 
     }
@@ -81,8 +87,10 @@ class customersController extends Controller
     }
 
     public function view($id){
+
         $customers = DB::table('customers')->where('customer_hash', $id)->where('status', 1)->get();
         return response()->json($customers);
+
     }
 
     public function update(Request $request){
@@ -93,7 +101,6 @@ class customersController extends Controller
             'last_name' => 'required',
             'home_phone' => 'required',
             'contact_number' => 'required',
-            'c_token' => 'required',
         ]);
 
         if($valid->fails() == TRUE){
@@ -128,20 +135,24 @@ class customersController extends Controller
                 'city' => $city,
                 'postal_code' => $postal_code,
                 'country' => $country,
-                'c_token' => $c_token,
-                'created_by' => "NULL",
                 'updated_by' => "NULL",
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             );
 
-            DB::table('customers')->where('customer_hash', $customer_hash)->where('c_token', $c_token)->update($data);
+            $customers = DB::table('customers')->where('customer_hash', $customer_hash)->where('c_token', $c_token)->update($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
-
+            if ($customers) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
+            
         }
 
     }
@@ -149,13 +160,15 @@ class customersController extends Controller
     public function delete(Request $request){
 
         $customer_hash = $request->id;
+        $c_token = $request->c_token;
 
         $data = array(
             'status' => 0,
-            'updated_at' => date('Y-m-d H:i:s'),
+            'updated_by' => "NULL",
+            'updated_at' => now(),
         );
 
-        $customers = DB::table('customers')->where('customer_hash', $customer_hash)->update($data);
+        $customers = DB::table('customers')->where('customer_hash', $customer_hash)->where('c_token', $c_token)->update($data);
 
         if($customers){
 

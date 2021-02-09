@@ -17,9 +17,6 @@ class productsController extends Controller
             'product_categories_image' => 'required | unique:App\Models\API\products,product_categories_image',
             'product_categories_type_hash' => 'required',
             'company_hash' => 'required',
-            'c_token' => 'required',
-            'c_hash' => 'required',
-            'c_sec_key' => 'required',
             'company_db_user_hash' => 'required',
         ]);
 
@@ -31,7 +28,7 @@ class productsController extends Controller
         }
         else{
 
-            $product_hash = md5($request->product_categories_image);
+            $product_hash = md5($request->product_categories_image.now());
             $product_categories_image = $request->product_categories_image;
             $product_categories_type_hash = $request->product_categories_type_hash;
             $company_hash = $request->company_hash;
@@ -63,18 +60,25 @@ class productsController extends Controller
                 'company_db_user_hash' => $company_db_user_hash,
                 'created_by' => "NULL",
                 'updated_by' => "NULL",
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => now(),
+                'updated_at' => now(),
             );
 
 
-            DB::table('products')->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->where('product_categories_type_hash', $product_categories_type_hash)->where('company_hash', $company_hash)->where('company_db_user_hash', $company_db_user_hash)->insert($data);
+            $pro = DB::table('products')->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->where('product_categories_type_hash', $product_categories_type_hash)->where('company_hash', $company_hash)->where('company_db_user_hash', $company_db_user_hash)->insert($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Added Successfully'
-            ));
-
+            if ($pro) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $data
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
 
     }
@@ -82,13 +86,17 @@ class productsController extends Controller
     public function views(){
 
         $products = DB::table('products')->where('status', 1)->get();
+
         return response()->json($products);
 
     }
 
     public function view($id){
+        
         $products = DB::table('products')->where('product_hash', $id)->where('status', 1)->get();
+        
         return response()->json($products);
+    
     }
 
     public function update(Request $request){
@@ -98,9 +106,6 @@ class productsController extends Controller
             'product_categories_type_hash' => 'required',
             'company_hash' => 'required',
             'product_categories_image' => 'required',
-            'c_token' => 'required',
-            'c_hash' => 'required',
-            'c_sec_key' => 'required',
             'company_db_user_hash' => 'required',
         ]);
 
@@ -137,24 +142,26 @@ class productsController extends Controller
                 'total_stock' => $total_stock,
                 'units_in_stock' => $units_in_stock,
                 'units_in_order' => $units_in_order,
-                'c_token' => $c_token,
-                'c_hash' => $c_hash,
-                'c_sec_key' => $c_sec_key,
                 'company_db_user_hash' => $company_db_user_hash,
-                'created_by' => "NULL",
                 'updated_by' => "NULL",
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             );
 
 
-            DB::table('products')->where('product_hash', $product_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->where('product_categories_type_hash', $product_categories_type_hash)->where('company_hash', $company_hash)->where('company_db_user_hash', $company_db_user_hash)->update($data);
+            $pro = DB::table('products')->where('product_hash', $product_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
-
+            if ($pro) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
+            
         }
 
     }
@@ -162,13 +169,17 @@ class productsController extends Controller
     public function delete(Request $request){
 
         $product_hash = $request->id;
+        $c_token = $request->c_token;
+        $c_hash = $request->c_hash;
+        $c_sec_key = $request->c_sec_key;
 
         $data = array(
             'status' => 0,
-            'updated_at' => date('Y-m-d H:i:s'),
+            'updated_by' => "NULL",
+            'updated_at' => now(),
         );
 
-        $products = DB::table('products')->where('product_hash', $product_hash)->update($data);
+        $products = DB::table('products')->where('product_hash', $product_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
 
         if($products){
 

@@ -16,6 +16,9 @@ class companiesController extends Controller
         $valid = Validator::make($request->all() , [
             'company_email' => 'required | unique:App\Models\API\companies,company_email',
             'company_name' => 'required',
+            'c_token' => 'required',
+            'c_hash' => 'required',
+            'c_sec_key' => 'required',
         ]);
 
         if($valid->fails() == TRUE){

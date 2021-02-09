@@ -28,7 +28,7 @@ class statesDistrictsController extends Controller
         }
         else{
 
-            $dist_hash = md5($request->dist_name);
+            $dist_hash = md5($request->dist_name.now());
             $dist_name = $request->dist_name;
             $dist_desc = $request->dist_desc;
             $dist_code = $request->dist_code;
@@ -46,17 +46,24 @@ class statesDistrictsController extends Controller
                 'state_hash' => $state_hash,
                 'created_by' => "NULL",
                 'updated_by' => "NULL",
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => now(),
+                'updated_at' => now(),
             );
 
-            DB::table('states_districts')->where('country_hash', $country_hash)->where('a_hash', $a_hash)->where('state_hash', $state_hash)->insert($data);
+            $statesdistricts = DB::table('states_districts')->where('country_hash', $country_hash)->where('a_hash', $a_hash)->where('state_hash', $state_hash)->insert($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Added Successfully'
-            ));
-
+            if ($statesdistricts) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $data
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
 
     }
@@ -108,16 +115,23 @@ class statesDistrictsController extends Controller
                 'a_hash' => $a_hash,
                 'state_hash' => $state_hash,
                 'updated_by' => "NULL",
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             );
 
-            DB::table('states_districts')->where('dist_hash', $dist_hash)->where('country_hash', $country_hash)->where('a_hash', $a_hash)->where('state_hash', $state_hash)->update($data);
+            $statesdistricts = DB::table('states_districts')->where('dist_hash', $dist_hash)->update($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
-
+            if ($statesdistricts) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
+            
         }
 
     }
@@ -128,7 +142,8 @@ class statesDistrictsController extends Controller
 
         $data = array(
             'status' => 0,
-            'updated_at' => date('Y-m-d H:i:s'),
+            'updated_by' => "NULL",
+            'updated_at' => now(),
         );
 
         $statesdistricts = DB::table('states_districts')->where('dist_hash', $dist_hash)->update($data);

@@ -19,9 +19,6 @@ class couponsController extends Controller
             'company_hash' => 'required',
             'coupon_code' => 'required',
             'coupon_amount' => 'required',
-            'c_token' => 'required',
-            'c_hash' => 'required',
-            'c_sec_key' => 'required',
             'company_db_user_hash' => 'required',
         ]);
 
@@ -33,7 +30,7 @@ class couponsController extends Controller
         }
         else{
 
-            $coupon_hash = md5($request->coupon_name);
+            $coupon_hash = md5($request->coupon_name.now());
             $coupon_name = $request->coupon_name;
             $product_hash = $request->product_hash;
             $company_hash = $request->company_hash;
@@ -65,17 +62,24 @@ class couponsController extends Controller
                 'company_db_user_hash' => $company_db_user_hash,
                 'created_by' => "NULL",
                 'updated_by' => "NULL",
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => now(),
+                'updated_at' => now(),
             );
 
-            DB::table('coupons')->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->where('product_hash', $product_hash)->where('company_hash', $company_hash)->where('company_db_user_hash', $company_db_user_hash)->insert($data);
+            $coupons = DB::table('coupons')->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->insert($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Added Successfully'
-            ));
-
+            if ($coupons) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $data
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
 
     }
@@ -88,8 +92,10 @@ class couponsController extends Controller
     }
 
     public function view($id){
+
         $coupons = DB::table('coupons')->where('coupon_hash', $id)->where('status', 1)->get();
         return response()->json($coupons);
+    
     }
 
     public function update(Request $request){
@@ -100,9 +106,6 @@ class couponsController extends Controller
             'company_hash' => 'required',
             'coupon_code' => 'required',
             'coupon_amount' => 'required',
-            'c_token' => 'required',
-            'c_hash' => 'required',
-            'c_sec_key' => 'required',
             'company_db_user_hash' => 'required',
         ]);
 
@@ -139,23 +142,25 @@ class couponsController extends Controller
                 'total_stock' => $total_stock,
                 'active_date' => $active_date,
                 'expiry_date' => $expiry_date,
-                'c_token' => $c_token,
-                'c_hash' => $c_hash,
-                'c_sec_key' => $c_sec_key,
                 'company_db_user_hash' => $company_db_user_hash,
-                'created_by' => "NULL",
                 'updated_by' => "NULL",
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             );
 
-            DB::table('coupons')->where('coupon_hash', $coupon_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->where('product_hash', $product_hash)->where('company_hash', $company_hash)->where('company_db_user_hash', $company_db_user_hash)->update($data);
+            $coupons = DB::table('coupons')->where('coupon_hash', $coupon_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
-
+            if ($coupons) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
+            
         }
 
     }
@@ -163,13 +168,20 @@ class couponsController extends Controller
     public function delete(Request $request){
 
         $coupon_hash = $request->id;
+        $c_token = $request->c_token;
+        $c_hash = $request->c_hash;
+        $c_sec_key = $request->c_sec_key;
+        $company_db_user_hash = $request->company_db_user_hash;
+        $product_hash = $request->product_hash;
+        $company_hash = $request->company_hash;
 
         $data = array(
             'status' => 0,
-            'updated_at' => date('Y-m-d H:i:s'),
+            'updated_by' => "NULL",
+            'updated_at' => now(),
         );
 
-        $coupons = DB::table('coupons')->where('coupon_hash', $coupon_hash)->update($data);
+        $coupons = DB::table('coupons')->where('coupon_hash', $coupon_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->where('product_hash', $product_hash)->where('company_hash', $company_hash)->where('company_db_user_hash', $company_db_user_hash)->update($data);
 
         if($coupons){
 

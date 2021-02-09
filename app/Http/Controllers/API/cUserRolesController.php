@@ -26,7 +26,7 @@ class cUserRolesController extends Controller
         }
         else{
 
-            $c_role_hash = md5($request->c_role_name);
+            $c_role_hash = md5($request->c_role_name.now());
             $c_role_name = $request->c_role_name;
             $c_role_description = $request->c_role_description;
             $a_hash = $request->a_hash;
@@ -38,17 +38,24 @@ class cUserRolesController extends Controller
                 'a_hash' => $a_hash,
                 'created_by' => "NULL",
                 'updated_by' => "NULL",
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => now(),
+                'updated_at' => now(),
             );
 
-            DB::table('c_user_roles')->insert($data);
+            $cuser = DB::table('c_user_roles')->insert($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Added Successfully'
-            ));
-
+            if ($cuser) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $data
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
 
     }
@@ -92,16 +99,23 @@ class cUserRolesController extends Controller
                 'c_role_description' => $c_role_description,
                 'a_hash' => $a_hash,
                 'updated_by' => "NULL",
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             );
 
-            DB::table('c_user_roles')->where('c_role_hash', $c_role_hash)->where('a_hash', $a_hash)->update($data);
+            $cuser = DB::table('c_user_roles')->where('c_role_hash', $c_role_hash)->update($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
-
+            if ($cuser) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
+            
         }
 
     }
@@ -109,13 +123,15 @@ class cUserRolesController extends Controller
     public function delete(Request $request){
 
         $c_role_hash = $request->id;
+        $a_hash = $request->a_hash;
 
         $data = array(
             'status' => 0,
-            'updated_at' => date('Y-m-d H:i:s'),
+            'updated_by' => "NULL",
+            'updated_at' => now(),
         );
 
-        $cuser = DB::table('c_user_roles')->where('c_role_hash', $c_role_hash)->update($data);
+        $cuser = DB::table('c_user_roles')->where('c_role_hash', $c_role_hash)->where('a_hash', $a_hash)->update($data);
 
         if($cuser){
 

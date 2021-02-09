@@ -15,9 +15,6 @@ class homeSliderController extends Controller
 
         $valid = Validator::make($request->all() , [
             'slider_name' => 'required | unique:App\Models\API\homeSlider,slider_name',
-            'c_hash' => 'required',
-            'c_token' => 'required',
-            'c_sec_key' => 'required',
             'animation_hash' => 'required',
         ]);
  
@@ -32,7 +29,7 @@ class homeSliderController extends Controller
             $homesli = new homeSlider;
 
             $homesli->slider_name = $request->slider_name;
-            $homesli->slider_hash = md5($request->slider_name);
+            $homesli->slider_hash = md5($request->slider_name.now());
             $homesli->animation_hash = $request->animation_hash;
             $homesli->slider_image = $request->slider_image;
             $homesli->c_hash = $request->c_hash;
@@ -40,16 +37,23 @@ class homeSliderController extends Controller
             $homesli->c_sec_key = $request->c_sec_key;
             $homesli->created_by = "NULL";
             $homesli->updated_by = "NULL";
-            $homesli->created_at = date('Y-m-d H:i:s');
-            $homesli->updated_at = date('Y-m-d H:i:s');
+            $homesli->created_at = now();
+            $homesli->updated_at = now();
 
-            $homesli->save();
+            $slider = $homesli->save();
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => $homesli
-            ));
-
+            if ($slider) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $homesli
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
 
     }
@@ -74,9 +78,6 @@ class homeSliderController extends Controller
 
         $valid = Validator::make($request->all() , [
             'slider_name' => 'required | unique:App\Models\API\homeSlider,slider_name',
-            'c_hash' => 'required',
-            'c_token' => 'required',
-            'c_sec_key' => 'required',
             'animation_hash' => 'required',
         ]);
  
@@ -88,30 +89,38 @@ class homeSliderController extends Controller
         }
         else{
 
-            homeSlider::where('slider_hash', $id)->where('c_hash', $request->c_hash)->where('c_token', $request->c_token)->where('c_sec_key', $request->c_sec_key)->where('animation_hash', $request->animation_hash)
+            $slider = homeSlider::where('slider_hash', $id)->where('c_hash', $request->c_hash)->where('c_token', $request->c_token)->where('c_sec_key', $request->c_sec_key)
             ->update([
                 'slider_name' => $request->slider_name,
                 'animation_hash' => $request->animation_hash,
                 'slider_image' => $request->slider_image,
-                'c_hash' => $request->c_hash,
-                'c_token' => $request->c_token,
-                'c_sec_key' => $request->c_sec_key,
+                'updated_by' => "NULL",
+                'updated_at' => now()
             ]);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
-
+            if ($slider) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
+            
         }
 
     }
 
-    public function delete($id){
+    public function delete(Request $request, $id){
 
-        $homesli = homeSlider::where('slider_hash', $id)
+        $homesli = homeSlider::where('slider_hash', $id)->where('c_hash', $request->c_hash)->where('c_token', $request->c_token)->where('c_sec_key', $request->c_sec_key)->where('animation_hash', $request->animation_hash)
         ->update([
             'status' => 0,
+            'updated_by' => "NULL",
+            'updated_at' => now()
         ]);
 
         if($homesli){

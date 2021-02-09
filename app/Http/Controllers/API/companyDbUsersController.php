@@ -18,9 +18,6 @@ class companyDbUsersController extends Controller
             'company_db_user_name' => 'required',
             'company_db_user_password' => 'required',
             'mobile' => 'required',
-            'c_token' => 'required',
-            'c_hash' => 'required',
-            'c_sec_key' => 'required',
         ]);
 
         if($valid->fails() == TRUE){
@@ -31,7 +28,7 @@ class companyDbUsersController extends Controller
         }
         else{
 
-            $company_db_user_hash = md5($request->company_db_user_email);
+            $company_db_user_hash = md5($request->company_db_user_email.now());
             $company_db_user_name = $request->company_db_user_name;
             $company_db_user_email = $request->company_db_user_email;
             $company_db_user_password = md5($request->company_db_user_password);
@@ -51,17 +48,24 @@ class companyDbUsersController extends Controller
                 'c_sec_key' => $c_sec_key,
                 'created_by' => $company_db_user_name,
                 'updated_by' => $company_db_user_name,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => now(),
+                'updated_at' => now(),
             );
 
-            DB::table('company_db_users')->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->insert($data);
+            $cdbusers = DB::table('company_db_users')->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->insert($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Added Successfully'
-            ));
-
+            if ($cdbusers) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $data
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
     }
 
@@ -86,9 +90,6 @@ class companyDbUsersController extends Controller
             'company_db_user_name' => 'required',
             'company_db_user_password' => 'required',
             'mobile' => 'required',
-            'c_token' => 'required',
-            'c_hash' => 'required',
-            'c_sec_key' => 'required',
         ]);
 
         if($valid->fails() == TRUE){
@@ -113,20 +114,24 @@ class companyDbUsersController extends Controller
                 'company_db_user_email' => $company_db_user_email,
                 'company_db_user_password' => $company_db_user_password,
                 'mobile' => $mobile,
-                'c_token' => $c_token,
-                'c_hash' => $c_hash,
-                'c_sec_key' => $c_sec_key,
                 'updated_by' => $company_db_user_name,
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             );
 
-            DB::table('company_db_users')->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->where('company_db_user_hash', $company_db_user_hash)->update($data);
+            $cdbusers = DB::table('company_db_users')->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
-
+            if ($cdbusers) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
+            
         }
 
     }
@@ -134,13 +139,18 @@ class companyDbUsersController extends Controller
     public function delete(Request $request){
 
         $company_db_user_hash = $request->id;
+        $c_token = $request->c_token;
+        $c_hash = $request->c_hash;
+        $c_sec_key = $request->c_sec_key;
+        $company_db_user_name = $request->company_db_user_name;
 
         $data = array(
             'status' => 0,
-            'updated_at' => date('Y-m-d H:i:s'),
+            'updated_by' => $company_db_user_name,
+            'updated_at' => now()
         );
 
-        $cdbusers = DB::table('company_db_users')->where('company_db_user_hash', $company_db_user_hash)->update($data);
+        $cdbusers = DB::table('company_db_users')->where('company_db_user_hash', $company_db_user_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
 
         if($cdbusers){
 

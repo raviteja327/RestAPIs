@@ -15,9 +15,6 @@ class companyPagesController extends Controller
 
         $valid = Validator::make($request->all() , [
             'c_page_name' => 'required | unique:App\Models\API\companyPages,c_page_name',
-            'c_token' => 'required',
-            'c_hash' => 'required',
-            'c_sec_key' => 'required',
         ]);
 
         if($valid->fails() == TRUE){
@@ -27,7 +24,7 @@ class companyPagesController extends Controller
             ));
         }
         else{
-            $c_company_hash = md5($request->c_page_name);
+            $c_company_hash = md5($request->c_page_name.now());
             $c_page_name = $request->c_page_name;
             $custom_field = $request->custom_field;
             $author = $request->author;
@@ -63,17 +60,24 @@ class companyPagesController extends Controller
                 'c_sec_key' => $c_sec_key,
                 'created_by' => "NULL",
                 'updated_by' => "NULL",
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => now(),
+                'updated_at' => now(),
             );
 
-            DB::table('company_pages')->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->insert($data);
+            $cpages = DB::table('company_pages')->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->insert($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Added Successfully'
-            ));
-
+            if ($cpages) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $data
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
 
     }
@@ -96,9 +100,6 @@ class companyPagesController extends Controller
 
         $valid = Validator::make($request->all() , [
             'c_page_name' => 'required | unique:App\Models\API\companyPages,c_page_name',
-            'c_token' => 'required',
-            'c_hash' => 'required',
-            'c_sec_key' => 'required',
         ]);
 
         if($valid->fails() == TRUE){
@@ -138,22 +139,24 @@ class companyPagesController extends Controller
                 'c_contact' => $c_contact,
                 'c_overview' => $c_overview,
                 'c_location' => $c_location,
-                'c_token' => $c_token,
-                'c_hash' => $c_hash,
-                'c_sec_key' => $c_sec_key,
-                'created_by' => "NULL",
                 'updated_by' => "NULL",
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             );
 
-            DB::table('company_pages')->where('c_company_hash', $c_company_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
+            $cpages = DB::table('company_pages')->where('c_company_hash', $c_company_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
-
+            if ($cpages) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
+            
         }
 
     }
@@ -161,13 +164,17 @@ class companyPagesController extends Controller
     public function delete(Request $request){
 
         $c_company_hash = $request->id;
+        $c_token = $request->c_token;
+        $c_hash = $request->c_hash;
+        $c_sec_key = $request->c_sec_key;
 
         $data = array(
             'status' => 0,
-            'updated_at' => date('Y-m-d H:i:s'),
+            'updated_by' => "NULL",
+            'updated_at' => now(),
         );
 
-        $cpages = DB::table('company_pages')->where('c_company_hash', $c_company_hash)->update($data);
+        $cpages = DB::table('company_pages')->where('c_company_hash', $c_company_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
 
         if($cpages){
 
@@ -186,6 +193,5 @@ class companyPagesController extends Controller
         }
 
     }
-
 
 }

@@ -31,21 +31,28 @@ class crmSalesCompanyBillingController extends Controller
 
             $crmsalescombill->sales_company_hash = $request->sales_company_hash;
             $crmsalescombill->street_house_number = $request->street_house_number;
-            $crmsalescombill->zip_code = $request->zip_code;
+            $crmsalescombill->zip_code = md5($request->zip_code.now());
             $crmsalescombill->town = $request->town;
             $crmsalescombill->country_hash = $request->country_hash;
             $crmsalescombill->created_by = "NULL";
             $crmsalescombill->updated_by = "NULL";
-            $crmsalescombill->created_at = date('Y-m-d H:i:s');
-            $crmsalescombill->updated_at = date('Y-m-d H:i:s');
+            $crmsalescombill->created_at = now();
+            $crmsalescombill->updated_at = now();
 
-            $crmsalescombill->save();
+            $bill = $crmsalescombill->save();
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => $crmsalescombill
-            ));
-
+            if ($bill) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => $crmsalescombill
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Saved'
+                ));
+            }
+            
         }
 
     }
@@ -82,7 +89,7 @@ class crmSalesCompanyBillingController extends Controller
         }
         else {
             
-            crmSalesCompanyBilling::where('zip_code', $id)->where('sales_company_hash', $request->sales_company_hash)->where('country_hash', $request->country_hash)
+            $bill = crmSalesCompanyBilling::where('zip_code', $id)
             ->update([
                 'sales_company_hash' => $request->sales_company_hash,
                 'street_house_number' => $request->street_house_number,
@@ -90,23 +97,32 @@ class crmSalesCompanyBillingController extends Controller
                 'town' => $request->town,
                 'country_hash' => $request->country_hash,
                 'updated_by' => "NULL",
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => now(),
             ]);
 
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Updated Successfully'
-            ));
-
+            if ($bill) {
+                return response()->json(array(
+                    'status' => 1,
+                    'message' => 'Updated Successfully'
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Not Updated'
+                ));
+            }
+            
         }
 
     }
 
-    public function delete($id){
+    public function delete(Request $request, $id){
 
-        $crmsalescombill = crmSalesCompanyBilling::where('zip_code', $id)
+        $crmsalescombill = crmSalesCompanyBilling::where('zip_code', $id)->where('sales_company_hash', $request->sales_company_hash)->where('country_hash', $request->country_hash)
         ->update([
             'status' => 0,
+            'updated_by' => "NULL",
+            'updated_at' => now(),
         ]);
 
         if($crmsalescombill){
