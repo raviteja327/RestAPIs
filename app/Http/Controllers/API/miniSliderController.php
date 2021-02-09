@@ -62,6 +62,8 @@ class miniSliderController extends Controller
 
         $minisli = miniSlider::where('status', 1)->get();
 
+        // dd($minisli);
+
         return response()->json($minisli);
 
     }

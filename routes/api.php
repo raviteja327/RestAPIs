@@ -37,6 +37,7 @@ use App\Http\Controllers\API\crmSalesCompanyContactController;
 use App\Http\Controllers\API\crmSalesCompanyVisitingController;
 use App\Http\Controllers\API\crmSalesCompanyBillingController;
 use App\Http\Controllers\API\crmTasksController;
+use App\Http\Controllers\API\bankDetailsController;
 use DB as DBS;
 /*
 |--------------------------------------------------------------------------
@@ -424,3 +425,13 @@ Route::post('/company/crmtasks/update/{id}', [crmTasksController::class, 'update
 Route::post('/company/crmtasks/delete/{id}', [crmTasksController::class, 'delete']);
 
 // CRM Tasks Routes
+
+// Bank Details Routes
+
+Route::post('/company/bankdetails/create', [bankDetailsController::class, 'create']);
+Route::get('/company/bankdetails/views', [bankDetailsController::class, 'views']);
+Route::get('/company/bankdetails/view/{id}', [bankDetailsController::class, 'view']);
+Route::post('/company/bankdetails/update/{id}', [bankDetailsController::class, 'update']);
+Route::post('/company/bankdetails/delete/{id}', [bankDetailsController::class, 'delete']);
+
+// Bank Details Routes
