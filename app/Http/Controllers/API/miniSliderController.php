@@ -100,7 +100,7 @@ class miniSliderController extends Controller
                 'updated_at' => now()
             ]);
 
-            if ($slider) {
+            if ($slider == TRUE) {
                 return response()->json(array(
                     'status' => 1,
                     'message' => 'Updated Successfully'

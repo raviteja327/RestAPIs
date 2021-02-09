@@ -16,6 +16,9 @@ class homeSliderController extends Controller
         $valid = Validator::make($request->all() , [
             'slider_name' => 'required | unique:App\Models\API\homeSlider,slider_name',
             'animation_hash' => 'required',
+            'c_hash' => 'required',
+            'c_token' => 'required',
+            'c_sec_key' => 'required',
         ]);
  
         if($valid->fails() == TRUE){
@@ -26,34 +29,49 @@ class homeSliderController extends Controller
         }
         else{
 
-            $homesli = new homeSlider;
+            $c_hash = $request->c_hash;
+            $c_token = $request->c_token;
+            $c_sec_key = $request->c_sec_key;
 
-            $homesli->slider_name = $request->slider_name;
-            $homesli->slider_hash = md5($request->slider_name.now());
-            $homesli->animation_hash = $request->animation_hash;
-            $homesli->slider_image = $request->slider_image;
-            $homesli->c_hash = $request->c_hash;
-            $homesli->c_token = $request->c_token;
-            $homesli->c_sec_key = $request->c_sec_key;
-            $homesli->created_by = "NULL";
-            $homesli->updated_by = "NULL";
-            $homesli->created_at = now();
-            $homesli->updated_at = now();
+            $status = companies::where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
-            $slider = $homesli->save();
+            if ($status) {
 
-            if ($slider) {
-                return response()->json(array(
-                    'status' => 1,
-                    'message' => $homesli
-                ));
+                $homesli = new homeSlider;
+
+                $homesli->slider_name = $request->slider_name;
+                $homesli->slider_hash = md5($request->slider_name.now());
+                $homesli->animation_hash = $request->animation_hash;
+                $homesli->slider_image = $request->slider_image;
+                $homesli->c_hash = $request->c_hash;
+                $homesli->c_token = $request->c_token;
+                $homesli->c_sec_key = $request->c_sec_key;
+                $homesli->created_by = "NULL";
+                $homesli->updated_by = "NULL";
+                $homesli->created_at = now();
+                $homesli->updated_at = now();
+
+                $slider = $homesli->save();
+
+                if ($slider) {
+                    return response()->json(array(
+                        'status' => 1,
+                        'message' => $homesli
+                    ));
+                } else {
+                    return response()->json(array(
+                        'status' => 0,
+                        'message' => 'Not Saved'
+                    ));
+                }
+                
             } else {
                 return response()->json(array(
                     'status' => 0,
-                    'message' => 'Not Saved'
+                    'message' => 'Invalid access details Saved'
                 ));
             }
-            
+    
         }
 
     }
