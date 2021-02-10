@@ -72,15 +72,17 @@ class crmSalesCompanyContactController extends Controller
 
     }
 
-    public function view($id){
+    public function view(Request $request){
 
-        $crmsalescomcontact = crmSalesCompanyContact::where('contact_hash', $id)->get();
+        $contact_hash = $request->contact_hash;
+
+        $crmsalescomcontact = crmSalesCompanyContact::where('contact_hash', $contact_hash)->get();
 
         return response()->json($crmsalescomcontact);
         
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request){
 
         $valid = Validator::make($request->all() , [
             'email' => 'required | unique:App\Models\API\crmSalesCompanyContact,email',
@@ -95,8 +97,10 @@ class crmSalesCompanyContactController extends Controller
             ));
         }
         else {
+
+            $contact_hash = $request->contact_hash;
             
-            $contact = crmSalesCompanyContact::where('contact_hash', $id)
+            $contact = crmSalesCompanyContact::where('contact_hash', $contact_hash)
             ->update([
                 'sales_company_hash' => $request->sales_company_hash,
                 'first_name' => $request->first_name,
@@ -129,9 +133,12 @@ class crmSalesCompanyContactController extends Controller
 
     }
 
-    public function delete(Request $request, $id){
+    public function delete(Request $request){
 
-        $crmsalescomcontact = crmSalesCompanyContact::where('contact_hash', $id)->where('sales_company_hash', $request->sales_company_hash)
+        $contact_hash = $request->contact_hash;
+        $sales_company_hash = $request->sales_company_hash;
+
+        $crmsalescomcontact = crmSalesCompanyContact::where('contact_hash', $contact_hash)->where('sales_company_hash', $sales_company_hash)
         ->update([
             'status' => 0,
             'updated_by' => "NULL",

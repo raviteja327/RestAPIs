@@ -20,6 +20,7 @@ class Organisationtypes extends Seeder
         \DB::table('organisation_industry_types')->delete();
         \DB::table('organisation_types')->delete();
         \DB::table('admin_users')->delete();
+        \DB::table('security_questions')->delete();
 
        
 
@@ -59,5 +60,14 @@ class Organisationtypes extends Seeder
             'application_type'=>'store',
             'password_cnf'=>md5('Rachana12@')
         ]);
+
+        \DB::table('security_questions')->insert([
+            'security_question_hash' => md5('What is your nick name?'),
+            'security_question' => 'What is your nick name?',
+            'c_token'=> 'fb9deee665732a3787212aa02ff7e9b6',
+            'c_hash'=> '7f0c0ad8da8c7162ef42f391d245436c',
+            'c_sec_key'=> '91e65feeab4b46c0cb711fa4a181f9beea1ce6c5',
+        ]);
+
     }
 }

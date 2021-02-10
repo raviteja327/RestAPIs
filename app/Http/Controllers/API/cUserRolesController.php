@@ -67,9 +67,11 @@ class cUserRolesController extends Controller
 
     }
 
-    public function view($id){
+    public function view(Request $request){
 
-        $cuser = DB::table('c_user_roles')->where('c_role_hash', $id)->where('status', 1)->get();
+        $c_role_hash = $request->c_role_hash;
+
+        $cuser = DB::table('c_user_roles')->where('c_role_hash', $c_role_hash)->where('status', 1)->get();
         return response()->json($cuser);
 
     }
@@ -89,7 +91,7 @@ class cUserRolesController extends Controller
         }
         else{
 
-            $c_role_hash = $request->id;
+            $c_role_hash = $request->c_role_hash;
             $c_role_name = $request->c_role_name;
             $c_role_description = $request->c_role_description;
             $a_hash = $request->a_hash;
@@ -122,7 +124,7 @@ class cUserRolesController extends Controller
 
     public function delete(Request $request){
 
-        $c_role_hash = $request->id;
+        $c_role_hash = $request->c_role_hash;
         $a_hash = $request->a_hash;
 
         $data = array(

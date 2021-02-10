@@ -65,15 +65,17 @@ class crmSalesCompanyBillingController extends Controller
 
     }
 
-    public function view($id){
+    public function view(Request $request){
 
-        $crmsalescombill = crmSalesCompanyBilling::where('zip_code', $id)->get();
+        $zip_code = $request->zip_code;
+
+        $crmsalescombill = crmSalesCompanyBilling::where('zip_code', $zip_code)->get();
 
         return response()->json($crmsalescombill);
         
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request){
 
         $valid = Validator::make($request->all() , [
             'zip_code' => 'required | unique:App\Models\API\crmSalesCompanyBilling,zip_code',
@@ -88,8 +90,10 @@ class crmSalesCompanyBillingController extends Controller
             ));
         }
         else {
+
+            $zip_code = $request->zip_code;
             
-            $bill = crmSalesCompanyBilling::where('zip_code', $id)
+            $bill = crmSalesCompanyBilling::where('zip_code', $zip_code)
             ->update([
                 'sales_company_hash' => $request->sales_company_hash,
                 'street_house_number' => $request->street_house_number,
@@ -116,9 +120,13 @@ class crmSalesCompanyBillingController extends Controller
 
     }
 
-    public function delete(Request $request, $id){
+    public function delete(Request $request){
 
-        $crmsalescombill = crmSalesCompanyBilling::where('zip_code', $id)->where('sales_company_hash', $request->sales_company_hash)->where('country_hash', $request->country_hash)
+        $zip_code = $request->zip_code;
+        $sales_company_hash = $request->sales_company_hash;
+        $country_hash = $request->country_hash;
+
+        $crmsalescombill = crmSalesCompanyBilling::where('zip_code', $zip_code)->where('sales_company_hash', $sales_company_hash)->where('country_hash', $country_hash)
         ->update([
             'status' => 0,
             'updated_by' => "NULL",

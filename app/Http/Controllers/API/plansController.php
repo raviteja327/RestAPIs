@@ -63,15 +63,17 @@ class plansController extends Controller
 
     }
 
-    public function view($id){
+    public function view(Request $request){
 
-        $plans = plans::where('plan_hash', $id)->get();
+        $plan_hash = $request->plan_hash;
+
+        $plans = plans::where('plan_hash', $plan_hash)->get();
 
         return response()->json($plans);
         
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request){
 
         $valid = Validator::make($request->all() , [
             'plan_name' => 'required | unique:App\Models\API\plans,plan_name',
@@ -85,7 +87,9 @@ class plansController extends Controller
         }
         else{
 
-            $plan = plans::where('plan_hash', $id)
+            $plan_hash = $request->plan_hash;
+
+            $plan = plans::where('plan_hash', $plan_hash)
             ->update([
                 'plan_name' =>$request->plan_name,
                 'plan_description' =>$request->plan_description,
@@ -109,9 +113,11 @@ class plansController extends Controller
 
     }
 
-    public function delete($id){
+    public function delete(Request $request){
 
-        $plans = plans::where('plan_hash', $id)
+        $plan_hash = $request->plan_hash;
+
+        $plans = plans::where('plan_hash', $plan_hash)
         ->update([
             'status' => 0,
             'updated_by' => "NULL",

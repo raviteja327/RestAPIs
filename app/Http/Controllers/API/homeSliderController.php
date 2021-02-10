@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\API\homeSlider;
+use App\Models\API\companies;
 
 class homeSliderController extends Controller
 {
@@ -76,27 +77,112 @@ class homeSliderController extends Controller
 
     }
 
-    public function views(){
+    public function views(Request $request){
 
-        $homesli = homeSlider::where('status', 1)->get();
+        $valid = Validator::make($request->all() , [
+            'c_hash' => 'required',
+            'c_token' => 'required',
+            'c_sec_key' => 'required',
+        ]);
+ 
+        if($valid->fails() == TRUE){
+            return response()->json(array(
+                'status' => 0,
+                'message' => $valid->errors()
+            ));
+        }
+        else {
+            
+            $c_hash = $request->c_hash;
+            $c_token = $request->c_token;
+            $c_sec_key = $request->c_sec_key;
 
-        return response()->json($homesli);
+            $status = companies::where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
+
+            if ($status) {
+                
+                $homesli = homeSlider::where('status', 1)->get();
+
+                if ($homesli) {
+                    return response()->json($homesli);
+                } else {
+                    return response()->json(array(
+                        'status' => 0,
+                        'message' => 'No Data Found'
+                    ));
+                }
+
+            } else {
+                
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Invalid access details Saved'
+                ));
+
+            }
+            
+        }
 
     }
 
-    public function view($id){
+    public function view(Request $request){
 
-        $homesli = homeSlider::where('slider_hash', $id)->get();
+        $valid = Validator::make($request->all() , [
+            'c_hash' => 'required',
+            'c_token' => 'required',
+            'c_sec_key' => 'required',
+        ]);
+ 
+        if($valid->fails() == TRUE){
+            return response()->json(array(
+                'status' => 0,
+                'message' => $valid->errors()
+            ));
+        }
+        else {
+            
+            $c_hash = $request->c_hash;
+            $c_token = $request->c_token;
+            $c_sec_key = $request->c_sec_key;
 
-        return response()->json($homesli);
+            $status = companies::where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
+
+            if ($status) {
+
+                $slider_hash = $request->slider_hash;
+                
+                $homesli = homeSlider::where('slider_hash', $slider_hash)->where('status', 1)->get();
+
+                if ($homesli) {
+                    return response()->json($homesli);
+                } else {
+                    return response()->json(array(
+                        'status' => 0,
+                        'message' => 'No Data Found'
+                    ));
+                }
+
+            } else {
+                
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Invalid access details Saved'
+                ));
+
+            }
+            
+        }
         
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request){
 
         $valid = Validator::make($request->all() , [
             'slider_name' => 'required | unique:App\Models\API\homeSlider,slider_name',
             'animation_hash' => 'required',
+            'c_hash' => 'required',
+            'c_token' => 'required',
+            'c_sec_key' => 'required',
         ]);
  
         if($valid->fails() == TRUE){
@@ -107,54 +193,109 @@ class homeSliderController extends Controller
         }
         else{
 
-            $slider = homeSlider::where('slider_hash', $id)->where('c_hash', $request->c_hash)->where('c_token', $request->c_token)->where('c_sec_key', $request->c_sec_key)
-            ->update([
-                'slider_name' => $request->slider_name,
-                'animation_hash' => $request->animation_hash,
-                'slider_image' => $request->slider_image,
-                'updated_by' => "NULL",
-                'updated_at' => now()
-            ]);
+            $c_hash = $request->c_hash;
+            $c_token = $request->c_token;
+            $c_sec_key = $request->c_sec_key;
 
-            if ($slider) {
-                return response()->json(array(
-                    'status' => 1,
-                    'message' => 'Updated Successfully'
-                ));
+            $status = companies::where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
+
+            if ($status) {
+
+                $slider_hash = $request->slider_hash;
+                
+                $slider = homeSlider::where('slider_hash', $slider_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)
+                ->update([
+                    'slider_name' => $request->slider_name,
+                    'animation_hash' => $request->animation_hash,
+                    'slider_image' => $request->slider_image,
+                    'updated_by' => "NULL",
+                    'updated_at' => now()
+                ]);
+    
+                if ($slider) {
+                    return response()->json(array(
+                        'status' => 1,
+                        'message' => 'Updated Successfully'
+                    ));
+                } else {
+                    return response()->json(array(
+                        'status' => 0,
+                        'message' => 'Not Updated'
+                    ));
+                }
+
             } else {
+                
                 return response()->json(array(
                     'status' => 0,
-                    'message' => 'Not Updated'
+                    'message' => 'Invalid access details Saved'
                 ));
+                
             }
             
         }
 
     }
 
-    public function delete(Request $request, $id){
+    public function delete(Request $request){
 
-        $homesli = homeSlider::where('slider_hash', $id)->where('c_hash', $request->c_hash)->where('c_token', $request->c_token)->where('c_sec_key', $request->c_sec_key)->where('animation_hash', $request->animation_hash)
-        ->update([
-            'status' => 0,
-            'updated_by' => "NULL",
-            'updated_at' => now()
+        $valid = Validator::make($request->all() , [
+            'c_hash' => 'required',
+            'c_token' => 'required',
+            'c_sec_key' => 'required',
         ]);
-
-        if($homesli){
-
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Deleted Successfully'
-            ));
-
-        }else{
-
+ 
+        if($valid->fails() == TRUE){
             return response()->json(array(
                 'status' => 0,
-                'message' => 'Not Deleted'
+                'message' => $valid->errors()
             ));
+        }
+        else {
+            
+            $c_hash = $request->c_hash;
+            $c_token = $request->c_token;
+            $c_sec_key = $request->c_sec_key;
 
+            $status = companies::where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
+
+            if ($status) {
+
+                $slider_hash = $request->slider_hash;
+                $animation_hash = $request->animation_hash;
+                
+                $homesli = homeSlider::where('slider_hash', $slider_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('animation_hash', $animation_hash)
+                ->update([
+                    'status' => 0,
+                    'updated_by' => "NULL",
+                    'updated_at' => now()
+                ]);
+        
+                if($homesli){
+        
+                    return response()->json(array(
+                        'status' => 1,
+                        'message' => 'Deleted Successfully'
+                    ));
+        
+                }else{
+        
+                    return response()->json(array(
+                        'status' => 0,
+                        'message' => 'Not Deleted'
+                    ));
+        
+                }
+
+            } else {
+                
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Invalid access details Saved'
+                ));
+
+            }
+            
         }
 
     }

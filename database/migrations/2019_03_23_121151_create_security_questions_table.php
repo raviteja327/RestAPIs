@@ -16,12 +16,7 @@ class CreateSecurityQuestionsTable extends Migration
         Schema::create('security_questions', function (Blueprint $table) {
             $table->string('security_question_hash');
             $table->primary('security_question_hash');
-            $table->string('security_question');
-            $table->string('security_question2');
-            $table->string('security_question3');
-            $table->string('answer');
-            $table->string('answer2');
-            $table->string('answer3');
+            $table->string('security_question')->unique();
             $table->string('c_token');
             $table->string('c_hash');
             $table->string('c_sec_key');

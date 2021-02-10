@@ -82,9 +82,11 @@ class companiesController extends Controller
 
     }
 
-    public function view($id){
+    public function view(Request $request){
 
-        $companies = DB::table('companies')->where('company_hash', $id)->where('status', 1)->get();
+        $company_hash = $request->company_hash;
+
+        $companies = DB::table('companies')->where('company_hash', $company_hash)->where('status', 1)->get();
         return response()->json($companies);
 
     }
@@ -104,7 +106,7 @@ class companiesController extends Controller
         }
         else{
 
-            $company_hash = $request->id;
+            $company_hash = $request->company_hash;
             $company_name = $request->company_name;
             $company_email = $request->company_email;
             $a_hash = $request->a_hash;
@@ -147,7 +149,7 @@ class companiesController extends Controller
 
     public function delete(Request $request){
 
-        $company_hash = $request->id;
+        $company_hash = $request->company_hash;
         $c_token = $request->c_token;
         $c_hash = $request->c_hash;
         $c_sec_key = $request->c_sec_key;

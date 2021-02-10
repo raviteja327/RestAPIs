@@ -69,9 +69,11 @@ class countriesController extends Controller
 
     }
 
-    public function view($id){
+    public function view(Request $request){
 
-        $countries = DB::table('countries')->where('country_hash', $id)->where('status', 1)->get();
+        $country_hash = $request->country_hash;
+
+        $countries = DB::table('countries')->where('country_hash', $country_hash)->where('status', 1)->get();
         return response()->json($countries);
         
     }
@@ -91,7 +93,7 @@ class countriesController extends Controller
         }
         else{
 
-            $country_hash = $request->id;
+            $country_hash = $request->country_hash;
             $country_name = $request->country_name;
             $country_desc = $request->country_desc;
             $country_code = $request->country_code;
@@ -126,7 +128,7 @@ class countriesController extends Controller
 
     public function delete(Request $request){
 
-        $country_hash = $request->id;
+        $country_hash = $request->country_hash;
         $a_hash = $request->a_hash;
 
         $data = array(

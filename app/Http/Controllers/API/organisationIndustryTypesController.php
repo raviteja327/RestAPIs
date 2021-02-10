@@ -70,9 +70,11 @@ class organisationIndustryTypesController extends Controller
 
     }
 
-    public function view($id){
+    public function view(Request $request){
 
-        $orgindtype = DB::table('organisation_industry_types')->where('org_indus_type_hash', $id)->where('status', 1)->get();
+        $org_indus_type_hash = $request->org_indus_type_hash;
+
+        $orgindtype = DB::table('organisation_industry_types')->where('org_indus_type_hash', $org_indus_type_hash)->where('status', 1)->get();
         return response()->json($orgindtype);
 
     }
@@ -93,7 +95,7 @@ class organisationIndustryTypesController extends Controller
         }
         else{
 
-            $org_indus_type_hash = $request->id;
+            $org_indus_type_hash = $request->org_indus_type_hash;
             $org_type_hash = $request->org_type_hash;
             $org_indus_type_name = $request->org_indus_type_name;
             $org_indus_type_desc = $request->org_indus_type_desc;
@@ -129,7 +131,7 @@ class organisationIndustryTypesController extends Controller
 
     public function delete(Request $request){
 
-        $org_indus_type_hash = $request->id;
+        $org_indus_type_hash = $request->org_indus_type_hash;
 
         $data = array(
             'status' => 0,

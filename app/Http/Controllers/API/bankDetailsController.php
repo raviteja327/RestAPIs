@@ -176,7 +176,7 @@ class bankDetailsController extends Controller
 
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request){
 
         $valid = Validator::make($request->all() , [
             'account_number' => 'required | unique:App\Models\API\bankDetails,account_number',
@@ -205,7 +205,9 @@ class bankDetailsController extends Controller
 
             if ($status) {
 
-                $bank = bankDetails::where('account_hash', $id)->where('c_hash', $request->c_hash)->where('c_token', $request->c_token)->where('c_sec_key', $request->c_sec_key)
+                $account_hash = $request->account_hash;
+
+                $bank = bankDetails::where('account_hash', $account_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)
                 ->update([
                     'account_holder_name' => $request->account_holder_name,
                     'account_number' => $request->account_number,
@@ -243,7 +245,7 @@ class bankDetailsController extends Controller
 
     }
 
-    public function delete(Request $request, $id){
+    public function delete(Request $request){
 
         $valid = Validator::make($request->all() , [
             'c_hash' => 'required',
@@ -267,7 +269,9 @@ class bankDetailsController extends Controller
 
             if ($status) {
 
-                $bank = bankDetails::where('account_hash', $id)->where('c_hash', $request->c_hash)->where('c_token', $request->c_token)->where('c_sec_key', $request->c_sec_key)
+                $account_hash = $request->account_hash;
+
+                $bank = bankDetails::where('account_hash', $account_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)
                 ->update([
                     'status' => 0,
                     'updated_by' => "NULL",

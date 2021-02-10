@@ -67,9 +67,11 @@ class organisationTypesController extends Controller
 
     }
 
-    public function view($id){
+    public function view(Request $request){
 
-        $orgtype = DB::table('organisation_types')->where('org_type_hash', $id)->where('status', 1)->get();
+        $org_type_hash = $request->org_type_hash;
+
+        $orgtype = DB::table('organisation_types')->where('org_type_hash', $org_type_hash)->where('status', 1)->get();
         return response()->json($orgtype);
 
     }
@@ -89,7 +91,7 @@ class organisationTypesController extends Controller
         }
         else{
 
-            $org_type_hash = $request->id;
+            $org_type_hash = $request->org_type_hash;
             $org_type_name = $request->org_type_name;
             $org_type_desc = $request->org_type_desc;
             $a_hash = $request->a_hash;
@@ -122,7 +124,7 @@ class organisationTypesController extends Controller
 
     public function delete(Request $request){
 
-        $org_type_hash = $request->id;
+        $org_type_hash = $request->org_type_hash;
         $a_hash = $request->a_hash;
 
         $data = array(

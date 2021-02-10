@@ -65,15 +65,17 @@ class crmSalesCompanyVisitingController extends Controller
 
     }
 
-    public function view($id){
+    public function view(Request $request){
 
-        $crmsalescomvisit = crmSalesCompanyVisiting::where('zip_code', $id)->get();
+        $zip_code = $request->zip_code;
+
+        $crmsalescomvisit = crmSalesCompanyVisiting::where('zip_code', $zip_code)->get();
 
         return response()->json($crmsalescomvisit);
         
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request){
 
         $valid = Validator::make($request->all() , [
             'zip_code' => 'required | unique:App\Models\API\crmSalesCompanyVisiting,zip_code',
@@ -88,8 +90,10 @@ class crmSalesCompanyVisitingController extends Controller
             ));
         }
         else {
+
+            $zip_code = $request->zip_code;
             
-            $visit = crmSalesCompanyVisiting::where('zip_code', $id)
+            $visit = crmSalesCompanyVisiting::where('zip_code', $zip_code)
             ->update([
                 'sales_company_hash' => $request->sales_company_hash,
                 'street_house_number' => $request->street_house_number,
@@ -116,9 +120,13 @@ class crmSalesCompanyVisitingController extends Controller
 
     }
 
-    public function delete(Request $request, $id){
+    public function delete(Request $request){
 
-        $crmsalescomvisit = crmSalesCompanyVisiting::where('zip_code', $id)->where('sales_company_hash', $request->sales_company_hash)->where('country_hash', $request->country_hash)
+        $zip_code = $request->zip_code;
+        $sales_company_hash = $request->sales_company_hash;
+        $country_hash = $request->country_hash;
+
+        $crmsalescomvisit = crmSalesCompanyVisiting::where('zip_code', $zip_code)->where('sales_company_hash', $sales_company_hash)->where('country_hash', $country_hash)
         ->update([
             'status' => 0,
             'updated_by' => "NULL",

@@ -59,15 +59,17 @@ class animationController extends Controller
 
     }
 
-    public function view($id){
+    public function view(Request $request){
 
-        $animation = animation::where('animation_hash', $id)->get();
+        $animation_hash = $request->animation_hash;
+
+        $animation = animation::where('animation_hash', $animation_hash)->get();
 
         return response()->json($animation);
         
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request){
 
         $valid = Validator::make($request->all() , [
             'animation_name' => 'required | unique:App\Models\API\animation,animation_name',
@@ -81,7 +83,9 @@ class animationController extends Controller
         }
         else{
 
-            $animation = animation::where('animation_hash', $id)
+            $animation_hash = $request->animation_hash;
+
+            $animation = animation::where('animation_hash', $animation_hash)
             ->update([
                 'animation_name' => $request->animation_name,
                 'updated_by' => "NULL",
@@ -104,9 +108,11 @@ class animationController extends Controller
 
     }
 
-    public function delete($id){
+    public function delete(Request $request){
 
-        $animation = animation::where('animation_hash', $id)
+        $animation_hash = $request->animation_hash;
+
+        $animation = animation::where('animation_hash', $animation_hash)
         ->update([
             'status' => 0,
             'updated_by' => "NULL",

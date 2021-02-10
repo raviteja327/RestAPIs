@@ -86,9 +86,11 @@ class customersController extends Controller
 
     }
 
-    public function view($id){
+    public function view(Request $request){
 
-        $customers = DB::table('customers')->where('customer_hash', $id)->where('status', 1)->get();
+        $customer_hash = $request->customer_hash;
+
+        $customers = DB::table('customers')->where('customer_hash', $customer_hash)->where('status', 1)->get();
         return response()->json($customers);
 
     }
@@ -111,7 +113,7 @@ class customersController extends Controller
         }
         else{
 
-            $customer_hash = $request->id;
+            $customer_hash = $request->customer_hash;
             $first_name = $request->first_name;
             $last_name = $request->last_name;
             $email = $request->email;
@@ -159,7 +161,7 @@ class customersController extends Controller
 
     public function delete(Request $request){
 
-        $customer_hash = $request->id;
+        $customer_hash = $request->customer_hash;
         $c_token = $request->c_token;
 
         $data = array(

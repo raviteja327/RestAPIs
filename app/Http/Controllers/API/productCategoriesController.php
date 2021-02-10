@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use DB;
+use App\Models\API\companies;
 
 class productCategoriesController extends Controller
 {
@@ -16,6 +17,9 @@ class productCategoriesController extends Controller
         $valid = Validator::make($request->all() , [
             'product_categories_name' => 'required | unique:App\Models\API\productCategories,product_categories_name',
             'company_db_user_hash' => 'required',
+            'c_hash' => 'required',
+            'c_token' => 'required',
+            'c_sec_key' => 'required',
         ]);
 
         if($valid->fails() == TRUE){
@@ -26,59 +30,158 @@ class productCategoriesController extends Controller
         }
         else{
 
-            $product_categories_type_hash = md5($request->product_categories_name.now());
-            $product_categories_name = $request->product_categories_name;
-            $product_categories_image = $request->product_categories_image;
-            $c_token = $request->c_token;
             $c_hash = $request->c_hash;
+            $c_token = $request->c_token;
             $c_sec_key = $request->c_sec_key;
-            $company_db_user_hash = $request->company_db_user_hash;
 
-            $data = array(
-                'product_categories_type_hash' => $product_categories_type_hash,
-                'product_categories_name' => $product_categories_name,
-                'product_categories_image' => $product_categories_image,
-                'c_token' => $c_token,
-                'c_hash' => $c_hash,
-                'c_sec_key' => $c_sec_key,
-                'company_db_user_hash' => $company_db_user_hash,
-                'created_by' => "NULL",
-                'updated_by' => "NULL",
-                'created_at' => now(),
-                'updated_at' => now(),
-            );
+            $status = companies::where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
-            $procat = DB::table('product_categories')->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->where('company_db_user_hash', $company_db_user_hash)->insert($data);
+            if ($status) {
+                
+                $product_categories_type_hash = md5($request->product_categories_name.now());
+                $product_categories_name = $request->product_categories_name;
+                $product_categories_image = $request->product_categories_image;
+                $c_token = $request->c_token;
+                $c_hash = $request->c_hash;
+                $c_sec_key = $request->c_sec_key;
+                $company_db_user_hash = $request->company_db_user_hash;
+    
+                $data = array(
+                    'product_categories_type_hash' => $product_categories_type_hash,
+                    'product_categories_name' => $product_categories_name,
+                    'product_categories_image' => $product_categories_image,
+                    'c_token' => $c_token,
+                    'c_hash' => $c_hash,
+                    'c_sec_key' => $c_sec_key,
+                    'company_db_user_hash' => $company_db_user_hash,
+                    'created_by' => "NULL",
+                    'updated_by' => "NULL",
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                );
+    
+                $procat = DB::table('product_categories')->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->where('company_db_user_hash', $company_db_user_hash)->insert($data);
+    
+                if ($procat) {
+                    return response()->json(array(
+                        'status' => 1,
+                        'message' => $data
+                    ));
+                } else {
+                    return response()->json(array(
+                        'status' => 0,
+                        'message' => 'Not Saved'
+                    ));
+                }
 
-            if ($procat) {
-                return response()->json(array(
-                    'status' => 1,
-                    'message' => $data
-                ));
             } else {
+                
                 return response()->json(array(
                     'status' => 0,
-                    'message' => 'Not Saved'
+                    'message' => 'Invalid access details Saved'
                 ));
+                
+            }
+ 
+        }
+
+    }
+
+    public function views(Request $request){
+
+        $valid = Validator::make($request->all() , [
+            'c_hash' => 'required',
+            'c_token' => 'required',
+            'c_sec_key' => 'required',
+        ]);
+ 
+        if($valid->fails() == TRUE){
+            return response()->json(array(
+                'status' => 0,
+                'message' => $valid->errors()
+            ));
+        }
+        else {
+            
+            $c_hash = $request->c_hash;
+            $c_token = $request->c_token;
+            $c_sec_key = $request->c_sec_key;
+
+            $status = companies::where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
+
+            if ($status) {
+                
+                $procat = DB::table('product_categories')->where('status', 1)->get();
+
+                if ($procat) {
+                    return response()->json($procat);
+                } else {
+                    return response()->json(array(
+                        'status' => 0,
+                        'message' => 'No Data Found'
+                    ));
+                }
+
+            } else {
+                
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Invalid access details Saved'
+                ));
+
             }
             
         }
 
     }
 
-    public function views(){
+    public function view(Request $request){
 
-        $procat = DB::table('product_categories')->where('status', 1)->get();
+        $valid = Validator::make($request->all() , [
+            'c_hash' => 'required',
+            'c_token' => 'required',
+            'c_sec_key' => 'required',
+        ]);
+ 
+        if($valid->fails() == TRUE){
+            return response()->json(array(
+                'status' => 0,
+                'message' => $valid->errors()
+            ));
+        }
+        else {
+            
+            $c_hash = $request->c_hash;
+            $c_token = $request->c_token;
+            $c_sec_key = $request->c_sec_key;
 
-        return response()->json($procat);
+            $status = companies::where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
-    }
+            if ($status) {
 
-    public function view($id){
+                $product_categories_type_hash = $request->product_categories_type_hash;
+                
+                $procat = DB::table('product_categories')->where('product_categories_type_hash', $product_categories_type_hash)->where('status', 1)->get();
 
-        $procat = DB::table('product_categories')->where('product_categories_type_hash', $id)->where('status', 1)->get();
+                if ($procat) {
+                    return response()->json($procat);
+                } else {
+                    return response()->json(array(
+                        'status' => 0,
+                        'message' => 'No Data Found'
+                    ));
+                }
 
-        return response()->json($procat);
+            } else {
+                
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Invalid access details Saved'
+                ));
+
+            }
+            
+        }
 
     }
 
@@ -87,6 +190,9 @@ class productCategoriesController extends Controller
         $valid = Validator::make($request->all() , [
             'product_categories_name' => 'required | unique:App\Models\API\productCategories,product_categories_name',
             'company_db_user_hash' => 'required',
+            'c_hash' => 'required',
+            'c_token' => 'required',
+            'c_sec_key' => 'required',
         ]);
 
         if($valid->fails() == TRUE){
@@ -97,34 +203,51 @@ class productCategoriesController extends Controller
         }
         else{
 
-            $product_categories_type_hash = $request->id;
-            $product_categories_name = $request->product_categories_name;
-            $product_categories_image = $request->product_categories_image;
-            $c_token = $request->c_token;
             $c_hash = $request->c_hash;
+            $c_token = $request->c_token;
             $c_sec_key = $request->c_sec_key;
-            $company_db_user_hash = $request->company_db_user_hash;
 
-            $data = array(
-                'product_categories_name' => $product_categories_name,
-                'product_categories_image' => $product_categories_image,
-                'company_db_user_hash' => $company_db_user_hash,
-                'updated_by' => "NULL",
-                'updated_at' => now(),
-            );
+            $status = companies::where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
-            $procat = DB::table('product_categories')->where('product_categories_type_hash', $product_categories_type_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
+            if ($status) {
+                
+                $product_categories_type_hash = $request->product_categories_type_hash;
+                $product_categories_name = $request->product_categories_name;
+                $product_categories_image = $request->product_categories_image;
+                $c_token = $request->c_token;
+                $c_hash = $request->c_hash;
+                $c_sec_key = $request->c_sec_key;
+                $company_db_user_hash = $request->company_db_user_hash;
+    
+                $data = array(
+                    'product_categories_name' => $product_categories_name,
+                    'product_categories_image' => $product_categories_image,
+                    'company_db_user_hash' => $company_db_user_hash,
+                    'updated_by' => "NULL",
+                    'updated_at' => now(),
+                );
+    
+                $procat = DB::table('product_categories')->where('product_categories_type_hash', $product_categories_type_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
+    
+                if ($procat) {
+                    return response()->json(array(
+                        'status' => 1,
+                        'message' => 'Updated Successfully'
+                    ));
+                } else {
+                    return response()->json(array(
+                        'status' => 0,
+                        'message' => 'Not Updated'
+                    ));
+                }
 
-            if ($procat) {
-                return response()->json(array(
-                    'status' => 1,
-                    'message' => 'Updated Successfully'
-                ));
             } else {
+                
                 return response()->json(array(
                     'status' => 0,
-                    'message' => 'Not Updated'
+                    'message' => 'Invalid access details Saved'
                 ));
+                
             }
             
         }
@@ -133,34 +256,64 @@ class productCategoriesController extends Controller
 
     public function delete(Request $request){
 
-        $product_categories_type_hash = $request->id;
-        $c_token = $request->c_token;
-        $c_hash = $request->c_hash;
-        $c_sec_key = $request->c_sec_key;
-        $company_db_user_hash = $request->company_db_user_hash;
-
-        $data = array(
-            'status' => 0,
-            'updated_by' => "NULL",
-            'updated_at' => now(),
-        );
-
-        $procat = DB::table('product_categories')->where('product_categories_type_hash', $product_categories_type_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->where('company_db_user_hash', $company_db_user_hash)->update($data);
-
-        if($procat){
-
-            return response()->json(array(
-                'status' => 1,
-                'message' => 'Deleted Successfully'
-            ));
-
-        }else{
-
+        $valid = Validator::make($request->all() , [
+            'c_hash' => 'required',
+            'c_token' => 'required',
+            'c_sec_key' => 'required',
+        ]);
+ 
+        if($valid->fails() == TRUE){
             return response()->json(array(
                 'status' => 0,
-                'message' => 'Not Deleted'
+                'message' => $valid->errors()
             ));
+        }
+        else {
+            
+            $c_hash = $request->c_hash;
+            $c_token = $request->c_token;
+            $c_sec_key = $request->c_sec_key;
 
+            $status = companies::where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
+
+            if ($status) {
+                
+                $product_categories_type_hash = $request->product_categories_type_hash;
+                $company_db_user_hash = $request->company_db_user_hash;
+        
+                $data = array(
+                    'status' => 0,
+                    'updated_by' => "NULL",
+                    'updated_at' => now(),
+                );
+        
+                $procat = DB::table('product_categories')->where('product_categories_type_hash', $product_categories_type_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->where('company_db_user_hash', $company_db_user_hash)->update($data);
+        
+                if($procat){
+        
+                    return response()->json(array(
+                        'status' => 1,
+                        'message' => 'Deleted Successfully'
+                    ));
+        
+                }else{
+        
+                    return response()->json(array(
+                        'status' => 0,
+                        'message' => 'Not Deleted'
+                    ));
+        
+                }
+
+            } else {
+                
+                return response()->json(array(
+                    'status' => 0,
+                    'message' => 'Invalid access details Saved'
+                ));
+
+            }
+            
         }
 
     }
