@@ -74,7 +74,7 @@ class countryStatesController extends Controller
 
     public function view(Request $request){
 
-        $state_hash = $request->state_hash;
+        $state_hash = $request->id;
 
         $countrystates = DB::table('country_states')->where('state_hash', $state_hash)->where('status', 1)->get();
         return response()->json($countrystates);
@@ -97,7 +97,7 @@ class countryStatesController extends Controller
         }
         else{
 
-            $state_hash = $request->state_hash;
+            $state_hash = $request->id;
             $state_name = $request->state_name;
             $state_desc = $request->state_desc;
             $state_code = $request->state_code;
@@ -134,7 +134,7 @@ class countryStatesController extends Controller
 
     public function delete(Request $request){
 
-        $state_hash = $request->state_hash;
+        $state_hash = $request->id;
         $a_hash = $request->a_hash;
         $country_hash = $request->country_hash;
 

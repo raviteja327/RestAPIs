@@ -159,7 +159,7 @@ class pageController extends Controller
 
             if ($status) {
 
-                $page_hash = $request->page_hash;
+                $page_hash = $request->id;
                 
                 $page = page::where('page_hash', $page_hash)->where('status', 1)->get();
 
@@ -212,7 +212,7 @@ class pageController extends Controller
 
             if ($status) {
 
-                $page_hash = $request->page_hash;
+                $page_hash = $request->id;
                 
                 $pg = page::where('page_hash', $page_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)
                 ->update([
@@ -279,7 +279,7 @@ class pageController extends Controller
 
             if ($status) {
 
-                $page_hash = $request->page_hash;
+                $page_hash = $request->id;
                 $home_slider_hash = $request->home_slider_hash;
                 $mini_slider_hash = $request->mini_slider_hash;
                 

@@ -174,7 +174,7 @@ class companyAddressManualsController extends Controller
 
             if ($status) {
 
-                $company_address_manuals_hash = $request->company_address_manuals_hash; 
+                $company_address_manuals_hash = $request->id; 
                 
                 $cam = DB::table('company_address_manuals')->where('company_address_manuals_hash', $company_address_manuals_hash)->where('status', 1)->get();
 
@@ -227,7 +227,7 @@ class companyAddressManualsController extends Controller
 
             if ($status) {
                 
-                $company_address_manuals_hash = $request->company_address_manuals_hash;
+                $company_address_manuals_hash = $request->id;
                 $address1 = $request->address1;
                 $address2 = $request->address2;
                 $street = $request->street;
@@ -308,7 +308,7 @@ class companyAddressManualsController extends Controller
 
             if ($status) {
                 
-                $company_address_manuals_hash = $request->company_address_manuals_hash;
+                $company_address_manuals_hash = $request->id;
                 $contact_person_name = $request->contact_person_name;
         
                 $data = array(

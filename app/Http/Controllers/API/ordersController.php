@@ -177,7 +177,7 @@ class ordersController extends Controller
 
             if ($status) {
 
-                $order_hash = $request->order_hash;
+                $order_hash = $request->id;
                 
                 $orders = DB::table('orders')->where('order_hash', $order_hash)->where('status', 1)->get();
 
@@ -233,7 +233,7 @@ class ordersController extends Controller
 
             if ($status) {
                 
-                $order_hash = $request->order_hash;
+                $order_hash = $request->id;
                 $product_hash = $request->product_hash;
                 $company_hash = $request->company_hash;
                 $customer_hash = $request->customer_hash;
@@ -314,7 +314,7 @@ class ordersController extends Controller
 
             if ($status) {
                 
-                $order_hash = $request->order_hash;
+                $order_hash = $request->id;
                 $company_db_user_hash = $request->company_db_user_hash;
                 $product_hash = $request->product_hash;
                 $company_hash = $request->company_hash;

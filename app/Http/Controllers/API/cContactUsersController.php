@@ -167,7 +167,7 @@ class cContactUsersController extends Controller
 
             if ($status) {
 
-                $contact_hash = $request->contact_hash;
+                $contact_hash = $request->id;
                 
                 $ccusers = DB::table('c_contact_users')->where('contact_hash', $contact_hash)->where('status', 1)->get();
 
@@ -221,7 +221,7 @@ class cContactUsersController extends Controller
 
             if ($status) {
                 
-                $contact_hash = $request->contact_hash;
+                $contact_hash = $request->id;
                 $name = $request->name;
                 $email = $request->email;
                 $organization = $request->organization;
@@ -294,7 +294,7 @@ class cContactUsersController extends Controller
 
             if ($status) {
                 
-                $contact_hash = $request->contact_hash;
+                $contact_hash = $request->id;
                 $name = $request->name;
         
                 $data = array(

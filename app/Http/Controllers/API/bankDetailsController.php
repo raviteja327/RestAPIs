@@ -154,7 +154,9 @@ class bankDetailsController extends Controller
             $status = companies::where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
             if ($status) {
-                $account_hash = $request->account_hash;
+
+                $account_hash = $request->id;
+
                 $bank = bankDetails::where('account_hash', $account_hash)->get();
                 if ($bank) {
                     return response()->json($bank);
@@ -205,7 +207,7 @@ class bankDetailsController extends Controller
 
             if ($status) {
 
-                $account_hash = $request->account_hash;
+                $account_hash = $request->id;
 
                 $bank = bankDetails::where('account_hash', $account_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)
                 ->update([
@@ -269,7 +271,7 @@ class bankDetailsController extends Controller
 
             if ($status) {
 
-                $account_hash = $request->account_hash;
+                $account_hash = $request->id;
 
                 $bank = bankDetails::where('account_hash', $account_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)
                 ->update([

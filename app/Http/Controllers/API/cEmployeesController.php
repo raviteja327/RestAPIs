@@ -187,7 +187,7 @@ class cEmployeesController extends Controller
 
             if ($status) {
 
-                $employee_hash = $request->employee_hash;
+                $employee_hash = $request->id;
                 
                 $cemployees = DB::table('c_employees')->where('employee_hash', $employee_hash)->where('status', 1)->get();
 
@@ -244,7 +244,7 @@ class cEmployeesController extends Controller
 
             if ($status) {
                 
-                $employee_hash = $request->employee_hash;
+                $employee_hash = $request->id;
                 $company_hash = $request->company_hash;
                 $c_role_hash = $request->c_role_hash;
                 $first_name = $request->first_name;
@@ -333,7 +333,7 @@ class cEmployeesController extends Controller
 
             if ($status) {
                 
-                $employee_hash = $request->employee_hash;
+                $employee_hash = $request->id;
                 $company_hash = $request->company_hash;
                 $c_role_hash = $request->c_role_hash;
                 $first_name = $request->first_name;

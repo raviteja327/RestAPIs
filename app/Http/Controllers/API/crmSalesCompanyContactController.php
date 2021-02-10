@@ -74,7 +74,7 @@ class crmSalesCompanyContactController extends Controller
 
     public function view(Request $request){
 
-        $contact_hash = $request->contact_hash;
+        $contact_hash = $request->id;
 
         $crmsalescomcontact = crmSalesCompanyContact::where('contact_hash', $contact_hash)->get();
 
@@ -98,7 +98,7 @@ class crmSalesCompanyContactController extends Controller
         }
         else {
 
-            $contact_hash = $request->contact_hash;
+            $contact_hash = $request->id;
             
             $contact = crmSalesCompanyContact::where('contact_hash', $contact_hash)
             ->update([
@@ -135,7 +135,7 @@ class crmSalesCompanyContactController extends Controller
 
     public function delete(Request $request){
 
-        $contact_hash = $request->contact_hash;
+        $contact_hash = $request->id;
         $sales_company_hash = $request->sales_company_hash;
 
         $crmsalescomcontact = crmSalesCompanyContact::where('contact_hash', $contact_hash)->where('sales_company_hash', $sales_company_hash)

@@ -65,7 +65,7 @@ class plansController extends Controller
 
     public function view(Request $request){
 
-        $plan_hash = $request->plan_hash;
+        $plan_hash = $request->id;
 
         $plans = plans::where('plan_hash', $plan_hash)->get();
 
@@ -87,7 +87,7 @@ class plansController extends Controller
         }
         else{
 
-            $plan_hash = $request->plan_hash;
+            $plan_hash = $request->id;
 
             $plan = plans::where('plan_hash', $plan_hash)
             ->update([
@@ -115,7 +115,7 @@ class plansController extends Controller
 
     public function delete(Request $request){
 
-        $plan_hash = $request->plan_hash;
+        $plan_hash = $request->id;
 
         $plans = plans::where('plan_hash', $plan_hash)
         ->update([

@@ -176,7 +176,7 @@ class companyPagesController extends Controller
 
             if ($status) {
 
-                $c_company_hash = $request->c_company_hash;
+                $c_company_hash = $request->id;
                 
                 $cpages = DB::table('company_pages')->where('c_company_hash', $c_company_hash)->where('status', 1)->get();
 
@@ -227,7 +227,7 @@ class companyPagesController extends Controller
 
             if ($status) {
                 
-                $c_company_hash = $request->c_company_hash;
+                $c_company_hash = $request->id;
                 $c_page_name = $request->c_page_name;
                 $custom_field = $request->custom_field;
                 $author = $request->author;
@@ -312,7 +312,7 @@ class companyPagesController extends Controller
 
             if ($status) {
                 
-                $c_company_hash = $request->c_company_hash;
+                $c_company_hash = $request->id;
 
                 $data = array(
                     'status' => 0,

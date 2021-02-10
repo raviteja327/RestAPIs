@@ -159,7 +159,7 @@ class productCategoriesController extends Controller
 
             if ($status) {
 
-                $product_categories_type_hash = $request->product_categories_type_hash;
+                $product_categories_type_hash = $request->id;
                 
                 $procat = DB::table('product_categories')->where('product_categories_type_hash', $product_categories_type_hash)->where('status', 1)->get();
 
@@ -211,7 +211,7 @@ class productCategoriesController extends Controller
 
             if ($status) {
                 
-                $product_categories_type_hash = $request->product_categories_type_hash;
+                $product_categories_type_hash = $request->id;
                 $product_categories_name = $request->product_categories_name;
                 $product_categories_image = $request->product_categories_image;
                 $c_token = $request->c_token;
@@ -278,7 +278,7 @@ class productCategoriesController extends Controller
 
             if ($status) {
                 
-                $product_categories_type_hash = $request->product_categories_type_hash;
+                $product_categories_type_hash = $request->id;
                 $company_db_user_hash = $request->company_db_user_hash;
         
                 $data = array(

@@ -155,7 +155,7 @@ class postController extends Controller
 
             if ($status) {
 
-                $post_hash = $request->post_hash;
+                $post_hash = $request->id;
                 
                 $post = post::where('post_hash', $post_hash)->where('status', 1)->get();
 
@@ -206,7 +206,7 @@ class postController extends Controller
 
             if ($status) {
 
-                $post_hash = $request->post_hash;
+                $post_hash = $request->id;
                 
                 $pst = post::where('post_hash', $post_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)
                 ->update([
@@ -271,7 +271,7 @@ class postController extends Controller
 
             if ($status) {
 
-                $post_hash = $request->post_hash;
+                $post_hash = $request->id;
                 
                 $post = post::where('post_hash', $post_hash)->where('c_hash', $request->c_hash)->where('c_token', $request->c_token)->where('c_sec_key', $request->c_sec_key)
                 ->update([

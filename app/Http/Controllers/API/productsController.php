@@ -175,7 +175,7 @@ class productsController extends Controller
 
             if ($status) {
 
-                $product_hash = $request->product_hash;
+                $product_hash = $request->id;
                 
                 $products = DB::table('products')->where('product_hash', $product_hash)->where('status', 1)->get();
 
@@ -230,7 +230,7 @@ class productsController extends Controller
 
             if ($status) {
                 
-                $product_hash = $request->product_hash;
+                $product_hash = $request->id;
                 $product_categories_image = $request->product_categories_image;
                 $product_categories_type_hash = $request->product_categories_type_hash;
                 $company_hash = $request->company_hash;
@@ -312,7 +312,7 @@ class productsController extends Controller
 
             if ($status) {
                 
-                $product_hash = $request->product_hash;
+                $product_hash = $request->id;
 
                 $data = array(
                     'status' => 0,

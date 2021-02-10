@@ -155,7 +155,7 @@ class crmTasksController extends Controller
 
             if ($status) {
 
-                $task_hash = $request->task_hash;
+                $task_hash = $request->id;
                 
                 $crmtask = crmTasks::where('task_hash', $task_hash)->where('status', 1)->get();
 
@@ -207,7 +207,7 @@ class crmTasksController extends Controller
 
             if ($status) {
 
-                $task_hash = $request->task_hash;
+                $task_hash = $request->id;
                 
                 $task = crmTasks::where('task_hash', $task_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)
                 ->update([
@@ -271,7 +271,7 @@ class crmTasksController extends Controller
 
             if ($status) {
 
-                $task_hash = $request->task_hash;
+                $task_hash = $request->id;
                 $sales_company_hash = $request->sales_company_hash;
                 
                 $crmtask = crmTasks::where('task_hash', $task_hash)->where('sales_company_hash', $sales_company_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)

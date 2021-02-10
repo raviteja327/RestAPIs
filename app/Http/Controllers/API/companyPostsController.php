@@ -189,7 +189,7 @@ class companyPostsController extends Controller
 
             if ($status) {
 
-                $post_hash = $request->post_hash;
+                $post_hash = $request->id;
                 
                 $cposts = DB::table('company_posts')->where('post_hash', $post_hash)->where('status', 1)->get();
 
@@ -241,7 +241,7 @@ class companyPostsController extends Controller
 
             if ($status) {
                 
-                $post_hash = $request->post_hash;
+                $post_hash = $request->id;
                 $post_author = $request->post_author;
                 $post_date = $request->post_date;
                 $post_content = $request->post_content;
@@ -338,7 +338,7 @@ class companyPostsController extends Controller
 
             if ($status) {
                 
-                $post_hash = $request->post_hash;
+                $post_hash = $request->id;
 
                 $data = array(
                     'status' => 0,

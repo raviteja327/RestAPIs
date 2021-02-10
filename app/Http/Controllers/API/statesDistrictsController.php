@@ -77,7 +77,7 @@ class statesDistrictsController extends Controller
 
     public function view(Request $request){
 
-        $dist_hash = $request->dist_hash;
+        $dist_hash = $request->id;
 
         $statesdistricts = DB::table('states_districts')->where('dist_hash', $dist_hash)->where('status', 1)->get();
         return response()->json($statesdistricts);
@@ -101,7 +101,7 @@ class statesDistrictsController extends Controller
         }
         else{
 
-            $dist_hash = $request->dist_hash;
+            $dist_hash = $request->id;
             $dist_name = $request->dist_name;
             $dist_desc = $request->dist_desc;
             $dist_code = $request->dist_code;
@@ -140,7 +140,7 @@ class statesDistrictsController extends Controller
 
     public function delete(Request $request){
 
-        $dist_hash = $request->dist_hash;
+        $dist_hash = $request->id;
 
         $data = array(
             'status' => 0,

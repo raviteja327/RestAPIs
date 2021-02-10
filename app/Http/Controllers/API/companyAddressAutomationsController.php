@@ -161,7 +161,7 @@ class companyAddressAutomationsController extends Controller
 
             if ($status) {
 
-                $caa_hash = $request->caa_hash;
+                $caa_hash = $request->id;
                 
                 $caa = DB::table('company_address_automations')->where('caa_hash', $caa_hash)->where('status', 1)->get();
 
@@ -213,7 +213,7 @@ class companyAddressAutomationsController extends Controller
 
             if ($status) {
                 
-                $caa_hash = $request->caa_hash;
+                $caa_hash = $request->id;
                 $latitude = $request->latitude;
                 $logitude = $request->logitude;
                 $contact_person_name = $request->contact_person_name;
@@ -282,7 +282,7 @@ class companyAddressAutomationsController extends Controller
 
             if ($status) {
                 
-                $caa_hash = $request->caa_hash;
+                $caa_hash = $request->id;
                 $contact_person_name = $request->contact_person_name;
         
                 $data = array(

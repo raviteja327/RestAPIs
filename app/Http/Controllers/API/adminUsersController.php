@@ -70,7 +70,7 @@ class adminUsersController extends Controller
 
     public function view(Request $request){
 
-        $a_hash = $request->a_hash;
+        $a_hash = $request->id;
         
         $admin = DB::table('admin_users')->where('a_hash', $a_hash)->where('status', 1)->get();
         return response()->json($admin);
@@ -97,7 +97,7 @@ class adminUsersController extends Controller
         }
         else{
 
-            $a_hash = $request->a_hash;
+            $a_hash = $request->id;
             $a_email = $request->a_email;
             $a_password = md5($request->a_password);
             $a_name = $request->a_name;
@@ -130,7 +130,7 @@ class adminUsersController extends Controller
 
     public function delete(Request $request){
         
-        $a_hash = $request->a_hash;
+        $a_hash = $request->id;
         $a_name = $request->a_name;
 
         $data = array(

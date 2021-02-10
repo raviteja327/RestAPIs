@@ -61,7 +61,7 @@ class animationController extends Controller
 
     public function view(Request $request){
 
-        $animation_hash = $request->animation_hash;
+        $animation_hash = $request->id;
 
         $animation = animation::where('animation_hash', $animation_hash)->get();
 
@@ -83,7 +83,7 @@ class animationController extends Controller
         }
         else{
 
-            $animation_hash = $request->animation_hash;
+            $animation_hash = $request->id;
 
             $animation = animation::where('animation_hash', $animation_hash)
             ->update([
@@ -110,7 +110,7 @@ class animationController extends Controller
 
     public function delete(Request $request){
 
-        $animation_hash = $request->animation_hash;
+        $animation_hash = $request->id;
 
         $animation = animation::where('animation_hash', $animation_hash)
         ->update([

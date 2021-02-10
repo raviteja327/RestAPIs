@@ -177,7 +177,7 @@ class couponsController extends Controller
 
             if ($status) {
 
-                $coupon_hash = $request->coupon_hash;
+                $coupon_hash = $request->id;
                 
                 $coupons = DB::table('coupons')->where('coupon_hash', $coupon_hash)->where('status', 1)->get();
 
@@ -233,7 +233,7 @@ class couponsController extends Controller
 
             if ($status) {
                 
-                $coupon_hash = $request->coupon_hash;
+                $coupon_hash = $request->id;
                 $coupon_name = $request->coupon_name;
                 $product_hash = $request->product_hash;
                 $company_hash = $request->company_hash;
@@ -314,7 +314,7 @@ class couponsController extends Controller
 
             if ($status) {
                 
-                $coupon_hash = $request->coupon_hash;
+                $coupon_hash = $request->id;
                 $company_db_user_hash = $request->company_db_user_hash;
                 $product_hash = $request->product_hash;
                 $company_hash = $request->company_hash;

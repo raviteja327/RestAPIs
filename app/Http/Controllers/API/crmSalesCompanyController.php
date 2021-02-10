@@ -159,7 +159,7 @@ class crmSalesCompanyController extends Controller
 
             if ($status) {
 
-                $sales_company_hash = $request->sales_company_hash;
+                $sales_company_hash = $request->id;
                 
                 $crmsalescom = crmSalesCompany::where('sales_company_hash', $sales_company_hash)->where('status', 1)->get();
 
@@ -211,7 +211,7 @@ class crmSalesCompanyController extends Controller
 
             if ($status) {
 
-                $sales_company_hash = $request->sales_company_hash;
+                $sales_company_hash = $request->id;
                 
                 $crmsales = crmSalesCompany::where('sales_company_hash', $sales_company_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)
                 ->update([
@@ -279,7 +279,7 @@ class crmSalesCompanyController extends Controller
 
             if ($status) {
 
-                $sales_company_hash = $request->sales_company_hash;
+                $sales_company_hash = $request->id;
                 $c_hash = $request->c_hash;
                 $c_token = $request->c_token;
                 $c_sec_key = $request->c_sec_key;

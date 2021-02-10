@@ -67,7 +67,7 @@ class crmSalesCompanyVisitingController extends Controller
 
     public function view(Request $request){
 
-        $zip_code = $request->zip_code;
+        $zip_code = $request->id;
 
         $crmsalescomvisit = crmSalesCompanyVisiting::where('zip_code', $zip_code)->get();
 
@@ -91,7 +91,7 @@ class crmSalesCompanyVisitingController extends Controller
         }
         else {
 
-            $zip_code = $request->zip_code;
+            $zip_code = $request->id;
             
             $visit = crmSalesCompanyVisiting::where('zip_code', $zip_code)
             ->update([
@@ -122,7 +122,7 @@ class crmSalesCompanyVisitingController extends Controller
 
     public function delete(Request $request){
 
-        $zip_code = $request->zip_code;
+        $zip_code = $request->id;
         $sales_company_hash = $request->sales_company_hash;
         $country_hash = $request->country_hash;
 
