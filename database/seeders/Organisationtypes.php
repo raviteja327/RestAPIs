@@ -64,11 +64,13 @@ class Organisationtypes extends Seeder
         \DB::table('security_questions')->insert([
             'security_question_hash' => md5('What is your nick name?'),
             'security_question' => 'What is your nick name?',
+            // 'employee_hash' => md5('ranjith@kalai.info')
         ]);
 
         \DB::table('security_questions')->insert([
             'security_question_hash' => md5('What is your favourite place?'),
             'security_question' => 'What is your favourite place?',
+            // 'employee_hash' => md5('ranjith@kalai.info')
         ]);
 
     }
