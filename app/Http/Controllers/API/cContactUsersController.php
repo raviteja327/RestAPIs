@@ -119,7 +119,7 @@ class cContactUsersController extends Controller
 
             if ($status) {
                 
-                $ccusers = DB::table('c_contact_users')->where('status', 1)->get();
+                $ccusers = DB::table('c_contact_users')->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($ccusers) {
                     return response()->json($ccusers);
@@ -169,7 +169,7 @@ class cContactUsersController extends Controller
 
                 $contact_hash = $request->id;
                 
-                $ccusers = DB::table('c_contact_users')->where('contact_hash', $contact_hash)->where('status', 1)->get();
+                $ccusers = DB::table('c_contact_users')->where('contact_hash', $contact_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($ccusers) {
                     return response()->json($ccusers);

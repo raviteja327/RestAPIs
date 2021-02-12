@@ -129,7 +129,7 @@ class ordersController extends Controller
 
             if ($status) {
                 
-                $orders = DB::table('orders')->where('status', 1)->get();
+                $orders = DB::table('orders')->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($orders) {
                     return response()->json($orders);
@@ -179,7 +179,7 @@ class ordersController extends Controller
 
                 $order_hash = $request->id;
                 
-                $orders = DB::table('orders')->where('order_hash', $order_hash)->where('status', 1)->get();
+                $orders = DB::table('orders')->where('order_hash', $order_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($orders) {
                     return response()->json($orders);

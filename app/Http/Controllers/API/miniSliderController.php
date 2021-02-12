@@ -103,7 +103,7 @@ class miniSliderController extends Controller
 
             if ($status) {
                 
-                $minisli = miniSlider::where('status', 1)->get();
+                $minisli = miniSlider::where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($minisli) {
                     return response()->json($minisli);
@@ -153,7 +153,7 @@ class miniSliderController extends Controller
 
                 $slider_hash = $request->id;
                 
-                $minisli = miniSlider::where('slider_hash', $slider_hash)->where('status', 1)->get();
+                $minisli = miniSlider::where('slider_hash', $slider_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($minisli) {
                     return response()->json($minisli);

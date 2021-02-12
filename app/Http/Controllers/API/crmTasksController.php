@@ -107,7 +107,7 @@ class crmTasksController extends Controller
 
             if ($status) {
                 
-                $crmtask = crmTasks::where('status', 1)->get();
+                $crmtask = crmTasks::where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($crmtask) {
                     return response()->json($crmtask);
@@ -157,7 +157,7 @@ class crmTasksController extends Controller
 
                 $task_hash = $request->id;
                 
-                $crmtask = crmTasks::where('task_hash', $task_hash)->where('status', 1)->get();
+                $crmtask = crmTasks::where('task_hash', $task_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($crmtask) {
                     return response()->json($crmtask);

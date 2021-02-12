@@ -111,7 +111,7 @@ class crmSalesCompanyController extends Controller
 
             if ($status) {
                 
-                $crmsalescom = crmSalesCompany::where('status', 1)->get();
+                $crmsalescom = crmSalesCompany::where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($crmsalescom) {
                     return response()->json($crmsalescom);
@@ -161,7 +161,7 @@ class crmSalesCompanyController extends Controller
 
                 $sales_company_hash = $request->id;
                 
-                $crmsalescom = crmSalesCompany::where('sales_company_hash', $sales_company_hash)->where('status', 1)->get();
+                $crmsalescom = crmSalesCompany::where('sales_company_hash', $sales_company_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($crmsalescom) {
                     return response()->json($crmsalescom);

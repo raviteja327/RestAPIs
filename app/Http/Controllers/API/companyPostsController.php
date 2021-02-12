@@ -141,7 +141,7 @@ class companyPostsController extends Controller
 
             if ($status) {
                 
-                $cposts = DB::table('company_posts')->where('status', 1)->get();
+                $cposts = DB::table('company_posts')->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($cposts) {
                     return response()->json($cposts);
@@ -191,7 +191,7 @@ class companyPostsController extends Controller
 
                 $post_hash = $request->id;
                 
-                $cposts = DB::table('company_posts')->where('post_hash', $post_hash)->where('status', 1)->get();
+                $cposts = DB::table('company_posts')->where('post_hash', $post_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($cposts) {
                     return response()->json($cposts);

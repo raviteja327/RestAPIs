@@ -126,7 +126,7 @@ class companyAddressManualsController extends Controller
 
             if ($status) {
                 
-                $cam = DB::table('company_address_manuals')->where('status', 1)->get();
+                $cam = DB::table('company_address_manuals')->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($cam) {
                     return response()->json($cam);
@@ -176,7 +176,7 @@ class companyAddressManualsController extends Controller
 
                 $company_address_manuals_hash = $request->id; 
                 
-                $cam = DB::table('company_address_manuals')->where('company_address_manuals_hash', $company_address_manuals_hash)->where('status', 1)->get();
+                $cam = DB::table('company_address_manuals')->where('company_address_manuals_hash', $company_address_manuals_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($cam) {
                     return response()->json($cam);

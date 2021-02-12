@@ -147,7 +147,7 @@ class menusController extends Controller
                 
                 $menu_hash = $request->id;
                 
-                $menus = menu::where('menu_hash', $menu_hash)->where('status', 1)->get();
+                $menus = menu::where('menu_hash', $menu_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($menus) {
                     return response()->json($menus);

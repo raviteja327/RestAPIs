@@ -127,7 +127,7 @@ class productsController extends Controller
 
             if ($status) {
                 
-                $products = DB::table('products')->where('status', 1)->get();
+                $products = DB::table('products')->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($products) {
                     return response()->json($products);
@@ -177,7 +177,7 @@ class productsController extends Controller
 
                 $product_hash = $request->id;
                 
-                $products = DB::table('products')->where('product_hash', $product_hash)->where('status', 1)->get();
+                $products = DB::table('products')->where('product_hash', $product_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($products) {
                     return response()->json($products);

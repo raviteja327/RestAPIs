@@ -111,7 +111,7 @@ class productCategoriesController extends Controller
 
             if ($status) {
                 
-                $procat = DB::table('product_categories')->where('status', 1)->get();
+                $procat = DB::table('product_categories')->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($procat) {
                     return response()->json($procat);
@@ -161,7 +161,7 @@ class productCategoriesController extends Controller
 
                 $product_categories_type_hash = $request->id;
                 
-                $procat = DB::table('product_categories')->where('product_categories_type_hash', $product_categories_type_hash)->where('status', 1)->get();
+                $procat = DB::table('product_categories')->where('product_categories_type_hash', $product_categories_type_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($procat) {
                     return response()->json($procat);

@@ -139,7 +139,7 @@ class cEmployeesController extends Controller
 
             if ($status) {
                 
-                $cemployees = DB::table('c_employees')->where('status', 1)->get();
+                $cemployees = DB::table('c_employees')->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($cemployees) {
                     return response()->json($cemployees);
@@ -189,7 +189,7 @@ class cEmployeesController extends Controller
 
                 $employee_hash = $request->id;
                 
-                $cemployees = DB::table('c_employees')->where('employee_hash', $employee_hash)->where('status', 1)->get();
+                $cemployees = DB::table('c_employees')->where('employee_hash', $employee_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($cemployees) {
                     return response()->json($cemployees);

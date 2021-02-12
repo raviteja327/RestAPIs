@@ -128,7 +128,7 @@ class companyPagesController extends Controller
 
             if ($status) {
                 
-                $cpages = DB::table('company_pages')->where('status', 1)->get();
+                $cpages = DB::table('company_pages')->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($cpages) {
                     return response()->json($cpages);
@@ -178,7 +178,7 @@ class companyPagesController extends Controller
 
                 $c_company_hash = $request->id;
                 
-                $cpages = DB::table('company_pages')->where('c_company_hash', $c_company_hash)->where('status', 1)->get();
+                $cpages = DB::table('company_pages')->where('c_company_hash', $c_company_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($cpages) {
                     return response()->json($cpages);

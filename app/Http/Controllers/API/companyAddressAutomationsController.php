@@ -113,7 +113,7 @@ class companyAddressAutomationsController extends Controller
 
             if ($status) {
                 
-                $caa = DB::table('company_address_automations')->where('status', 1)->get();
+                $caa = DB::table('company_address_automations')->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($caa) {
                     return response()->json($caa);
@@ -163,7 +163,7 @@ class companyAddressAutomationsController extends Controller
 
                 $caa_hash = $request->id;
                 
-                $caa = DB::table('company_address_automations')->where('caa_hash', $caa_hash)->where('status', 1)->get();
+                $caa = DB::table('company_address_automations')->where('caa_hash', $caa_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($caa) {
                     return response()->json($caa);

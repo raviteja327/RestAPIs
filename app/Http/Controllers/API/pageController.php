@@ -111,7 +111,7 @@ class pageController extends Controller
 
             if ($status) {
                 
-                $page = page::where('status', 1)->get();
+                $page = page::where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($page) {
                     return response()->json($page);
@@ -161,7 +161,7 @@ class pageController extends Controller
 
                 $page_hash = $request->id;
                 
-                $page = page::where('page_hash', $page_hash)->where('status', 1)->get();
+                $page = page::where('page_hash', $page_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($page) {
                     return response()->json($page);

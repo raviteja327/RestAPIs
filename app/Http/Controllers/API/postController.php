@@ -107,7 +107,7 @@ class postController extends Controller
 
             if ($status) {
                 
-                $post = post::where('status', 1)->get();
+                $post = post::where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($post) {
                     return response()->json($post);
@@ -157,7 +157,7 @@ class postController extends Controller
 
                 $post_hash = $request->id;
                 
-                $post = post::where('post_hash', $post_hash)->where('status', 1)->get();
+                $post = post::where('post_hash', $post_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
 
                 if ($post) {
                     return response()->json($post);
