@@ -37,7 +37,6 @@ class CreateItemInvoicesTable extends Migration
             $table->foreign('c_token')->references('c_token')->on('companies');
             $table->foreign('c_sec_key')->references('c_sec_key')->on('companies');
             $table->foreign('coupon_hash')->references('coupon_hash')->on('coupons');
-
         });
     }
 

@@ -17,9 +17,7 @@ class CreateSecurityQuestionsTable extends Migration
             $table->string('security_question_hash');
             $table->primary('security_question_hash');
             $table->string('security_question')->unique();
-            $table->string('c_token');
-            $table->string('c_hash');
-            $table->string('c_sec_key');
+            $table->string('employee_hash');
             $table->string('created_by', 50)->nullable();
             $table->string('updated_by', 50)->nullable();
             $table->tinyInteger('status')->default('1');
@@ -27,9 +25,7 @@ class CreateSecurityQuestionsTable extends Migration
         });
 
         Schema::table('security_questions', function($table){
-            $table->foreign('c_hash')->references('c_hash')->on('companies');
-            $table->foreign('c_token')->references('c_token')->on('companies');
-            $table->foreign('c_sec_key')->references('c_sec_key')->on('companies');
+            $table->foreign('employee_hash')->references('employee_hash')->on('c_employees');
         });
     }
 
