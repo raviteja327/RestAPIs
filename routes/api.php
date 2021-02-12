@@ -38,7 +38,7 @@ use App\Http\Controllers\API\crmSalesCompanyVisitingController;
 use App\Http\Controllers\API\crmSalesCompanyBillingController;
 use App\Http\Controllers\API\crmTasksController;
 use App\Http\Controllers\API\bankDetailsController;
-use App\Http\Controllers\API\menuController;
+use App\Http\Controllers\API\menusController;
 use DB as DBS;
 /*
 |--------------------------------------------------------------------------
@@ -439,10 +439,10 @@ Route::post('/company/bankdetails/delete/{id}', [bankDetailsController::class, '
 
 // Menu Routes
 
-Route::post('/company/menu/create', [menuController::class, 'create']);
-Route::get('/company/menu/views', [menuController::class, 'views']);
-Route::get('/company/menu/view/{id}', [menuController::class, 'view']);
-Route::post('/company/menu/update/{id}', [menuController::class, 'update']);
-Route::post('/company/menu/delete/{id}', [menuController::class, 'delete']);
+Route::post('/company/menu/create', [menusController::class, 'create']);
+Route::get('/company/menu/views', [menusController::class, 'views']);
+Route::get('/company/menu/view/{id}', [menusController::class, 'view']);
+Route::post('/company/menu/update/{id}', [menusController::class, 'update']);
+Route::post('/company/menu/delete/{id}', [menusController::class, 'delete']);
 
 // Menu Routes
