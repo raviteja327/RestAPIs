@@ -157,7 +157,7 @@ class bankDetailsController extends Controller
 
                 $account_hash = $request->id;
 
-                $bank = bankDetails::where('account_hash', $account_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status, 1')->get();
+                $bank = bankDetails::where('account_hash', $account_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
                 if ($bank) {
                     return response()->json($bank);
                 } else {
