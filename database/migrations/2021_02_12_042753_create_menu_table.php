@@ -15,11 +15,11 @@ class CreateMenuTable extends Migration
     {
         Schema::create('menu', function (Blueprint $table) {
             $table->string('c_hash');
-            $table->foreign('c_hash')->references('c_hash')->on('frontend_company');
+            $table->foreign('c_hash')->references('c_hash')->on('companies');
             $table->string('c_token');
-            $table->foreign('c_token')->references('c_token')->on('frontend_company');
+            $table->foreign('c_token')->references('c_token')->on('companies');
             $table->string('c_sec_key');
-            $table->foreign('c_sec_key')->references('c_sec_key')->on('frontend_company');
+            $table->foreign('c_sec_key')->references('c_sec_key')->on('companies');
             $table->string('menu_name',100)->unique();
             $table->string('menu_hash');
             $table->primary('menu_hash');
