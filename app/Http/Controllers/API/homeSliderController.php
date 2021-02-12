@@ -262,9 +262,9 @@ class homeSliderController extends Controller
             if ($status) {
 
                 $slider_hash = $request->id;
-                $animation_hash = $request->animation_hash;
+                // $animation_hash = $request->animation_hash;
                 
-                $homesli = homeSlider::where('slider_hash', $slider_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('animation_hash', $animation_hash)
+                $homesli = homeSlider::where('slider_hash', $slider_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)
                 ->update([
                     'status' => 0,
                     'updated_by' => "NULL",
