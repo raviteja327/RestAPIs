@@ -99,7 +99,7 @@ class menusController extends Controller
 
             if ($status) {
                 
-                $menus = menu::where('status', 1)->get();
+                $menus = menu::where('status', 1)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->get();
 
                 if ($menus) {
                     return response()->json($menus);
