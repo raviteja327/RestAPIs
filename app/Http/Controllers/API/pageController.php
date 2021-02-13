@@ -283,7 +283,7 @@ class pageController extends Controller
                 $home_slider_hash = $request->home_slider_hash;
                 $mini_slider_hash = $request->mini_slider_hash;
                 
-                $page = page::where('page_hash', $page_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('home_slider_hash', $home_slider_hash)->where('mini_slider_hash', $mini_slider_hash)
+                $page = page::where('page_hash', $page_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)
                 ->update([
                     'status' => 0,
                     'updated_by' => "NULL",

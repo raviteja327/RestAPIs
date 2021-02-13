@@ -137,7 +137,7 @@ class countriesController extends Controller
             'updated_at' => now(),
         );
 
-        $countries = DB::table('countries')->where('country_hash', $country_hash)->where('a_hash', $a_hash)->update($data);
+        $countries = DB::table('countries')->where('country_hash', $country_hash)->update($data);
 
         if($countries){
 

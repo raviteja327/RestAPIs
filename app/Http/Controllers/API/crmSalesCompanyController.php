@@ -285,7 +285,7 @@ class crmSalesCompanyController extends Controller
                 $c_sec_key = $request->c_sec_key;
                 $country_hash = $request->country_hash;
                 
-                $crmsalescom = crmSalesCompany::where('sales_company_hash', $sales_company_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('country_hash', $country_hash)
+                $crmsalescom = crmSalesCompany::where('sales_company_hash', $sales_company_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)
                 ->update([
                     'status' => 0,
                     'updated_by' => "NULL",

@@ -39,6 +39,7 @@ use App\Http\Controllers\API\crmSalesCompanyBillingController;
 use App\Http\Controllers\API\crmTasksController;
 use App\Http\Controllers\API\bankDetailsController;
 use App\Http\Controllers\API\menusController;
+use App\Http\Controllers\API\securityQuestionsController;
 use DB as DBS;
 /*
 |--------------------------------------------------------------------------
@@ -446,3 +447,13 @@ Route::post('/company/menu/update/{id}', [menusController::class, 'update']);
 Route::post('/company/menu/delete/{id}', [menusController::class, 'delete']);
 
 // Menu Routes
+
+// Security Questions Routes
+
+Route::post('/company/securityque/create', [securityQuestionsController::class, 'create']);
+Route::get('/company/securityque/views', [securityQuestionsController::class, 'views']);
+Route::get('/company/securityque/view/{id}', [securityQuestionsController::class, 'view']);
+Route::post('/company/securityque/update/{id}', [securityQuestionsController::class, 'update']);
+Route::post('/company/securityque/delete/{id}', [securityQuestionsController::class, 'delete']);
+
+// Security Questions Routes

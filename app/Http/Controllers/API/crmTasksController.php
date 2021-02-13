@@ -272,9 +272,9 @@ class crmTasksController extends Controller
             if ($status) {
 
                 $task_hash = $request->id;
-                $sales_company_hash = $request->sales_company_hash;
+                // $sales_company_hash = $request->sales_company_hash;
                 
-                $crmtask = crmTasks::where('task_hash', $task_hash)->where('sales_company_hash', $sales_company_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)
+                $crmtask = crmTasks::where('task_hash', $task_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)
                 ->update([
                     'status' => 0,
                     'updated_by' => "NULL",
