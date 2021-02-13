@@ -53,7 +53,7 @@ class Organisationtypes extends Seeder
             'company_email'=>'ranjith@kalai.info',
             'c_token'=>md5('Kalai info logic Private Limited'),
             'c_hash'=>sha1('ranjith@kalai.info'),
-            'c_sec_key'=>Hash::make('Kalai info logic Private Limited'),
+            'c_sec_key'=>md5(sha1('Kalai info logic Private Limited')),
             'a_hash'=>'4636380',
             'org_type_hash'=>"123456789",
             'org_indus_type_hash'=>"1234567891",
