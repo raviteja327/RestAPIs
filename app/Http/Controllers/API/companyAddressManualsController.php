@@ -21,6 +21,9 @@ class companyAddressManualsController extends Controller
             'c_hash' => 'required',
             'c_token' => 'required',
             'c_sec_key' => 'required',
+            'dist_hash' => 'required',
+            'state_hash' => 'required',
+            'country_hash' => 'required',
         ]);
 
         if($valid->fails() == TRUE){

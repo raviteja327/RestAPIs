@@ -334,8 +334,8 @@ class cEmployeesController extends Controller
             if ($status) {
                 
                 $employee_hash = $request->id;
-                $company_hash = $request->company_hash;
-                $c_role_hash = $request->c_role_hash;
+                // $company_hash = $request->company_hash;
+                // $c_role_hash = $request->c_role_hash;
                 $first_name = $request->first_name;
         
                 $data = array(
@@ -344,7 +344,7 @@ class cEmployeesController extends Controller
                     'updated_at' => now(),
                 );
         
-                $cemployees = DB::table('c_employees')->where('employee_hash', $employee_hash)->where('company_hash', $company_hash)->where('c_role_hash', $c_role_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
+                $cemployees = DB::table('c_employees')->where('employee_hash', $employee_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
         
                 if($cemployees){
         

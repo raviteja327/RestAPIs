@@ -24,7 +24,7 @@ class CreateCrmSalesCompanyContactTable extends Migration
             $table->primary('contact_hash');
             $table->string('image',150);
             $table->string('job_title',50);
-            $table->tinyinteger('gender');
+            $table->string('gender');
             $table->string('language',50)->nullable();
             $table->timestamp('time_zone');
             $table->string('description')->nullable();

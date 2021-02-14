@@ -14,7 +14,7 @@ class cUserRolesController extends Controller
     public function create(Request $request){
 
         $valid = Validator::make($request->all() , [
-            'c_role_name' => 'required',
+            'c_role_name' => 'required | unique:App\Models\API\cUserRoles,c_role_name',
             'a_hash' => 'required',
         ]);
 
@@ -79,7 +79,7 @@ class cUserRolesController extends Controller
     public function update(Request $request){
 
         $valid = Validator::make($request->all() , [
-            'c_role_name' => 'required',
+            'c_role_name' => 'required | unique:App\Models\API\cUserRoles,c_role_name',
             'a_hash' => 'required',
         ]);
 
@@ -133,7 +133,7 @@ class cUserRolesController extends Controller
             'updated_at' => now(),
         );
 
-        $cuser = DB::table('c_user_roles')->where('c_role_hash', $c_role_hash)->where('a_hash', $a_hash)->update($data);
+        $cuser = DB::table('c_user_roles')->where('c_role_hash', $c_role_hash)->update($data);
 
         if($cuser){
 

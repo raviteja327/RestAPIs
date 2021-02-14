@@ -17,7 +17,7 @@ class CreateCrmSalesCompanyVisitingTable extends Migration
             $table->string('sales_company_hash');
             $table->foreign('sales_company_hash')->references('sales_company_hash')->on('crm_sales_company');
             $table->text('street_house_number');
-            $table->integer('zip_code')->unique();
+            $table->string('zip_code')->unique();
             $table->string('town',100);
             $table->string('country_hash');
             $table->foreign('country_hash')->references('country_hash')->on('countries');
