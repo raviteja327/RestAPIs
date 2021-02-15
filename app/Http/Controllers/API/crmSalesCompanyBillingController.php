@@ -123,10 +123,10 @@ class crmSalesCompanyBillingController extends Controller
     public function delete(Request $request){
 
         $zip_code = $request->id;
-        $sales_company_hash = $request->sales_company_hash;
-        $country_hash = $request->country_hash;
+        // $sales_company_hash = $request->sales_company_hash;
+        // $country_hash = $request->country_hash;
 
-        $crmsalescombill = crmSalesCompanyBilling::where('zip_code', $zip_code)->where('sales_company_hash', $sales_company_hash)->where('country_hash', $country_hash)
+        $crmsalescombill = crmSalesCompanyBilling::where('zip_code', $zip_code)
         ->update([
             'status' => 0,
             'updated_by' => "NULL",
