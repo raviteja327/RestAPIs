@@ -125,7 +125,7 @@ class cUserRolesController extends Controller
     public function delete(Request $request){
 
         $c_role_hash = $request->id;
-        $a_hash = $request->a_hash;
+        // $a_hash = $request->a_hash;
 
         $data = array(
             'status' => 0,

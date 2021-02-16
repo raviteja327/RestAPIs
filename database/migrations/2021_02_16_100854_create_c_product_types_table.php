@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMenuTable extends Migration
+class CreateCProductTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,20 @@ class CreateMenuTable extends Migration
      */
     public function up()
     {
-        Schema::create('menu', function (Blueprint $table) {
+        Schema::create('c_product_types', function (Blueprint $table) {
+            $table->string('product_type_hash');
+            $table->primary('product_type_hash');
+            $table->string('employee_hash');
+            $table->foreign('employee_hash')->references('employee_hash')->on('c_employees');
+            $table->string('product_type_name')->unique();
+            $table->string('product_type_description')->nullable();
+            $table->string('physical_product')->nullable();
+            $table->string('virtual_product')->nullable();
+            $table->string('downloadable_product')->nullable();
             $table->string('c_hash');
             $table->foreign('c_hash')->references('c_hash')->on('companies');
             $table->string('c_token');
             $table->foreign('c_token')->references('c_token')->on('companies');
-            $table->string('c_sec_key');
-            $table->foreign('c_sec_key')->references('c_sec_key')->on('companies');
-            $table->string('menu_name',100)->unique();
-            $table->string('menu_hash');
-            $table->primary('menu_hash');
-            $table->string('page_name',100);
             $table->string('created_by',50)->nullable();
             $table->string('updated_by',50)->nullable();
             $table->tinyInteger('status')->default(1);
@@ -38,6 +41,6 @@ class CreateMenuTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('menu');
+        Schema::dropIfExists('c_product_types');
     }
 }

@@ -279,7 +279,7 @@ class productCategoriesController extends Controller
             if ($status) {
                 
                 $product_categories_type_hash = $request->id;
-                $company_db_user_hash = $request->company_db_user_hash;
+                // $company_db_user_hash = $request->company_db_user_hash;
         
                 $data = array(
                     'status' => 0,
@@ -287,7 +287,7 @@ class productCategoriesController extends Controller
                     'updated_at' => now(),
                 );
         
-                $procat = DB::table('product_categories')->where('product_categories_type_hash', $product_categories_type_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->where('company_db_user_hash', $company_db_user_hash)->update($data);
+                $procat = DB::table('product_categories')->where('product_categories_type_hash', $product_categories_type_hash)->where('c_token', $c_token)->where('c_hash', $c_hash)->where('c_sec_key', $c_sec_key)->update($data);
         
                 if($procat){
         
