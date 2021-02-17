@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class CreateShippingDetailsTable extends Migration
+class CreateItemInvoicesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreateShippingDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('shipping_details', function (Blueprint $table) {
-            $table->string('shipper_hash');
-            $table->primary('shipper_hash');
+        Schema::create('item_invoices', function (Blueprint $table) {
+            $table->string('invoice_hash');
+            $table->primary('invoice_hash');
             $table->string('order_hash');
-            $table->string('ship_name', 50)->unique();
-            $table->timestamp('ship_date')->nullable();
+            $table->string('product_hash');
+            $table->string('coupon_hash');
+            $table->integer('quantity')->nullable();
+            $table->integer('price')->nullable();
             $table->string('c_token');
             $table->string('c_hash');
             $table->string('c_sec_key');
@@ -28,12 +30,13 @@ class CreateShippingDetailsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::table('shipping_details', function($table){
+        Schema::table('item_invoices', function($table){
             $table->foreign('order_hash')->references('order_hash')->on('orders');
+            $table->foreign('product_hash')->references('product_hash')->on('c_products');
             $table->foreign('c_hash')->references('c_hash')->on('companies');
             $table->foreign('c_token')->references('c_token')->on('companies');
             $table->foreign('c_sec_key')->references('c_sec_key')->on('companies');
-
+            $table->foreign('coupon_hash')->references('coupon_hash')->on('coupons');
         });
     }
 
@@ -44,6 +47,6 @@ class CreateShippingDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shipping_details');
+        Schema::dropIfExists('item_invoices');
     }
 }

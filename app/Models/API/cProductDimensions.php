@@ -5,10 +5,10 @@ namespace App\Models\API;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class productCategories extends Model
+class cProductDimensions extends Model
 {
     use HasFactory;
 
-    protected $table = 'product_categories';
+    protected $table = 'c_product_dimensions';
 
 }

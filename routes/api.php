@@ -16,8 +16,6 @@ use App\Http\Controllers\API\cContactUsersController;
 use App\Http\Controllers\API\cEmployeesController;
 use App\Http\Controllers\API\kalaiStatesController;
 use App\Http\Controllers\API\statesDistrictsController;
-use App\Http\Controllers\API\productCategoriesController;
-use App\Http\Controllers\API\productsController;
 use App\Http\Controllers\API\customersController;
 use App\Http\Controllers\API\couponsController;
 use App\Http\Controllers\API\ordersController;
@@ -40,6 +38,17 @@ use App\Http\Controllers\API\crmTasksController;
 use App\Http\Controllers\API\bankDetailsController;
 use App\Http\Controllers\API\menusController;
 use App\Http\Controllers\API\securityQuestionsController;
+use App\Http\Controllers\API\cActivitiesController;
+use App\Http\Controllers\API\cpProductGeneralDetailsController;
+use App\Http\Controllers\API\cpProductImagesController;
+use App\Http\Controllers\API\cpProductVarientsController;
+use App\Http\Controllers\API\cpProductVarientsDetailsController;
+use App\Http\Controllers\API\cProductDimensionsController;
+use App\Http\Controllers\API\cProductsController;
+use App\Http\Controllers\API\cProductStockDetailsController;
+use App\Http\Controllers\API\cProductTypesController;
+use App\Http\Controllers\API\orderTypeController;
+use App\Http\Controllers\API\productCategoriesController;
 use DB as DBS;
 /*
 |--------------------------------------------------------------------------
@@ -215,26 +224,6 @@ Route::post('/company/statesdistricts/update/{id}', [statesDistrictsController::
 Route::post('/company/statesdistricts/delete/{id}', [statesDistrictsController::class, 'delete']);
 
 // States Districts Routes
-
-// Product Categories Routes
-
-Route::post('/company/procat/create', [productCategoriesController::class, 'create']);
-Route::get('/company/procat/views', [productCategoriesController::class, 'views']);
-Route::get('/company/procat/view/{id}', [productCategoriesController::class, 'view']);
-Route::post('/company/procat/update/{id}', [productCategoriesController::class, 'update']);
-Route::post('/company/procat/delete/{id}', [productCategoriesController::class, 'delete']);
-
-// Product Categories Routes
-
-// Products Routes
-
-Route::post('/company/products/create', [productsController::class, 'create']);
-Route::get('/company/products/views', [productsController::class, 'views']);
-Route::get('/company/products/view/{id}', [productsController::class, 'view']);
-Route::post('/company/products/update/{id}', [productsController::class, 'update']);
-Route::post('/company/products/delete/{id}', [productsController::class, 'delete']);
-
-// Products Routes
 
 // Customers Routes
 
@@ -457,3 +446,113 @@ Route::post('/company/securityque/update/{id}', [securityQuestionsController::cl
 Route::post('/company/securityque/delete/{id}', [securityQuestionsController::class, 'delete']);
 
 // Security Questions Routes
+
+// Order Type Routes
+
+Route::post('/company/ordertype/create', [orderTypeController::class, 'create']);
+Route::get('/company/ordertype/views', [orderTypeController::class, 'views']);
+Route::get('/company/ordertype/view/{id}', [orderTypeController::class, 'view']);
+Route::post('/company/ordertype/update/{id}', [orderTypeController::class, 'update']);
+Route::post('/company/ordertype/delete/{id}', [orderTypeController::class, 'delete']);
+
+// Order Type Routes
+
+// C Activities Routes
+
+Route::post('/company/cact/create', [cActivitiesController::class, 'create']);
+Route::get('/company/cact/views', [cActivitiesController::class, 'views']);
+Route::get('/company/cact/view/{id}', [cActivitiesController::class, 'view']);
+Route::post('/company/cact/update/{id}', [cActivitiesController::class, 'update']);
+Route::post('/company/cact/delete/{id}', [cActivitiesController::class, 'delete']);
+
+// C Activities Routes
+
+// C product Types Routes
+
+Route::post('/company/cprotype/create', [cProductTypesController::class, 'create']);
+Route::get('/company/cprotype/views', [cProductTypesController::class, 'views']);
+Route::get('/company/cprotype/view/{id}', [cProductTypesController::class, 'view']);
+Route::post('/company/cprotype/update/{id}', [cProductTypesController::class, 'update']);
+Route::post('/company/cprotype/delete/{id}', [cProductTypesController::class, 'delete']);
+
+// C product Types Routes
+
+// Product Categories Routes
+
+Route::post('/company/procat/create', [productCategoriesController::class, 'create']);
+Route::get('/company/procat/views', [productCategoriesController::class, 'views']);
+Route::get('/company/procat/view/{id}', [productCategoriesController::class, 'view']);
+Route::post('/company/procat/update/{id}', [productCategoriesController::class, 'update']);
+Route::post('/company/procat/delete/{id}', [productCategoriesController::class, 'delete']);
+
+// Product Categories Routes
+
+// C Products Routes
+
+Route::post('/company/cproducts/create', [cProductsController::class, 'create']);
+Route::get('/company/cproducts/views', [cProductsController::class, 'views']);
+Route::get('/company/cproducts/view/{id}', [cProductsController::class, 'view']);
+Route::post('/company/cproducts/update/{id}', [cProductsController::class, 'update']);
+Route::post('/company/cproducts/delete/{id}', [cProductsController::class, 'delete']);
+
+// C Products Routes
+
+// C Product Dimensions Routes
+
+Route::post('/company/cproductsdim/create', [cProductDimensionsController::class, 'create']);
+Route::get('/company/cproductsdim/views', [cProductDimensionsController::class, 'views']);
+Route::get('/company/cproductsdim/view/{id}', [cProductDimensionsController::class, 'view']);
+Route::post('/company/cproductsdim/update/{id}', [cProductDimensionsController::class, 'update']);
+Route::post('/company/cproductsdim/delete/{id}', [cProductDimensionsController::class, 'delete']);
+
+// C Product Dimensions Routes
+
+// C Product Stock Details Routes
+
+Route::post('/company/cprostockdetails/create', [cProductStockDetailsController::class, 'create']);
+Route::get('/company/cprostockdetails/views', [cProductStockDetailsController::class, 'views']);
+Route::get('/company/cprostockdetails/view/{id}', [cProductStockDetailsController::class, 'view']);
+Route::post('/company/cprostockdetails/update/{id}', [cProductStockDetailsController::class, 'update']);
+Route::post('/company/cprostockdetails/delete/{id}', [cProductStockDetailsController::class, 'delete']);
+
+// C Product Stock Details Routes
+
+// C Product General Details Routes
+
+Route::post('/company/cprogendetails/create', [cpProductGeneralDetailsController::class, 'create']);
+Route::get('/company/cprogendetails/views', [cpProductGeneralDetailsController::class, 'views']);
+Route::get('/company/cprogendetails/view/{id}', [cpProductGeneralDetailsController::class, 'view']);
+Route::post('/company/cprogendetails/update/{id}', [cpProductGeneralDetailsController::class, 'update']);
+Route::post('/company/cprogendetails/delete/{id}', [cpProductGeneralDetailsController::class, 'delete']);
+
+// C Product General Details Routes
+
+// C Product Images Routes
+
+Route::post('/company/cproimages/create', [cpProductImagesController::class, 'create']);
+Route::get('/company/cproimages/views', [cpProductImagesController::class, 'views']);
+Route::get('/company/cproimages/view/{id}', [cpProductImagesController::class, 'view']);
+Route::post('/company/cproimages/update/{id}', [cpProductImagesController::class, 'update']);
+Route::post('/company/cproimages/delete/{id}', [cpProductImagesController::class, 'delete']);
+
+// C Product Images Routes
+
+// C Product Varients Routes
+
+Route::post('/company/cprovar/create', [cpProductVarientsController::class, 'create']);
+Route::get('/company/cprovar/views', [cpProductVarientsController::class, 'views']);
+Route::get('/company/cprovar/view/{id}', [cpProductVarientsController::class, 'view']);
+Route::post('/company/cprovar/update/{id}', [cpProductVarientsController::class, 'update']);
+Route::post('/company/cprovar/delete/{id}', [cpProductVarientsController::class, 'delete']);
+
+// C Product Varients Routes
+
+// C Product Varients Details Routes
+
+Route::post('/company/cprovardetails/create', [cpProductVarientsDetailsController::class, 'create']);
+Route::get('/company/cprovardetails/views', [cpProductVarientsDetailsController::class, 'views']);
+Route::get('/company/cprovardetails/view/{id}', [cpProductVarientsDetailsController::class, 'view']);
+Route::post('/company/cprovardetails/update/{id}', [cpProductVarientsDetailsController::class, 'update']);
+Route::post('/company/cprovardetails/delete/{id}', [cpProductVarientsDetailsController::class, 'delete']);
+
+// C Product Varients Details Routes

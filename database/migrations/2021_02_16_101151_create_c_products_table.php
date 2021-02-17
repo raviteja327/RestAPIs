@@ -22,8 +22,8 @@ class CreateCProductsTable extends Migration
             $table->string('product_short_description')->nullable();
             $table->string('product_type_hash');
             $table->foreign('product_type_hash')->references('product_type_hash')->on('c_product_types');
-            $table->string('product_category_hash');
-            $table->foreign('product_category_hash')->references('product_category_hash')->on('product_categories');
+            $table->string('product_categories_hash');
+            $table->foreign('product_categories_hash')->references('product_categories_hash')->on('product_categories');
             $table->string('product_featured_img_url')->nullable();
             $table->string('product_tags')->nullable();
             $table->string('meta_tags')->nullable();

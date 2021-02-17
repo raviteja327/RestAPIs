@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class CreatePaymentDetailsTable extends Migration
+class CreateOrderStatusSTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreatePaymentDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('payment_details', function (Blueprint $table) {
+        Schema::create('order_status_s', function (Blueprint $table) {
+            $table->string('status_hash');
+            $table->primary('status_hash');
             $table->string('payment_details_hash');
-            $table->primary('payment_details_hash');
-            $table->string('order_hash');
-            $table->string('payment_gateway_hash');
-            $table->integer('transaction_id')->unique();
-            $table->integer('gst')->nullable();
+            $table->string('status_name', 50)->unique();
             $table->string('c_token');
             $table->string('c_hash');
             $table->string('c_sec_key');
@@ -28,9 +26,9 @@ class CreatePaymentDetailsTable extends Migration
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });
-        Schema::table('payment_details', function($table){
-            $table->foreign('payment_gateway_hash')->references('payment_gateway_hash')->on('payment_gateways');
-            $table->foreign('order_hash')->references('order_hash')->on('orders');
+
+        Schema::table('order_status_s', function($table){
+            $table->foreign('payment_details_hash')->references('payment_details_hash')->on('payment_details');
             $table->foreign('c_hash')->references('c_hash')->on('companies');
             $table->foreign('c_token')->references('c_token')->on('companies');
             $table->foreign('c_sec_key')->references('c_sec_key')->on('companies');
@@ -45,6 +43,6 @@ class CreatePaymentDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payment_details');
+        Schema::dropIfExists('order_status_s');
     }
 }

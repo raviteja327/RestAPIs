@@ -5,21 +5,20 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\API\productCategories;
+use App\Models\API\cProductTypes;
 use App\Models\API\companies;
 
-class productCategoriesController extends Controller
+class cProductTypesController extends Controller
 {
     //
 
     public function create(Request $request){
 
         $valid = Validator::make($request->all() , [
-            'product_categories_name' => 'required | unique:App\Models\API\productCategories,product_categories_name',
+            'product_type_name' => 'required | unique:App\Models\API\cProductTypes,product_type_name',
             'c_hash' => 'required',
             'c_token' => 'required',
-            'c_sec_key' => 'required',
-            'company_db_user_hash' => 'required',
+            'employee_hash' => 'required',
         ]);
  
         if($valid->fails() == TRUE){
@@ -32,35 +31,33 @@ class productCategoriesController extends Controller
             
             $c_hash = $request->c_hash;
             $c_token = $request->c_token;
-            $c_sec_key = $request->c_sec_key;
 
-            $status = companies::where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
+            $status = companies::where('c_hash', $c_hash)->where('c_token', $c_token)->where('status', 1)->get();
 
             if ($status) {
                 
-                $procat = new productCategories;
+                $protype = new cProductTypes;
 
-                $procat->product_categories_hash = md5($request->product_categories_name.now());
-                $procat->product_categories_name = $request->product_categories_name;
-                $procat->category_description = $request->category_description;
-                $procat->sub_category = $request->sub_category;
-                $procat->product_categories_image = $request->product_categories_image;
-                $procat->category_details = $request->category_details;
-                $procat->company_db_user_hash = $request->company_db_user_hash;
-                $procat->c_hash = $request->c_hash;
-                $procat->c_token = $request->c_token;
-                $procat->c_sec_key = $request->c_sec_key;
-                $procat->created_by = "NULL";
-                $procat->updated_by = "NULL";
-                $procat->created_at = now();
-                $procat->updated_at = now();
+                $protype->product_type_hash = md5($request->product_type_name.now());
+                $protype->employee_hash = $request->employee_hash;
+                $protype->product_type_name = $request->product_type_name;
+                $protype->product_type_description = $request->product_type_description;
+                $protype->physical_product = $request->physical_product;
+                $protype->virtual_product = $request->virtual_product;
+                $protype->downloadable_product = $request->downloadable_product;
+                $protype->c_hash = $request->c_hash;
+                $protype->c_token = $request->c_token;
+                $protype->created_by = "NULL";
+                $protype->updated_by = "NULL";
+                $protype->created_at = now();
+                $protype->updated_at = now();
 
-                $pro = $procat->save();
+                $pro = $protype->save();
     
                 if ($pro) {
                     return response()->json(array(
                         'status' => 1,
-                        'message' => $procat
+                        'message' => $protype
                     ));
                 } else {
                     return response()->json(array(
@@ -85,7 +82,6 @@ class productCategoriesController extends Controller
         $valid = Validator::make($request->all() , [
             'c_hash' => 'required',
             'c_token' => 'required',
-            'c_sec_key' => 'required',
         ]);
  
         if($valid->fails() == TRUE){
@@ -98,13 +94,12 @@ class productCategoriesController extends Controller
             
             $c_hash = $request->c_hash;
             $c_token = $request->c_token;
-            $c_sec_key = $request->c_sec_key;
 
-            $status = companies::where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
+            $status = companies::where('c_hash', $c_hash)->where('c_token', $c_token)->where('status', 1)->get();
 
             if ($status) {
-                
-                $pro = productCategories::where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
+
+                $pro = cProductTypes::where('c_hash', $c_hash)->where('c_token', $c_token)->where('status', 1)->get();
 
                 if ($pro) {
                     return response()->json($pro);
@@ -131,7 +126,6 @@ class productCategoriesController extends Controller
         $valid = Validator::make($request->all() , [
             'c_hash' => 'required',
             'c_token' => 'required',
-            'c_sec_key' => 'required',
         ]);
  
         if($valid->fails() == TRUE){
@@ -144,15 +138,14 @@ class productCategoriesController extends Controller
             
             $c_hash = $request->c_hash;
             $c_token = $request->c_token;
-            $c_sec_key = $request->c_sec_key;
 
-            $status = companies::where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
+            $status = companies::where('c_hash', $c_hash)->where('c_token', $c_token)->where('status', 1)->get();
 
             if ($status) {
                 
-                $product_categories_hash = $request->id;
+                $product_type_hash = $request->id;
                 
-                $pro = productCategories::where('product_categories_hash', $product_categories_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
+                $pro = cProductTypes::where('product_type_hash', $product_type_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('status', 1)->get();
 
                 if ($pro) {
                     return response()->json($pro);
@@ -177,11 +170,10 @@ class productCategoriesController extends Controller
     public function update(Request $request){
 
         $valid = Validator::make($request->all() , [
-            'product_categories_name' => 'required | unique:App\Models\API\productCategories,product_categories_name',
+            'product_type_name' => 'required | unique:App\Models\API\cProductTypes,product_type_name',
             'c_hash' => 'required',
             'c_token' => 'required',
-            'c_sec_key' => 'required',
-            'company_db_user_hash' => 'required',
+            'employee_hash' => 'required',
         ]);
  
         if($valid->fails() == TRUE){
@@ -194,22 +186,21 @@ class productCategoriesController extends Controller
             
             $c_hash = $request->c_hash;
             $c_token = $request->c_token;
-            $c_sec_key = $request->c_sec_key;
 
-            $status = companies::where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
+            $status = companies::where('c_hash', $c_hash)->where('c_token', $c_token)->where('status', 1)->get();
 
             if ($status) {
                 
-                $product_categories_hash = $request->id;
+                $product_type_hash = $request->id;
 
-                $pro = productCategories::where('product_categories_hash', $product_categories_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)
+                $pro = cProductTypes::where('product_type_hash', $product_type_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)
                 ->update([
-                    'product_categories_name' => $request->product_categories_name,
-                    'category_description' => $request->category_description,
-                    'sub_category' => $request->sub_category,
-                    'product_categories_image' => $request->product_categories_image,
-                    'category_details' => $request->category_details,
-                    'company_db_user_hash' => $request->company_db_user_hash,
+                    'product_type_name' => $request->product_type_name,
+                    'employee_hash' => $request->employee_hash,
+                    'product_type_description' => $request->product_type_description,
+                    'physical_product' => $request->physical_product,
+                    'virtual_product' => $request->virtual_product,
+                    'downloadable_product' => $request->downloadable_product,
                     'updated_by' => "NULL",
                     'updated_at' => now(),
                 ]);
@@ -242,7 +233,6 @@ class productCategoriesController extends Controller
         $valid = Validator::make($request->all() , [
             'c_hash' => 'required',
             'c_token' => 'required',
-            'c_sec_key' => 'required',
         ]);
  
         if($valid->fails() == TRUE){
@@ -255,15 +245,14 @@ class productCategoriesController extends Controller
             
             $c_hash = $request->c_hash;
             $c_token = $request->c_token;
-            $c_sec_key = $request->c_sec_key;
 
-            $status = companies::where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)->where('status', 1)->get();
+            $status = companies::where('c_hash', $c_hash)->where('c_token', $c_token)->where('status', 1)->get();
 
             if ($status) {
                 
-                $product_categories_hash = $request->id;
+                $product_type_hash = $request->id;
                 
-                $pro = productCategories::where('product_categories_hash', $product_categories_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)->where('c_sec_key', $c_sec_key)
+                $pro = cProductTypes::where('product_type_hash', $product_type_hash)->where('c_hash', $c_hash)->where('c_token', $c_token)
                 ->update([
                     'status' => 0,
                     'updated_by' => "NULL",
