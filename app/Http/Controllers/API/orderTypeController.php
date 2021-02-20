@@ -63,7 +63,7 @@ class orderTypeController extends Controller
 
         $order_type_hash = $request->id;
 
-        $ordertype = orderType::where('order_type_hash', $order_type_hash)->get();
+        $ordertype = orderType::where('order_type_hash', $order_type_hash)->where('status', 1)->get();
 
         return response()->json($ordertype);
         
