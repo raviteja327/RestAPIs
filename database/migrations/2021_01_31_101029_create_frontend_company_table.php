@@ -14,8 +14,8 @@ class CreateFrontendCompanyTable extends Migration
     public function up()
     {
         Schema::create('frontend_company', function (Blueprint $table) {
-            $table->string('company_name',50)->unique();
-            $table->string('company_email',150)->unique();
+            $table->string('company_name', 50)->unique();
+            $table->string('company_email', 150)->unique();
             $table->string('c_token')->unique();
             $table->string('c_hash');
             $table->primary('c_hash');
@@ -33,10 +33,10 @@ class CreateFrontendCompanyTable extends Migration
             $table->string('template_hash')->nullable();
             $table->string('logo_file')->nullable();
             $table->string('certificate_file')->nullable();
-            $table->string('created_by',50)->nullable();
-            $table->string('updated_by',50)->nullable();
-            $table->string('source',10);
-            $table->tinyinteger('status')->default(1);
+            $table->string('created_by', 50);
+            $table->string('updated_by', 50);
+            $table->string('source', 10);
+            $table->tinyinteger('status')->default('1');
             $table->timestamps();
         });
     }

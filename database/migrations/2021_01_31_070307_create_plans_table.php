@@ -20,9 +20,9 @@ class CreatePlansTable extends Migration
             $table->string('plan_sec_key');
             $table->string('plan_name')->unique();
             $table->string('plan_description')->nullable();
-            $table->string('created_by',50)->nullable();
-            $table->string('updated_by',50)->nullable();
-            $table->tinyinteger('status')->default(1);
+            $table->string('created_by', 50);
+            $table->string('updated_by', 50);
+            $table->tinyinteger('status')->default('1');
             $table->timestamps();
         });
     }

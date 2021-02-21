@@ -20,19 +20,19 @@ class CreatePostTable extends Migration
             $table->foreign('c_token')->references('c_token')->on('companies');
             $table->string('c_sec_key');
             $table->foreign('c_sec_key')->references('c_sec_key')->on('companies');
-            $table->string('post_title',50)->unique();
+            $table->string('post_title', 50)->unique();
             $table->string('post_hash');
             $table->primary('post_hash');
             $table->string('post_description')->nullable();
-            $table->string('meta_keys',100);
+            $table->string('meta_keys', 100);
             $table->text('social_media_links');
             $table->tinyinteger('publish_now')->nullable();
             $table->timestamp('publish_later')->nullable();
-            $table->string('image',100);
-            $table->string('parent_group',100);
-            $table->string('created_by',50)->nullable();
-            $table->string('updated_by',50)->nullable();
-            $table->tinyinteger('status')->default(1);
+            $table->string('image', 100);
+            $table->string('parent_group', 100);
+            $table->string('created_by', 50);
+            $table->string('updated_by', 50);
+            $table->tinyinteger('status')->default('1');
             $table->timestamps();
         });
     }

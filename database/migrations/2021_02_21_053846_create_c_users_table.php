@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCActivitiesTable extends Migration
+class CreateCUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,19 @@ class CreateCActivitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('c_activities', function (Blueprint $table) {
-            $table->string('activity_hash');
-            $table->primary('activity_hash');
-            $table->string('activity_description')->nullable();
-            $table->string('c_hash');
-            $table->foreign('c_hash')->references('c_hash')->on('companies');
-            $table->string('c_token');
-            $table->foreign('c_token')->references('c_token')->on('companies');
+        Schema::create('c_users', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            $table->string('c_user_hash');
+            $table->primary('c_user_hash');
+            $table->string('name', 50);
+            $table->string('email', 100)->unique();
+            $table->bigInteger('mobile')->nullable();
+            $table->string('photo')->nullable();
+            $table->boolean('subscriber')->nullable();
+            $table->boolean('paid_subscriber')->nullable();
+            $table->string('password');
             $table->string('employee_hash');
             $table->foreign('employee_hash')->references('employee_hash')->on('c_employees');
-            $table->date('date_time');
             $table->string('created_by', 50);
             $table->string('updated_by', 50);
             $table->tinyInteger('status')->default('1');
@@ -38,6 +40,6 @@ class CreateCActivitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('c_activities');
+        Schema::dropIfExists('c_users');
     }
 }

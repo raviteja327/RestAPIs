@@ -16,10 +16,10 @@ class CreateAnimationTable extends Migration
         Schema::create('animation', function (Blueprint $table) {
             $table->string('animation_hash');
             $table->primary('animation_hash');
-            $table->string('animation_name',30)->unique();
-            $table->string('created_by',50);
-            $table->string('updated_by',50);
-            $table->tinyinteger('status')->default(1);
+            $table->string('animation_name', 30)->unique();
+            $table->string('created_by', 50);
+            $table->string('updated_by', 50);
+            $table->tinyinteger('status')->default('1');
             $table->timestamps();
         });
     }

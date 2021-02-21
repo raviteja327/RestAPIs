@@ -25,9 +25,9 @@ class CreateCPProductImagesTable extends Migration
             $table->foreign('c_hash')->references('c_hash')->on('companies');
             $table->string('c_token');
             $table->foreign('c_token')->references('c_token')->on('companies');
-            $table->string('created_by',50)->nullable();
-            $table->string('updated_by',50)->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->string('created_by', 50);
+            $table->string('updated_by', 50);
+            $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });
     }

@@ -22,17 +22,17 @@ class CreateCrmTasksTable extends Migration
             $table->foreign('c_sec_key')->references('c_sec_key')->on('companies');
             $table->string('sales_company_hash');
             $table->foreign('sales_company_hash')->references('sales_company_hash')->on('crm_sales_company');
-            $table->string('task_name',100)->unique();
+            $table->string('task_name', 100)->unique();
             $table->string('task_hash');
             $table->primary('task_hash');
-            $table->string('task_type',50);
+            $table->string('task_type', 50);
             $table->timestamp('followup_date')->nullable();
-            $table->string('notes',100)->nullable();
-            $table->string('email_template',100);
-            $table->tinyinteger('assign_task')->default(1)->nullable();
-            $table->string('created_by',50)->nullable();
-            $table->string('updated_by',50)->nullable();
-            $table->tinyinteger('status')->default(1);
+            $table->string('notes', 100)->nullable();
+            $table->string('email_template', 100);
+            $table->tinyinteger('assign_task')->default('1')->nullable();
+            $table->string('created_by', 50);
+            $table->string('updated_by', 50);
+            $table->tinyinteger('status')->default('1');
             $table->timestamps();
         });
     }

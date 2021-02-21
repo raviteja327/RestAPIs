@@ -21,8 +21,8 @@ class CreateCUserRolesTable extends Migration
             $table->string('c_role_name', 50)->unique();
             $table->string('c_role_description')->nullable();
             $table->string('a_hash');
-            $table->string('created_by', 50)->nullable();
-            $table->string('updated_by', 50)->nullable();
+            $table->string('created_by', 50);
+            $table->string('updated_by', 50);
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });

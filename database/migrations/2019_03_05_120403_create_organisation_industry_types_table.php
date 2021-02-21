@@ -18,8 +18,8 @@ class CreateOrganisationIndustryTypesTable extends Migration
             $table->primary('org_indus_type_hash');
             $table->string('org_indus_type_name', 50)->unique();
             $table->string('org_indus_type_desc')->nullable();
-            $table->string('created_by', 50)->nullable();
-            $table->string('updated_by', 50)->nullable();
+            $table->string('created_by', 50);
+            $table->string('updated_by', 50);
             $table->string('a_hash');
             $table->string('org_type_hash');
             $table->tinyInteger('status')->default('1');

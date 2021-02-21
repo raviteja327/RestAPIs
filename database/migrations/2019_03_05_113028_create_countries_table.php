@@ -20,8 +20,8 @@ class CreateCountriesTable extends Migration
             $table->string('country_name', 50)->unique();
             $table->string('country_desc')->nullable();
             $table->integer('country_code')->nullable();
-            $table->string('created_by', 50)->nullable();
-            $table->string('updated_by', 50)->nullable();
+            $table->string('created_by', 50);
+            $table->string('updated_by', 50);
             $table->string('a_hash');
             $table->tinyInteger('status')->default('1');
             $table->timestamps();

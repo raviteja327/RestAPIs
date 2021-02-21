@@ -16,7 +16,7 @@ class CreateMiniSliderTable extends Migration
         Schema::create('mini_slider', function (Blueprint $table) {
             $table->string('slider_hash');
             $table->primary('slider_hash');
-            $table->string('slider_name',100)->unique();
+            $table->string('slider_name', 100)->unique();
             $table->string('animation_hash');
             $table->string('slider_image');
             $table->string('c_hash');
@@ -25,9 +25,9 @@ class CreateMiniSliderTable extends Migration
             $table->foreign('c_token')->references('c_token')->on('companies');
             $table->string('c_sec_key');
             $table->foreign('c_sec_key')->references('c_sec_key')->on('companies');
-            $table->string('created_by',30)->nullable();
-            $table->string('updated_by',30)->nullable();
-            $table->tinyinteger('status')->default(1);
+            $table->string('created_by', 50);
+            $table->string('updated_by', 50);
+            $table->tinyinteger('status')->default('1');
             $table->timestamps();
         });
     }

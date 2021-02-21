@@ -17,9 +17,9 @@ class CreateOrderTypeTable extends Migration
             $table->string('order_type_hash');
             $table->primary('order_type_hash');
             $table->string('order_type_name')->unique();
-            $table->string('created_by',50)->nullable();
-            $table->string('updated_by',50)->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->string('created_by', 50);
+            $table->string('updated_by', 50);
+            $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });
     }

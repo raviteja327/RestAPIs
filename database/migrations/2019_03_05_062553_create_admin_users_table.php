@@ -19,8 +19,8 @@ class CreateAdminUsersTable extends Migration
             $table->string('a_email', 100)->unique();
             $table->string('a_password');
             $table->string('a_name', 50);
-            $table->string('created_by', 50)->nullable();
-            $table->string('updated_by', 50)->nullable();
+            $table->string('created_by', 50);
+            $table->string('updated_by', 50);
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });

@@ -23,10 +23,10 @@ class CreateMenuTable extends Migration
             $table->string('menu_name',100)->unique();
             $table->string('menu_hash');
             $table->primary('menu_hash');
-            $table->string('page_name',100);
-            $table->string('created_by',50)->nullable();
-            $table->string('updated_by',50)->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->string('page_name', 100);
+            $table->string('created_by', 50);
+            $table->string('updated_by', 50);
+            $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });
     }

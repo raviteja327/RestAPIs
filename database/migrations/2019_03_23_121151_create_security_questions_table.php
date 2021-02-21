@@ -18,8 +18,8 @@ class CreateSecurityQuestionsTable extends Migration
             $table->primary('security_question_hash');
             $table->string('security_question')->unique();
             // $table->string('employee_hash');
-            $table->string('created_by', 50)->nullable();
-            $table->string('updated_by', 50)->nullable();
+            $table->string('created_by', 50);
+            $table->string('updated_by', 50);
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });

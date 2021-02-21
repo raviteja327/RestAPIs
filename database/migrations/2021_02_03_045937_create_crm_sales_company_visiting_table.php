@@ -18,12 +18,12 @@ class CreateCrmSalesCompanyVisitingTable extends Migration
             $table->foreign('sales_company_hash')->references('sales_company_hash')->on('crm_sales_company');
             $table->text('street_house_number');
             $table->string('zip_code')->unique();
-            $table->string('town',100);
+            $table->string('town', 100);
             $table->string('country_hash');
             $table->foreign('country_hash')->references('country_hash')->on('countries');
-            $table->string('created_by',50)->nullable();
-            $table->string('updated_by',50)->nullable();
-            $table->tinyinteger('status')->default(1);
+            $table->string('created_by', 50);
+            $table->string('updated_by', 50);
+            $table->tinyinteger('status')->default('1');
 
             $table->timestamps();
         });

@@ -27,8 +27,8 @@ class CreateCompanyAddressManualsTable extends Migration
             $table->string('c_token');
             $table->string('c_hash');
             $table->string('c_sec_key');
-            $table->string('created_by', 50)->nullable();
-            $table->string('updated_by', 50)->nullable();
+            $table->string('created_by', 50);
+            $table->string('updated_by', 50);
             $table->string('dist_hash');
             $table->string('state_hash');
             $table->string('country_hash');

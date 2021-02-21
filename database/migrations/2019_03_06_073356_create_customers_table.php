@@ -27,8 +27,8 @@ class CreateCustomersTable extends Migration
             $table->integer('postal_code')->nullable();
             $table->string('country', 50);
             $table->string('c_token');
-            $table->string('created_by', 50)->nullable();
-            $table->string('updated_by', 50)->nullable();
+            $table->string('created_by', 50);
+            $table->string('updated_by', 50);
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });

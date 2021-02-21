@@ -279,5 +279,7 @@ class cpProductVarientsDetailsController extends Controller
             }
             
         }
+
     }
+    
 }

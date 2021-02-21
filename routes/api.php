@@ -49,6 +49,10 @@ use App\Http\Controllers\API\cProductStockDetailsController;
 use App\Http\Controllers\API\cProductTypesController;
 use App\Http\Controllers\API\orderTypeController;
 use App\Http\Controllers\API\productCategoriesController;
+use App\Http\Controllers\API\cUsersController;
+use App\Http\Controllers\API\pipelineStrategiesController;
+use App\Http\Controllers\API\stagesController;
+use App\Http\Controllers\API\dealsController;
 use DB as DBS;
 /*
 |--------------------------------------------------------------------------
@@ -556,3 +560,43 @@ Route::post('/company/cprovardetails/update/{id}', [cpProductVarientsDetailsCont
 Route::post('/company/cprovardetails/delete/{id}', [cpProductVarientsDetailsController::class, 'delete']);
 
 // C Product Varients Details Routes
+
+// C Users Routes
+
+Route::post('/company/cusers/create', [cUsersController::class, 'create']);
+Route::get('/company/cusers/views', [cUsersController::class, 'views']);
+Route::get('/company/cusers/view/{id}', [cUsersController::class, 'view']);
+Route::post('/company/cusers/update/{id}', [cUsersController::class, 'update']);
+Route::post('/company/cusers/delete/{id}', [cUsersController::class, 'delete']);
+
+// C Users Routes
+
+// Pipeline Strategies Routes
+
+Route::post('/company/pipeline/create', [pipelineStrategiesController::class, 'create']);
+Route::get('/company/pipeline/views', [pipelineStrategiesController::class, 'views']);
+Route::get('/company/pipeline/view/{id}', [pipelineStrategiesController::class, 'view']);
+Route::post('/company/pipeline/update/{id}', [pipelineStrategiesController::class, 'update']);
+Route::post('/company/pipeline/delete/{id}', [pipelineStrategiesController::class, 'delete']);
+
+// Pipeline Strategies Routes
+
+// Stages Routes
+
+Route::post('/company/stages/create', [stagesController::class, 'create']);
+Route::get('/company/stages/views', [stagesController::class, 'views']);
+Route::get('/company/stages/view/{id}', [stagesController::class, 'view']);
+Route::post('/company/stages/update/{id}', [stagesController::class, 'update']);
+Route::post('/company/stages/delete/{id}', [stagesController::class, 'delete']);
+
+// Stages Routes
+
+// Deals Routes
+
+Route::post('/company/deals/create', [dealsController::class, 'create']);
+Route::get('/company/deals/views', [dealsController::class, 'views']);
+Route::get('/company/deals/view/{id}', [dealsController::class, 'view']);
+Route::post('/company/deals/update/{id}', [dealsController::class, 'update']);
+Route::post('/company/deals/delete/{id}', [dealsController::class, 'delete']);
+
+// Deals Routes

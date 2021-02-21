@@ -29,9 +29,9 @@ class CreateProductCategoriesTable extends Migration
             $table->foreign('c_token')->references('c_token')->on('companies');
             $table->string('c_sec_key');
             $table->foreign('c_sec_key')->references('c_sec_key')->on('companies');
-            $table->string('created_by',50)->nullable();
-            $table->string('updated_by',50)->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->string('created_by', 50);
+            $table->string('updated_by', 50);
+            $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });
     }
