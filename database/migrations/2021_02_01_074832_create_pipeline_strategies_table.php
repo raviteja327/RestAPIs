@@ -17,6 +17,7 @@ class CreatePipelineStrategiesTable extends Migration
             $table->string('pipeline_hash');
             $table->primary('pipeline_hash');
             $table->string('pipeline_name', 50);
+            $table->string('stage_name')->unique();
             $table->string('employee_hash');
             $table->foreign('employee_hash')->references('employee_hash')->on('c_employees');
             $table->string('c_token');
