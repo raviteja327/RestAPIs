@@ -63,7 +63,7 @@ class animationController extends Controller
 
         $animation_hash = $request->id;
 
-        $animation = animation::where('animation_hash', $animation_hash)->get();
+        $animation = animation::where('animation_hash', $animation_hash)->where('status', 1)->get();
 
         return response()->json($animation);
         

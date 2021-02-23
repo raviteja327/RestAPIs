@@ -74,7 +74,7 @@ class cUsersController extends Controller
 
         $c_user_hash = $request->id;
 
-        $users = cUsers::where('c_user_hash', $c_user_hash)->get();
+        $users = cUsers::where('c_user_hash', $c_user_hash)->where('status', 1)->get();
 
         return response()->json($users);
         

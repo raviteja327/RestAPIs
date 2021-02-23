@@ -29,7 +29,7 @@ class CreatePageTable extends Migration
             $table->tinyinteger('publish_now')->nullable();
             $table->timestamp('publish_later')->nullable();
             $table->string('image', 100);
-            $table->string('parent_group', 100);
+            $table->string('parent_group', 100)->nullable();
             $table->string('home_slider_hash');
             $table->string('mini_slider_hash');
             $table->string('created_by', 50);

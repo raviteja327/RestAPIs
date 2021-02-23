@@ -129,7 +129,6 @@ class countriesController extends Controller
     public function delete(Request $request){
 
         $country_hash = $request->id;
-        $a_hash = $request->a_hash;
 
         $data = array(
             'status' => 0,

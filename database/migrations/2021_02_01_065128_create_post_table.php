@@ -29,7 +29,7 @@ class CreatePostTable extends Migration
             $table->tinyinteger('publish_now')->nullable();
             $table->timestamp('publish_later')->nullable();
             $table->string('image', 100);
-            $table->string('parent_group', 100);
+            $table->string('parent_group', 100)->nullable();
             $table->string('created_by', 50);
             $table->string('updated_by', 50);
             $table->tinyinteger('status')->default('1');
