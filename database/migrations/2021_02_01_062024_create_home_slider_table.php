@@ -18,6 +18,7 @@ class CreateHomeSliderTable extends Migration
             $table->primary('slider_hash');
             $table->string('slider_name', 100)->unique();
             $table->string('animation_hash');
+            $table->foreign('animation_hash')->references('animation_hash')->on('animation');
             $table->string('slider_image');
             $table->string('c_hash');
             $table->foreign('c_hash')->references('c_hash')->on('companies');
