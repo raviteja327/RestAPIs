@@ -216,9 +216,8 @@ class cEmployeesController extends Controller
     public function update(Request $request){
 
         $valid = Validator::make($request->all() , [
-            'email' => 'required | unique:App\Models\API\cEmployees,email',
+            'email' => 'required',
             'first_name' => 'required',
-            'password' => 'required',
             'last_name' => 'required',
             'birth_date' => 'required',
             'home_phone' => 'required',
